@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Client: {{ client }} - Signet ERP{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+        <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Client Details</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">{{ client.first_name }} {{ client.last_name }}</p>
+        </div>
+        {% if can_edit %}
+        <a href="{% url 'admin:clients_client_change' client.pk %}"
+            class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+            Edit
+        </a>
+        {% endif %}
+    </div>
+    <div class="border-t border-gray-200">
+        <dl>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Full name</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ client.first_name }} {{ client.last_name
+                    }}</dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Email address</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ client.email }}</dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Phone</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ client.phone }}</dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Birth Date</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ client.birth_date|default:"-" }}</dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+{% if documents %}
+<div class="mt-8">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Travel Documents</h3>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <ul class="divide-y divide-gray-200">
+            {% for doc in documents %}
+            <li class="px-4 py-4 sm:px-6">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium text-indigo-600 truncate">{{ doc.get_doc_type_display }}</p>
+                    <div class="ml-2 flex-shrink-0 flex">
+                        <p
+                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Expires: {{ doc.expiry_date }}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-2 sm:flex sm:justify-between">
+                    <div class="sm:flex">
+                        <p class="flex items-center text-sm text-gray-500">
+                            {{ doc.doc_number }}
+                        </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

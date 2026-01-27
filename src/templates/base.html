@@ -18,35 +18,50 @@
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="shrink-0 flex items-center">
-                        <a href="{% url 'accountant_dashboard' %}" class="font-bold text-xl text-indigo-600">Signet<span
+                        <a href="{% url 'global_dashboard' %}" class="font-bold text-xl text-indigo-600">Signet<span
                                 class="text-gray-800">ERP</span></a>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{% url 'accountant_dashboard' %}"
+                        {% if user.is_authenticated %}
+                        {% if user.role == 'SALES' %}
+                        <a href="{% url 'sales_dashboard' %}"
                             class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                            Accountant Dashboard
+                            Sales
                         </a>
+                        {% endif %}
+
+                        {% if user.role == 'ACCOUNTANT' or user.role == 'MANAGER' or user.is_superuser %}
+                        <a href="{% url 'accountant_dashboard' %}"
+                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Audit Queue
+                        </a>
+                        {% endif %}
+
+                        {% if user.role == 'IT_ADMIN' %}
                         <a href="/admin/" target="_blank"
                             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             Admin Panel
                         </a>
-                        {% if user.role != 'ACCOUNTANT' %}
                         <a href="{% url 'import_data' %}"
                             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             Import Data
                         </a>
+                        <a href="{% url 'generate_data' %}"
+                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Generate Data
+                        </a>
+                        <a href="{% url 'wipe_data' %}"
+                            class="border-transparent text-red-600 hover:border-red-300 hover:text-red-800 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-bold">
+                            Wipe Data
+                        </a>
                         {% endif %}
+
                         {% if user.role == 'MARKETING' or user.role == 'MANAGER' or user.is_superuser %}
                         <a href="{% url 'marketing_dashboard' %}"
                             class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             Marketing
                         </a>
                         {% endif %}
-                        {% if user.role == 'IT_ADMIN' %}
-                        <a href="{% url 'wipe_data' %}"
-                            class="border-transparent text-red-600 hover:border-red-300 hover:text-red-800 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-bold">
-                            Wipe Data
-                        </a>
                         {% endif %}
                     </div>
                 </div>
@@ -54,11 +69,19 @@
                 <div class="flex items-center">
                     {% if user.is_authenticated %}
                     <span class="text-sm text-gray-500 mr-4">{{ user.username }} ({{ user.role }})</span>
-                    <a href="/admin/logout/" class="text-sm text-red-600 hover:text-red-800">Logout</a>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="text-sm text-red-600 hover:text-red-800 bg-transparent border-0 cursor-pointer">Logout</button>
+                    </form>
                     {% else %}
-                    <a href="/admin/login/" class="text-sm text-indigo-600 hover:text-indigo-800">Login</a>
+                    <a href="{% url 'login' %}" class="text-sm text-indigo-600 hover:text-indigo-800">Admin Only</a>
                     {% endif %}
                 </div>
+            </div>
+            <!-- Canary Version Check: Use this to verify environment is not stale. -->
+            <div class="mt-2 text-center text-xs text-gray-300">
+                Environment v1.1 (Canary)
             </div>
         </div>
     </nav>

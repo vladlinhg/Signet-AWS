@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Manager Dashboard - Signet ERP{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="md:flex md:items-center md:justify-between">
+        <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                Manager Dashboard
+            </h2>
+            <p class="mt-1 text-sm text-gray-500">
+                Global overview of Sales, Marketing, and Accounting performance.
+            </p>
+        </div>
+        <div class="mt-4 flex md:mt-0 md:ml-4">
+            <span class="inline-flex rounded-md shadow-sm">
+                <button type="button"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out">
+                    Download Report
+                </button>
+            </span>
+        </div>
+    </div>
+
+    <!-- Global Wallet Cards -->
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Global Revenue Wallet (Verified)</h3>
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {% for wallet in wallet_data %}
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-2xl">{{ wallet.currency__symbol }}</span>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">
+                                {{ wallet.currency__code }} Total
+                            </dt>
+                            <dd>
+                                <div class="text-lg font-medium text-gray-900">
+                                    {{ wallet.total|stringformat:".2f" }}
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="bg-white overflow-hidden shadow rounded-lg p-5 col-span-4 text-center text-gray-500">
+            No revenue data available.
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Performance Panel (Leaderboard) -->
+        <div class="lg:col-span-1 bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Agent Performance</h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">Top agents by verifiable volume.</p>
+            </div>
+            <ul class="divide-y divide-gray-200">
+                {% for agent in agent_stats %}
+                <li class="px-4 py-4 flex items-center justify-between hover:bg-gray-50">
+                    <div class="flex items-center">
+                        <span
+                            class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-bold mr-3">
+                            {{ forloop.counter }}
+                        </span>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">{{ agent.username }}</p>
+                            <p class="text-xs text-gray-500">{{ agent.email }}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-gray-900">{{ agent.total_invoices }}</p>
+                        <p class="text-xs text-gray-500">Invoices</p>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="px-4 py-4 text-center text-gray-500">No agent activity found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Operations Overview (Right 2 cols) -->
+        <div class="lg:col-span-2 space-y-6">
+
+            <!-- Audit Status -->
+            <div class="bg-white shadow sm:rounded-lg p-6 flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900">Accounting Status</h3>
+                    <p class="text-sm text-gray-500">Invoices waiting for audit approval.</p>
+                </div>
+                <div
+                    class="text-3xl font-bold {% if audit_backlog > 5 %}text-red-600{% else %}text-green-600{% endif %}">
+                    {{ audit_backlog }} Pending
+                </div>
+            </div>
+
+            <!-- Recent Global Invoices -->
+            <div class="bg-white shadow sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Global Activity</h3>
+                </div>
+                <ul class="divide-y divide-gray-200">
+                    {% for invoice in recent_invoices %}
+                    <li>
+                        <div class="px-4 py-4 sm:px-6 hover:bg-gray-50 transition">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-indigo-600 truncate">
+                                    {{ invoice.invoice_number }}
+                                </p>
+                                <div class="ml-2 flex-shrink-0 flex">
+                                    <p
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                        {% if invoice.status == 'VERIFIED' %}bg-green-100 text-green-800{% elif invoice.status == 'NEEDS_FIX' %}bg-red-100 text-red-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                        {{ invoice.get_status_display }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:flex sm:justify-between">
+                                <div class="sm:flex">
+                                    <p class="flex items-center text-sm text-gray-500">
+                                        {{ invoice.client }} ({{ invoice.sales_agent.username }})
+                                    </p>
+                                </div>
+                                <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                    <p class="font-bold text-gray-900 mr-4">
+                                        {{ invoice.currency.symbol }}{{ invoice.total_amount }} {{ invoice.currency.code
+                                        }}
+                                    </p>
+                                    <p class="text-xs text-gray-400">
+                                        {{ invoice.created_at|date:"M d" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

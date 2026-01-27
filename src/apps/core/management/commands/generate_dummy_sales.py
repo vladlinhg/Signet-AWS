@@ -6,7 +6,7 @@ from apps.users.models import User
 from apps.clients.models import Client
 from apps.tours.models import TourInstance
 from apps.flights.models import Flight, FlightTicket
-from apps.sales.models import Invoice, InvoiceItem
+from apps.invoices.models import Invoice, InvoiceItem
 from apps.currencies.models import Currency
 
 class Command(BaseCommand):

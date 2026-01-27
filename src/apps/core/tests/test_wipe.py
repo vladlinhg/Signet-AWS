@@ -2,7 +2,7 @@ from django.test import TestCase, Client as TestClient
 from django.contrib.auth import get_user_model
 from apps.tours.models import Product
 from apps.flights.models import Flight
-from apps.sales.models import Invoice
+from apps.invoices.models import Invoice
 
 User = get_user_model()
 

@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from apps.users.models import User
-from apps.sales.models import Invoice, InvoiceItem
+from apps.invoices.models import Invoice, InvoiceItem
 from apps.clients.models import Client
 from apps.flights.models import Flight, FlightTicket
 from apps.tours.models import Product, TourInstance
@@ -19,7 +19,7 @@ class Command(BaseCommand):
             User.Role.IT_ADMIN: [], # Superuser gets everything
             User.Role.MANAGER: ['view', 'change', 'add', 'delete'], # All Access
             User.Role.ACCOUNTANT: ['view_invoice', 'change_invoice', 'view_client'],
-            User.Role.SALES: ['add_invoice', 'change_invoice', 'view_invoice', 'view_client', 'add_client', 'change_client', 'view_flight', 'view_tourinstance', 'view_product'],
+            User.Role.SALES: ['add_invoice', 'change_invoice', 'view_invoice', 'view_client', 'add_client', 'change_client', 'view_flight', 'change_flight', 'view_tourinstance', 'change_tourinstance', 'view_product', 'change_product'],
             User.Role.MARKETING: ['view_invoice', 'view_client', 'view_product', 'view_tourinstance'] 
         }
 
@@ -71,19 +71,26 @@ class Command(BaseCommand):
         print("Groups Configured.")
 
         # 3. Assign Users to Groups
-        print("Assigning Users to Groups...")
+        print("Assigning Users to Groups & Enforcing Strict Permissions...")
         for user in User.objects.all():
-            if user.role == User.Role.MANAGER:
-                user.groups.add(g_mgr)
-            elif user.role == User.Role.ACCOUNTANT:
-                user.groups.add(g_acc)
-            elif user.role == User.Role.SALES:
-                user.groups.add(g_sales)
-            elif user.role == User.Role.MARKETING:
-                user.groups.add(g_mkt)
-            elif user.role == User.Role.IT_ADMIN:
+            if user.role == User.Role.IT_ADMIN:
                 user.is_superuser = True
                 user.is_staff = True
-                user.save()
+                user.groups.add(Group.objects.get(name='Manager')) # Give IT Admin manager powers too for testing
+            else:
+                # Grant Staff Status for potential future admin features, but UI link is hidden.
+                user.is_superuser = False
+                user.is_staff = True 
+                
+                if user.role == User.Role.MANAGER:
+                    user.groups.add(g_mgr)
+                elif user.role == User.Role.ACCOUNTANT:
+                    user.groups.add(g_acc)
+                elif user.role == User.Role.SALES:
+                    user.groups.add(g_sales)
+                elif user.role == User.Role.MARKETING:
+                    user.groups.add(g_mkt)
+            
+            user.save()
         
         print("Done.")

@@ -3,10 +3,10 @@ services:
     build: .
     # Override CMD to use gunicorn with RELOAD for local development
     # This matches the production server (Gunicorn) but enables dev features (Reload)
-    command: gunicorn --bind 0.0.0.0:8000 --reload config.wsgi:application
+    command: sh -c "python manage.py migrate && python manage.py import_erp_data --users-only && gunicorn --bind 0.0.0.0:8000 --reload config.wsgi:application"
     volumes:
       - ./src:/app
-      - ./data:/app/data
+      - ./data:/data
     ports:
       - "8000:8000"
     environment:

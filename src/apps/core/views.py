@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
 from .forms import ImportDataForm, WipeDataForm
 from .services import DataImportService, DataImporter
+from django.core.management import call_command
 from apps.tours.models import Product, TourInstance
 from apps.flights.models import Flight, FlightTicket
 from apps.clients.models import Client
-from apps.sales.models import Invoice
+from apps.invoices.models import Invoice
 import json
 
 def is_not_accountant(user):
@@ -84,3 +85,16 @@ def wipe_data_confirm(request):
         form = WipeDataForm()
         
     return render(request, 'core/wipe_data.html', {'form': form})
+
+@login_required
+@user_passes_test(is_it_admin, login_url='/admin/')
+def generate_data_view(request):
+    if request.method == 'POST':
+        try:
+            call_command('generate_dummy_sales')
+            messages.success(request, "Dummy data generated successfully.")
+        except Exception as e:
+            messages.error(request, f"Generation Failed: {str(e)}")
+        return redirect('import_data')
+    
+    return render(request, 'core/generate_data.html')

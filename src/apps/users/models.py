@@ -20,3 +20,9 @@ class User(AbstractUser):
     
     def is_sales(self):
         return self.role == self.Role.SALES
+
+    def save(self, *args, **kwargs):
+        # Enforce Admin Access for all specified roles
+        if self.role in [self.Role.IT_ADMIN, self.Role.MANAGER, self.Role.ACCOUNTANT, self.Role.SALES, self.Role.MARKETING]:
+            self.is_staff = True
+        super().save(*args, **kwargs)
