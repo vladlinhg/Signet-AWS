@@ -71,7 +71,7 @@ jobs:
 
             # E. Verification (Comprehensive)
             echo "Running Comprehensive Deployment Verification..."
-            # Wait a moment for Gunicorn to start (optional but safer)
-            sleep 5
+            # Wait a moment for Gunicorn and Import to complete
+            sleep 15
             sudo docker compose -f docker-compose.prod.yml exec -T web python manage.py verify_deployment
           "
