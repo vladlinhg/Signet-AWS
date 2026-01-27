@@ -24,7 +24,8 @@ jobs:
       - name: Prepare Deployment Artifact
         run: |
           # Create a minimal tarball of the project (excluding git history and local envs)
-          tar --exclude='.git' --exclude='venv' --exclude='*.env' --exclude='db.sqlite3' --exclude='deployment_package.tar.gz' -czf deployment_package.tar.gz .
+          # We write to /tmp to avoid "file changed as we read it" errors
+          tar --exclude='.git' --exclude='venv' --exclude='*.env' --exclude='db.sqlite3' -czf /tmp/deployment_package.tar.gz .
 
       - name: Deploy to Server
         env:
@@ -33,7 +34,7 @@ jobs:
         run: |
           # 1. Upload Package & Setup Script
           scp -o StrictHostKeyChecking=no scripts/setup_ec2.sh $USER@$HOST:/tmp/setup_ec2.sh
-          scp -o StrictHostKeyChecking=no deployment_package.tar.gz $USER@$HOST:/tmp/deployment_package.tar.gz
+          scp -o StrictHostKeyChecking=no /tmp/deployment_package.tar.gz $USER@$HOST:/tmp/deployment_package.tar.gz
           
           # 2. Execute on Server
           ssh -o StrictHostKeyChecking=no $USER@$HOST "
