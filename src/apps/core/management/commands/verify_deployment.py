@@ -23,15 +23,22 @@ class Command(BaseCommand):
         self.stdout.write("Starting Comprehensive Deployment Verification...")
 
         # 1-5 & 6. Verify Imports and Clean Noise
+        # 1-5 & 6. Verify Imports and Clean Noise
         self.verify_and_clean_users()
-        self.verify_and_clean_model(Currency, 'currencies.csv', 'code', 'code')
-        self.verify_and_clean_model(TourInstance, 'tours.csv', 'tour_id', 'tour_id') # mapping assumption
-        # Note: Flight and Client CSV structures need checking, assuming standard 'id' or unique field?
-        # Let's inspect import_erp_data or assume standard fields. 
-        # Actually Flight and Client models might use auto-IDs. checking existence by count or generic field.
-        # For simplicity in this iteration, we verify counts match CSV rows.
-        self.verify_and_clean_generic(Flight, 'flights.csv', 'flight_number')   
-        self.verify_and_clean_generic(ClientModel, 'clients.csv', 'email')
+        
+        # Verify Currencies (CSV: code -> Model: code)
+        self.verify_and_clean_generic(Currency, 'currencies.csv', 'code', 'code')
+        
+        # Verify Tours (CSV: unique -> Product Model: unique_seq)
+        # Note: We verify the Product definition, not every instance, which is cleaner for checking import success.
+        from apps.tours.models import Product
+        self.verify_and_clean_generic(Product, 'tours.csv', 'unique_seq', 'unique') 
+        
+        # Verify Flights (CSV: flight_no -> Model: flight_number)
+        self.verify_and_clean_generic(Flight, 'flights.csv', 'flight_number', 'flight_no')   
+        
+        # Verify Clients (CSV: email -> Model: email)
+        self.verify_and_clean_generic(ClientModel, 'clients.csv', 'email', 'email')
 
         # 7. Role-based Health Checks
         self.run_role_health_checks()
@@ -49,7 +56,7 @@ class Command(BaseCommand):
     def verify_and_clean_users(self):
         self.stdout.write("\n--- Verifying Users ---")
         rows = self._read_csv('users.csv')
-        csv_usernames = {row['username'] for row in rows}
+        csv_usernames = {row['username'].strip() for row in rows}
         
         # Verify Missing
         db_users = set(User.objects.values_list('username', flat=True))
@@ -76,27 +83,34 @@ class Command(BaseCommand):
         # so we'll enforce Count Equality and Existence.
         pass
 
-    def verify_and_clean_generic(self, Model, filename, unique_field_name):
+    def verify_and_clean_generic(self, Model, filename, db_field, csv_field=None):
+        if csv_field is None:
+            csv_field = db_field
+            
         model_name = Model.__name__
         self.stdout.write(f"\n--- Verifying {model_name} ---")
         rows = self._read_csv(filename)
         if not rows: return
 
-        csv_keys = {row.get(unique_field_name) for row in rows if row.get(unique_field_name)}
+        csv_keys = {row.get(csv_field) for row in rows if row.get(csv_field)}
         
+        if not csv_keys:
+            self.stdout.write(self.style.WARNING(f"No keys found in {filename} for field {csv_field}."))
+            return
+
         # Verify Import (Existence)
         # Using filter(field__in=...)
-        qs = Model.objects.filter(**{f"{unique_field_name}__in": csv_keys})
+        qs = Model.objects.filter(**{f"{db_field}__in": csv_keys})
         found_count = qs.count()
         
         if found_count < len(csv_keys):
-            self.stderr.write(self.style.ERROR(f"MISSING {model_name}: Expected {len(csv_keys)}, found {found_count}."))
+            self.stderr.write(self.style.ERROR(f"MISSING {model_name}: Expected at least {len(csv_keys)}, found {found_count}."))
             # We could identify specifics, but count verification is a good blocker.
             exit(1)
             
         # Clean Noise
         # Delete objects NOT in the CSV keys
-        extras = Model.objects.exclude(**{f"{unique_field_name}__in": csv_keys})
+        extras = Model.objects.exclude(**{f"{db_field}__in": csv_keys})
         extra_count = extras.count()
         if extra_count > 0:
             self.stdout.write(self.style.WARNING(f"Found {extra_count} extra {model_name}. Cleaning..."))

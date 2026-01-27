@@ -10,7 +10,7 @@ from apps.users.models import User
 from apps.currencies.models import Currency, ExchangeRate
 import csv
 import os
-
+from pathlib import Path
 from django.core.management import call_command
 
 class Command(BaseCommand):
@@ -21,6 +21,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         base_dir = settings.BASE_DIR.parent / 'data'
+        if not os.path.exists(base_dir):
+            if os.path.exists('/data'):
+                base_dir = Path('/data')
+        
+        print(f"DEBUG: Data Import Base Directory: {base_dir}")
         importer = DataImporter()
         
         # 1. Autoload Users if requested or if DB is empty?
