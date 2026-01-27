@@ -1,0 +1,66 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Add Host Key
+        run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Prepare Deployment Artifact
+        run: |
+          # Create a minimal tarball of the project (excluding git history and local envs)
+          tar --exclude='.git' --exclude='venv' --exclude='*.env' --exclude='db.sqlite3' -czf deployment_package.tar.gz .
+
+      - name: Deploy to Server
+        env:
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          # 1. Upload Package & Setup Script
+          scp -o StrictHostKeyChecking=no scripts/setup_ec2.sh $USER@$HOST:/tmp/setup_ec2.sh
+          scp -o StrictHostKeyChecking=no deployment_package.tar.gz $USER@$HOST:/tmp/deployment_package.tar.gz
+          
+          # 2. Execute on Server
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "
+            # A. Run Provisioning (Idempotent)
+            chmod +x /tmp/setup_ec2.sh
+            /tmp/setup_ec2.sh
+            
+            # B. Prepare Directory
+            mkdir -p ~/Signet
+            tar -xzf /tmp/deployment_package.tar.gz -C ~/Signet
+            
+            # C. Configure Environment (Use Template if missing)
+            cd ~/Signet/src
+            if [ ! -f .env ]; then
+                cp prod.env.template .env
+                echo 'WARNING: Using template .env. Please update secrets manually on server.'
+            fi
+            
+            # D. Deploy
+            cd ~/Signet
+            # Use 'sudo' if user group update hasn't propagated to this non-login shell yet
+            # Or just rely on standard ec2-user permissions if setup was run previously
+            
+            # Rebuild and Start
+            sudo docker compose -f docker-compose.prod.yml down
+            sudo docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+            
+            # Cleanup
+            rm /tmp/deployment_package.tar.gz
+          "
