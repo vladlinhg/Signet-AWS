@@ -47,9 +47,9 @@ jobs:
             tar -xzf /tmp/deployment_package.tar.gz -C ~/Signet
             
             # C. Configure Environment (Use Template if missing)
-            cd ~/Signet/src
-            if [ ! -f .env ]; then
-                cp prod.env.template .env
+            # The docker-compose file is in root, so .env must be in root
+            if [ ! -f ~/Signet/.env ]; then
+                cp ~/Signet/src/prod.env.template ~/Signet/.env
                 echo 'WARNING: Using template .env. Please update secrets manually on server.'
             fi
             
