@@ -1,0 +1,9 @@
+{
+    "html.format.wrapLineLength": 200,
+    "html.format.enable": false,
+    "editor.formatOnSave": false,
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "files.trimTrailingWhitespace": true
+}
