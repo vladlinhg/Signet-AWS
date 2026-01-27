@@ -64,4 +64,10 @@ jobs:
             
             # Cleanup
             rm /tmp/deployment_package.tar.gz
+
+            # E. Verification
+            echo "Running Health Check..."
+            # Wait a moment for Gunicorn to start (optional but safer)
+            sleep 5
+            sudo docker compose -f docker-compose.prod.yml exec -T web python manage.py test_site_health
           "
