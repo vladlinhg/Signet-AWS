@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    # Override CMD to use gunicorn with RELOAD for local development
+    # This matches the production server (Gunicorn) but enables dev features (Reload)
+    command: gunicorn --bind 0.0.0.0:8000 --reload config.wsgi:application
+    volumes:
+      - ./src:/app
+      - ./data:/app/data
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dev_secret_key
+      # If we switch to Postgres later, we add DB env vars here
