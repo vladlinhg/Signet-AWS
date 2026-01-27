@@ -2,7 +2,7 @@ services:
   web:
     build: .
     # Production Command: No reload, verified workers
-    command: sh -c "python manage.py migrate && python manage.py import_erp_data --users-only && gunicorn --bind 0.0.0.0:8000 --workers 3 config.wsgi:application"
+    command: sh -c "python manage.py migrate && python manage.py import_erp_data && gunicorn --bind 0.0.0.0:8000 --workers 3 config.wsgi:application"
     restart: always
     volumes:
       # In production, we ONLY mount data/static, NOT the code (code is built into image)

@@ -53,6 +53,10 @@ jobs:
                 echo 'WARNING: Using template .env. Please update secrets manually on server.'
             fi
             
+            # Update ALLOWED_HOSTS to allow public access (matching your firewall change)
+            # This ensures existing deployments verify the new wildcard setting
+            sed -i 's/^ALLOWED_HOSTS=.*/ALLOWED_HOSTS=*/' ~/Signet/.env || echo "ALLOWED_HOSTS=*" >> ~/Signet/.env
+            
             # D. Deploy
             cd ~/Signet
             # Use 'sudo' if user group update hasn't propagated to this non-login shell yet
@@ -65,12 +69,9 @@ jobs:
             # Cleanup
             rm /tmp/deployment_package.tar.gz
 
-            # E. Verification
-            echo "Running Health Check..."
+            # E. Verification (Comprehensive)
+            echo "Running Comprehensive Deployment Verification..."
             # Wait a moment for Gunicorn to start (optional but safer)
             sleep 5
-            sudo docker compose -f docker-compose.prod.yml exec -T web python manage.py test_site_health
-            
-            echo "Verifying User Import..."
-            sudo docker compose -f docker-compose.prod.yml exec -T web python manage.py verify_users_from_csv
+            sudo docker compose -f docker-compose.prod.yml exec -T web python manage.py verify_deployment
           "
