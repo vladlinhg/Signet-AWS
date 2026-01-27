@@ -10,7 +10,13 @@ class InventoryLogicTests(TestCase):
         # Setup Data
         self.user = User.objects.create_user(username='salesrep', password='password', role=User.Role.SALES)
         self.client = Client.objects.create(first_name="Jane", last_name="Doe")
-        self.product = Product.objects.create(name="Japan Tour", code="JP01")
+        # Updated Product Signature
+        self.product = Product.objects.create(
+            name="Japan Tour", 
+            country_code="JPN",
+            days_count="06",
+            unique_seq="001"
+        )
         self.tour = TourInstance.objects.create(
             product=self.product,
             start_date=timezone.now().date(),

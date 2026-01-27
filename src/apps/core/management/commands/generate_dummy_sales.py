@@ -1,0 +1,111 @@
+import random
+from datetime import timedelta
+from django.core.management.base import BaseCommand
+from django.utils import timezone
+from apps.users.models import User
+from apps.clients.models import Client
+from apps.tours.models import TourInstance
+from apps.flights.models import Flight, FlightTicket
+from apps.sales.models import Invoice, InvoiceItem
+from apps.currencies.models import Currency
+
+class Command(BaseCommand):
+    help = 'Generate dummy verified invoices for analytics.'
+
+    def add_arguments(self, parser):
+        parser.add_argument('--count', type=int, default=10)
+
+    def handle(self, *args, **options):
+        count = options['count']
+        print(f"Generating {count} dummy invoices...")
+
+        clients = list(Client.objects.all())
+        tours = list(TourInstance.objects.all())
+        flights = list(Flight.objects.all())
+        sales_reps = list(User.objects.filter(role=User.Role.SALES))
+        
+        if not (clients and tours and sales_reps):
+            print("Missing base data (Clients, Tours, Sales Users). Run import_erp_data first.")
+            return
+
+        for i in range(count):
+            # Random date in last 6 months
+            days_ago = random.randint(0, 180)
+            date_created = timezone.now() - timedelta(days=days_ago)
+
+            client = random.choice(clients)
+            sales_agent = random.choice(sales_reps)
+            tour = random.choice(tours)
+            flight = random.choice(flights) if flights else None
+
+            # Assign Random Currency
+            currency = None
+            if Currency.objects.exists():
+                currency = random.choice(list(Currency.objects.all()))
+            
+            # Random Status (Weighted)
+            # 50% Verified (for Charts), 30% Submitted (for Audit), 20% Draft/Paid
+            status = random.choices(
+                [Invoice.Status.VERIFIED, Invoice.Status.SUBMITTED, Invoice.Status.DRAFT, Invoice.Status.PAID],
+                weights=[50, 30, 10, 10],
+                k=1
+            )[0]
+
+            # Create Invoice
+            invoice = Invoice.objects.create(
+                client=client,
+                sales_agent=sales_agent,
+                status=status,
+                currency=currency
+            )
+            # Fix created_at
+            invoice.created_at = date_created
+            invoice.save()
+
+            # --- Add Ticket Items (1-3 Flights) ---
+            num_flights = random.randint(1, 3) 
+            if flights:
+                for _ in range(num_flights):
+                    flight = random.choice(flights)
+                    # Seat Logic
+                    seat = None
+                    for _ in range(10): 
+                        candidate = f"{random.randint(10, 99)}{random.choice(['A', 'B', 'C', 'D', 'E', 'F'])}"
+                        if not FlightTicket.objects.filter(flight=flight, seat_number=candidate).exists():
+                            seat = candidate
+                            break
+                    
+                    if seat:
+                        ft = FlightTicket.objects.create(
+                            flight=flight,
+                            seat_number=seat,
+                            cabin_class='Economy',
+                            bags=1
+                        )
+                        price = random.choice([500, 800, 1200, 450])
+                        InvoiceItem.objects.create(
+                            invoice=invoice,
+                            flight_ticket=ft,
+                            description=f"Flight: {flight.code} Seat {seat}",
+                            quantity=1,
+                            unit_price=price
+                        )
+
+            # --- Add Tour Items (1-2 Tours) ---
+            num_tours = random.randint(1, 2)
+            for _ in range(num_tours):
+                tour = random.choice(tours)
+                qty = random.randint(1, 4)
+                price = random.choice([2500, 3000, 1800, 4500])
+                InvoiceItem.objects.create(
+                    invoice=invoice,
+                    tour_instance=tour,
+                    description=f"Tour: {tour.product.name} ({tour.instance_code})",
+                    quantity=qty,
+                    unit_price=price
+                )
+            
+            # Recalculate Total
+            invoice.update_total()
+
+        print(f"Successfully created {count} invoices.")

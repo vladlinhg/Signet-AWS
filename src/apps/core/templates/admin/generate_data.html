@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 20px 0;">
+    <h1>Generate Demo Sales Data</h1>
+    <p>Use this tool to populate the system with verified invoices for analytics testing.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <label for="count">Number of Invoices:</label>
+            <input type="number" name="count" id="count" value="10" min="1" max="100"
+                style="margin-left: 10px; padding: 5px;">
+        </div>
+        <div class="submit-row" style="text-align: left; margin-top: 20px;">
+            <input type="submit" value="Generate Data" class="default"
+                style="padding: 10px 20px; background: #417690; color: white; border: none; cursor: pointer;">
+        </div>
+    </form>
+</div>
+{% endblock %}

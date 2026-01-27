@@ -1,0 +1,8 @@
+username,password,role,email
+manager1,pass123,MANAGER,mgr@erp.com
+accountant1,pass123,ACCOUNTANT,acc@erp.com
+sales1,pass123,SALES,s1@erp.com
+sales2,pass123,SALES,s2@erp.com
+sales3,pass123,SALES,s3@erp.com
+market1,pass123,MARKETING,mkt@erp.com
+it_admin,pass123,IT_ADMIN,it@erp.com

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}IT Admin - Wipe Data{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-red-50 border border-red-200 p-6 rounded-lg shadow mt-10">
+    <h1 class="text-2xl font-bold mb-4 text-red-800">⚠️ Wipe Database</h1>
+    <p class="text-gray-700 mb-6 text-sm">
+        This action will <strong>permanently delete</strong> all Clients, Flights, Tours, and Sales data.
+        User accounts will remain.
+    </p>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="bg-white text-red-600 p-3 rounded border border-red-100 text-sm">
+            {{ form.errors }}
+        </div>
+        {% endif %}
+
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-1">Confirmation</label>
+            <p class="text-xs text-gray-500 mb-2">Type <strong>DELETE-ALL-DATA</strong> below:</p>
+            {{ form.confirm_string }}
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-1">Manager Authorization</label>
+            <p class="text-xs text-gray-500 mb-2">Enter the approval code provided by a Manager:</p>
+            {{ form.manager_code }}
+        </div>
+
+        <button type="submit"
+            class="w-full bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition">
+            WIPE EVERYTHING
+        </button>
+
+        <a href="/" class="block text-center text-sm text-gray-500 mt-2 hover:underline">Cancel</a>
+    </form>
+</div>
+{% endblock %}

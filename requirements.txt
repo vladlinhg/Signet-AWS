@@ -4,3 +4,5 @@ django-storages
 boto3
 django-widget-tweaks
 django-htmx
+gunicorn
+whitenoise

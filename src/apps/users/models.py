@@ -3,9 +3,11 @@ from django.db import models
 
 class User(AbstractUser):
     class Role(models.TextChoices):
+        IT_ADMIN = 'IT_ADMIN', 'IT Admin'
         MANAGER = 'MANAGER', 'Manager'
         ACCOUNTANT = 'ACCOUNTANT', 'Accountant'
         SALES = 'SALES', 'Sales'
+        MARKETING = 'MARKETING', 'Marketing'
 
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.SALES)
     department = models.CharField(max_length=100, blank=True)

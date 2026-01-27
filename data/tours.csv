@@ -1,0 +1,21 @@
+country,days,unique,name,start_dates
+JPN,06,001,Tokyo Osaka Express,2026-03-01|2026-04-15
+TWN,08,002,Taiwan Round Island,2026-03-10|2026-06-01
+USA,05,003,New York Shopping,2026-11-20
+KOR,07,004,Seoul Ski Resort,2026-12-05
+THA,09,005,Bangkok Pattaya,2027-01-10
+VNM,10,006,Vietnam Discovery,2027-02-15
+CAM,06,007,Angkor Wat Explorer,2027-03-20
+SGP,04,008,Singapore City Stay,2027-04-12
+MYS,07,009,Malaysia Cultural,2027-05-18
+IDN,08,010,Bali Paradise,2027-06-25
+PHL,09,011,Philippines Island Hopping,2027-07-30
+CHN,12,012,Great Wall & Warriors,2027-08-15
+IND,10,013,Golden Triangle,2027-09-20
+LKA,08,014,Sri Lanka Wildlife,2027-10-25
+MDV,05,015,Maldives Luxury,2027-11-30
+ARE,06,016,Dubai Desert Safari,2027-12-15
+TUR,09,017,Turkey Highlights,2028-01-10
+EGY,10,018,Pyramids & Nile,2028-02-15
+ZAF,12,019,South Africa Safari,2028-03-20
+KEN,10,020,Kenya Migration,2028-04-25

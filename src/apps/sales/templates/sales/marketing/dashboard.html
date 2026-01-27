@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Marketing Analytics - Signet ERP{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="space-y-6">
+    <!-- Header & Controls -->
+    <div class="sm:flex sm:items-center sm:justify-between bg-white p-4 rounded shadow">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Marketing Analytics</h1>
+            <p class="mt-1 text-sm text-gray-500">Performance insights and growth tracking.</p>
+        </div>
+        <div class="mt-4 sm:mt-0 flex items-center space-x-2">
+            <span class="text-sm font-medium text-gray-700">Display Currency:</span>
+            <div class="relative inline-block text-left">
+                {% for curr in currencies %}
+                <a href="?currency={{ curr.code }}"
+                    class="px-3 py-1 text-sm font-medium rounded-md {% if curr.code == current_currency.code %}bg-indigo-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    {{ curr.code }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Sales Trend -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Monthly Revenue ({{ current_currency.code }})
+            </h3>
+            <canvas id="salesChart"></canvas>
+        </div>
+
+        <!-- Top Products -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Top Performing Products</h3>
+            <canvas id="productsChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Data injection -->
+{{ chart_labels|json_script:"sales-labels" }}
+{{ chart_values|json_script:"sales-values" }}
+{{ prod_labels|json_script:"prod-labels" }}
+{{ prod_values|json_script:"prod-values" }}
+
+<script>
+    // Sales Chart
+    const salesLabels = JSON.parse(document.getElementById('sales-labels').textContent);
+    const salesValues = JSON.parse(document.getElementById('sales-values').textContent);
+
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+            labels: salesLabels,
+            datasets: [{
+                label: 'Revenue ({{ current_currency.symbol }})',
+                data: salesValues,
+                backgroundColor: 'rgba(79, 70, 229, 0.6)',
+                borderColor: 'rgba(79, 70, 229, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Products Chart
+    const prodLabels = JSON.parse(document.getElementById('prod-labels').textContent);
+    const prodValues = JSON.parse(document.getElementById('prod-values').textContent);
+
+    const prodCtx = document.getElementById('productsChart').getContext('2d');
+    new Chart(prodCtx, {
+        type: 'doughnut',
+        data: {
+            labels: prodLabels,
+            datasets: [{
+                data: prodValues,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                ],
+            }]
+        }
+    });
+</script>
+{% endblock %}

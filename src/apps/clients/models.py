@@ -13,6 +13,12 @@ class Client(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        from django.utils import timezone
+        if self.birth_date and self.birth_date > timezone.now().date():
+            raise ValidationError("Birth date cannot be in the future.")
+
 class TravelDocument(models.Model):
     class Type(models.TextChoices):
         PASSPORT = 'PASSPORT', 'Passport'
@@ -28,3 +34,9 @@ class TravelDocument(models.Model):
 
     def __str__(self):
         return f"{self.get_doc_type_display()} - {self.client}"
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        from django.utils import timezone
+        if self.expiry_date and self.expiry_date < timezone.now().date():
+            raise ValidationError("Document has already expired.")
