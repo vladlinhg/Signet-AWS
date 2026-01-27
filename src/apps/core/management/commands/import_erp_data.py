@@ -45,42 +45,51 @@ class Command(BaseCommand):
         # 3. Dynamic Data via Service
         if os.path.exists(base_dir / 'flights.csv'):
             print("Importing Flights...")
-            with open(base_dir / 'flights.csv', 'rb') as f:
+            with open(base_dir / 'flights.csv', 'r', encoding='utf-8-sig') as f:
                 importer.process_csv(f, 'flights')
                 
         if os.path.exists(base_dir / 'tours.csv'):
             print("Importing Tours...")
-            with open(base_dir / 'tours.csv', 'rb') as f:
+            with open(base_dir / 'tours.csv', 'r', encoding='utf-8-sig') as f:
                 importer.process_csv(f, 'tours')
                 
         if os.path.exists(base_dir / 'clients.csv'):
             print("Importing Clients...")
-            with open(base_dir / 'clients.csv', 'rb') as f:
+            with open(base_dir / 'clients.csv', 'r', encoding='utf-8-sig') as f:
                 importer.process_csv(f, 'clients')
 
         print("Syncing Permissions...")
         call_command('setup_permissions')
 
     def import_currencies(self, path):
-        if not os.path.exists(path): return
+        if not os.path.exists(path):
+            print(f"Warning: Currency file not found at {path}")
+            return
         print(f"Importing Currencies from {path}...")
-        with open(path, 'r', encoding='utf-8') as f:
+        
+        # Use utf-8-sig for robust CSV reading
+        with open(path, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
+            count = 0
             for row in reader:
-                c, _ = Currency.objects.get_or_create(
-                    code=row['code'],
-                    defaults={'name': row['name'], 'symbol': row['symbol']}
-                )
-                if row['code'] == 'CAD':
-                    c.is_base = True
-                    c.save()
                 try:
+                    c, created = Currency.objects.get_or_create(
+                        code=row['code'].strip(),
+                        defaults={'name': row['name'], 'symbol': row['symbol']}
+                    )
+                    if row['code'] == 'CAD':
+                        c.is_base = True
+                        c.save()
+                    
                     ExchangeRate.objects.get_or_create(
                         currency=c,
                         date='2026-01-01',
                         defaults={'rate_to_base': row['rate_to_cad']}
                     )
-                except: pass
+                    count += 1
+                except Exception as e:
+                    print(f"Error importing currency row {row}: {e}")
+            print(f"Imported {count} currencies.")
 
     def import_users(self, path):
         if not os.path.exists(path): return

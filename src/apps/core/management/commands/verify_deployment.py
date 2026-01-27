@@ -21,8 +21,7 @@ class Command(BaseCommand):
             self.data_dir = '/data'
         
         self.stdout.write("Starting Comprehensive Deployment Verification...")
-
-        # 1-5 & 6. Verify Imports and Clean Noise
+        
         # 1-5 & 6. Verify Imports and Clean Noise
         self.verify_and_clean_users()
         

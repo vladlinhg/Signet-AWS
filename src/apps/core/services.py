@@ -18,8 +18,17 @@ class DataImportService:
         if hasattr(file_obj, 'seek'):
             file_obj.seek(0)
             
-        decoded_file = file_obj.read().decode('utf-8')
+        content = file_obj.read()
+        if isinstance(content, bytes):
+            decoded_file = content.decode('utf-8-sig')
+        else:
+            decoded_file = content
+
         io_string = io.StringIO(decoded_file)
+        # Handle potential empty file
+        if not decoded_file.strip():
+            return []
+            
         reader = csv.DictReader(io_string)
         
         preview_data = []
