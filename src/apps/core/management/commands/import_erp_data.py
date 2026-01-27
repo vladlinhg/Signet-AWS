@@ -80,14 +80,25 @@ class Command(BaseCommand):
     def import_users(self, path):
         if not os.path.exists(path): return
         print(f"Importing Users from {path}...")
-        with open(path, 'r', encoding='utf-8') as f:
+        # Use utf-8-sig to handle BOM from Windows Excel CSVs
+        with open(path, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                if not User.objects.filter(username=row['username']).exists():
-                    User.objects.create_user(
-                        username=row['username'],
-                        password=row['password'],
-                        role=row['role'],
-                        email=row['email']
-                    )
+                username = row['username'].strip()
+                if not username: continue
+                
+                user, created = User.objects.update_or_create(
+                    username=username,
+                    defaults={
+                        'role': row['role'],
+                        'email': row['email'],
+                        'is_active': True
+                    }
+                )
+                if created:
+                    user.set_password(row['password'])
+                    user.save()
+                    print(f"Created user: {username}")
+                else:
+                    print(f"Updated user: {username}")
 

@@ -43,7 +43,7 @@ class Command(BaseCommand):
         if not os.path.exists(path):
             self.stdout.write(self.style.WARNING(f"File {filename} not found. Skipping."))
             return []
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, 'r', encoding='utf-8-sig') as f:
             return list(csv.DictReader(f))
 
     def verify_and_clean_users(self):
@@ -55,6 +55,7 @@ class Command(BaseCommand):
         db_users = set(User.objects.values_list('username', flat=True))
         missing = csv_usernames - db_users
         if missing:
+            self.stdout.write(self.style.WARNING(f"DB Users found: {sorted(list(db_users))}"))
             self.stderr.write(self.style.ERROR(f"MISSING Users in DB: {missing}"))
             exit(1)
             
