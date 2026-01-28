@@ -42,10 +42,6 @@ class Invoice(models.Model):
         MOVED = 'MOVED', 'Moved'
         SPLIT = 'SPLIT', 'Split'
         PENALTY = 'PENALTY', 'Penalty'
-        # Restored Legacy Statuses for Compatibility
-        SUBMITTED = 'SUBMITTED', 'Submitted for Audit'
-        NEEDS_FIX = 'NEEDS_FIX', 'Needs Fix'
-        VERIFIED = 'VERIFIED', 'Verified'
 
     class Language(models.TextChoices):
         ENGLISH = 'EN', 'English'

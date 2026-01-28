@@ -1,76 +1,161 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard - Signet ERP{% endblock %}
+{% block title %}Accountant Dashboard - Signet ERP{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
-    <!-- Header -->
-    <div class="sm:flex sm:items-center sm:justify-between">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Accountant Dashboard</h1>
-            <p class="mt-1 text-sm text-gray-500">Overview of pending invoices and audit status.</p>
-        </div>
-        <div class="mt-4 sm:mt-0">
-            <div class="flex space-x-4 text-sm text-gray-600">
-                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full font-medium">Verified: {{ verified_count }}</span>
-                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full font-medium">Pending: {{ pending_count }}</span>
+    <!-- 1. Header & Filters -->
+    <div class="bg-white p-4 rounded shadow">
+        <div class="sm:flex sm:items-center sm:justify-between mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Accountant Dashboard</h1>
+                <p class="text-sm text-gray-500">Global financial overview and audit tools.</p>
+            </div>
+             <div class="mt-4 sm:mt-0">
+                <div class="flex space-x-4 text-sm text-gray-600">
+                    <!-- GLOBAL METRICS (Ignores Status Filter) -->
+                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-lg font-medium" title="All Statuses in Selected Currency/Time">
+                        Global Revenue: {{ selected_currency_code }} ${{ global_revenue|floatformat:2 }}
+                    </span>
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-lg font-medium" title="All Statuses in Selected Currency/Time">
+                        Global Invoices: {{ global_invoice_count }}
+                    </span>
+                </div>
             </div>
         </div>
+
+        <!-- Filter Form -->
+        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end border-t pt-4">
+            <!-- Currency -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Currency</label>
+                <select name="currency" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    {% for curr in available_currencies %}
+                    <option value="{{ curr.code }}" {% if curr.code == selected_currency_code %}selected{% endif %}>
+                        {{ curr.code }} ({{ curr.symbol }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Date Range -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">From</label>
+                <input type="date" name="date_from" value="{{ date_from|default:'' }}"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">To</label>
+                <input type="date" name="date_to" value="{{ date_to|default:'' }}"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <!-- Apply Button -->
+            <div>
+                <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                    Apply Filters
+                </button>
+            </div>
+
+            <!-- Status (Multi-Select) -->
+            <div class="md:col-span-4 flex flex-wrap items-center gap-4 mt-2">
+                <span class="text-sm font-medium text-gray-700">Include Status:</span>
+                {% for status in available_statuses %}
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="status" value="{{ status }}"
+                           {% if status in selected_statuses %}checked{% endif %}
+                           class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
+                    <span class="ml-2 text-sm text-gray-600">{{ status }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </form>
     </div>
 
-    <!-- Audit Queue Section -->
+    <!-- 2. Status Breakdown Bar (Based on Global Scope to show availability) -->
+    <div class="bg-gray-50 p-4 rounded-lg shadow-inner flex flex-wrap gap-3">
+        <span class="text-sm font-medium text-gray-500 self-center mr-2">Status Breakdown (Global):</span>
+        {% for status, count in status_map.items %}
+        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700 shadow-sm">
+            {{ status }}: <span class="text-indigo-600">{{ count }}</span>
+        </span>
+        {% empty %}
+        <span class="text-sm text-gray-400">No invoices in global range.</span>
+        {% endfor %}
+    </div>
+
+    <!-- 3. Invoices Table (Filtered) -->
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Audit Queue <span
-                    class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">{{ audit_queue.count }}</span>
+                Filtered Results
+                <!-- FILTERED METRICS (Respects Status Filters) -->
+                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    {{ filtered_invoice_count }} Invoices
+                </span>
+                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    ${{ filtered_revenue|floatformat:2 }}
+                </span>
             </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">Invoices submitted by Sales waiting for review.</p>
+            <!-- Optional: CSV Export Button could go here -->
         </div>
 
-        {% if audit_queue %}
-        <ul class="divide-y divide-gray-200">
-            {% for invoice in audit_queue %}
-            <li>
-                <a href="{% url 'invoice_audit_detail' invoice.pk %}" class="block hover:bg-gray-50">
-                    <div class="px-4 py-4 sm:px-6">
-                        <div class="flex items-center justify-between">
-                            <p class="text-sm font-medium text-indigo-600 truncate">
+        {% if invoices %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice #</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Agent</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for invoice in invoices %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">
+                            <a href="{% url 'invoice_audit_detail' invoice.pk %}" class="hover:text-indigo-900">
                                 {{ invoice.invoice_number }}
-                            </p>
-                            <div class="ml-2 flex-shrink-0 flex">
-                                <p
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    {{ invoice.get_status_display }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="mt-2 sm:flex sm:justify-between">
-                            <div class="sm:flex">
-                                <p class="flex items-center text-sm text-gray-500">
-                                    Client: {{ invoice.client }}
-                                </p>
-                                <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                                    Agent: {{ invoice.sales_agent.username }}
-                                </p>
-                            </div>
-                            <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                <p>
-                                    Total: <span class="font-bold text-gray-900">${{ invoice.total_amount }}</span>
-                                </p>
-                                <p class="ml-6 text-xs text-gray-400">
-                                    {{ invoice.created_at|date:"M d, Y" }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                             {% with first_item=invoice.items.first %}
+                                {{ first_item.client.first_name }} {{ first_item.client.last_name }}
+                             {% endwith %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ invoice.sales_agent.username }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ invoice.currency.symbol }}{{ invoice.total_amount }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {% if invoice.status == 'PAID' %}bg-green-100 text-green-800
+                                {% elif invoice.status == 'CANCELLED' %}bg-red-100 text-red-800
+                                {% elif invoice.status == 'DEPOSIT' %}bg-blue-100 text-blue-800
+                                {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {{ invoice.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ invoice.created_at|date:"M d, Y" }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="{% url 'admin:invoices_invoice_change' invoice.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% else %}
         <div class="p-6 text-center text-gray-500">
-            No pending invoices found. Great job!
+            No invoices found matching these filters.
         </div>
         {% endif %}
     </div>

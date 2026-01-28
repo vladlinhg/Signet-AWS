@@ -4,77 +4,88 @@
 
 {% block content %}
 <div class="space-y-6">
-    <!-- Header -->
-    <div class="md:flex md:items-center md:justify-between">
-        <div class="flex-1 min-w-0">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                Manager Dashboard
-            </h2>
-            <p class="mt-1 text-sm text-gray-500">
-                Global overview of Sales, Marketing, and Accounting performance.
-            </p>
-        </div>
-        <div class="mt-4 flex md:mt-0 md:ml-4">
-            <span class="inline-flex rounded-md shadow-sm">
-                <button type="button"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out">
-                    Download Report
-                </button>
-            </span>
-        </div>
-    </div>
-
-    <!-- Global Wallet Cards -->
-    <h3 class="text-lg leading-6 font-medium text-gray-900">Global Revenue Wallet (Verified)</h3>
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {% for wallet in wallet_data %}
-        <div class="bg-white overflow-hidden shadow rounded-lg">
-            <div class="p-5">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <span class="text-2xl">{{ wallet.currency__symbol }}</span>
-                    </div>
-                    <div class="ml-5 w-0 flex-1">
-                        <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">
-                                {{ wallet.currency__code }} Total
-                            </dt>
-                            <dd>
-                                <div class="text-lg font-medium text-gray-900">
-                                    {{ wallet.total|stringformat:".2f" }}
-                                </div>
-                            </dd>
-                        </dl>
-                    </div>
+    <!-- 1. Header & Filters -->
+    <div class="bg-white p-4 rounded shadow">
+        <div class="sm:flex sm:items-center sm:justify-between mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Manager Dashboard</h1>
+                <p class="text-sm text-gray-500">Global performance overview.</p>
+            </div>
+             <div class="mt-4 sm:mt-0">
+                 <!-- Global Wallet Highlight (Single Currency, IGNORES Status Filter) -->
+                <div class="flex items-center space-x-2 bg-indigo-50 px-4 py-2 rounded-lg border border-indigo-100">
+                    <span class="text-sm font-medium text-indigo-600">Global Revenue ({{ selected_currency_code }}):</span>
+                    <span class="text-xl font-bold text-indigo-800">${{ global_wallet_total|floatformat:2 }}</span>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5 col-span-4 text-center text-gray-500">
-            No revenue data available.
-        </div>
-        {% endfor %}
+
+        <!-- Filter Form -->
+        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end border-t pt-4">
+            <!-- Currency -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Currency</label>
+                <select name="currency" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    {% for curr in available_currencies %}
+                    <option value="{{ curr.code }}" {% if curr.code == selected_currency_code %}selected{% endif %}>
+                        {{ curr.code }} ({{ curr.symbol }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Date Range -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">From</label>
+                <input type="date" name="date_from" value="{{ date_from|default:'' }}"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">To</label>
+                <input type="date" name="date_to" value="{{ date_to|default:'' }}"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <!-- Apply Button -->
+            <div>
+                <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                    Apply Filters
+                </button>
+            </div>
+
+            <!-- Status (Multi-Select) -->
+            <div class="md:col-span-4 flex flex-wrap items-center gap-4 mt-2">
+                <span class="text-sm font-medium text-gray-700">Performance Scope:</span>
+                {% for status in available_statuses %}
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="status" value="{{ status }}"
+                           {% if status in selected_statuses %}checked{% endif %}
+                           class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
+                    <span class="ml-2 text-sm text-gray-600">{{ status }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </form>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <!-- Performance Panel (Leaderboard) -->
+        <!-- 2. Performance Panel (Leaderboard) -->
         <div class="lg:col-span-1 bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">Agent Performance</h3>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">Top agents by verifiable volume.</p>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">Based on filtered scope.</p>
             </div>
             <ul class="divide-y divide-gray-200">
                 {% for agent in agent_stats %}
                 <li class="px-4 py-4 flex items-center justify-between hover:bg-gray-50">
                     <div class="flex items-center">
-                        <span
-                            class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-bold mr-3">
+                        <span class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-bold mr-3">
                             {{ forloop.counter }}
                         </span>
                         <div>
                             <p class="text-sm font-medium text-gray-900">{{ agent.username }}</p>
-                            <p class="text-xs text-gray-500">{{ agent.email }}</p>
+                            <p class="text-xs text-gray-500">{{ agent.total_revenue|floatformat:0 }} {{ selected_currency_code }}</p>
                         </div>
                     </div>
                     <div class="text-right">
@@ -83,25 +94,13 @@
                     </div>
                 </li>
                 {% empty %}
-                <li class="px-4 py-4 text-center text-gray-500">No agent activity found.</li>
+                <li class="px-4 py-4 text-center text-gray-500">No agent activity found in scope.</li>
                 {% endfor %}
             </ul>
         </div>
 
-        <!-- Operations Overview (Right 2 cols) -->
+        <!-- 3. Operations Overview (Right 2 cols) -->
         <div class="lg:col-span-2 space-y-6">
-
-            <!-- Audit Status -->
-            <div class="bg-white shadow sm:rounded-lg p-6 flex items-center justify-between">
-                <div>
-                    <h3 class="text-lg font-medium text-gray-900">Accounting Status</h3>
-                    <p class="text-sm text-gray-500">Invoices waiting for audit approval.</p>
-                </div>
-                <div
-                    class="text-3xl font-bold {% if audit_backlog > 5 %}text-red-600{% else %}text-green-600{% endif %}">
-                    {{ audit_backlog }} Pending
-                </div>
-            </div>
 
             <!-- Recent Global Invoices -->
             <div class="bg-white shadow sm:rounded-lg">
@@ -117,25 +116,21 @@
                                     {{ invoice.invoice_number }}
                                 </p>
                                 <div class="ml-2 flex-shrink-0 flex">
-                                    <p
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                        {% if invoice.status == 'VERIFIED' %}bg-green-100 text-green-800{% elif invoice.status == 'NEEDS_FIX' %}bg-red-100 text-red-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                        {% if invoice.status == 'PAID' %}bg-green-100 text-green-800{% elif invoice.status == 'CANCELLED' %}bg-red-100 text-red-800{% else %}bg-gray-100 text-gray-800{% endif %}">
                                         {{ invoice.get_status_display }}
-                                    </p>
+                                    </span>
                                 </div>
                             </div>
                             <div class="mt-2 sm:flex sm:justify-between">
                                 <div class="sm:flex">
                                     <p class="flex items-center text-sm text-gray-500">
-                                        {{ invoice.client }} ({{ invoice.sales_agent.username }})
+                                        {{ invoice.sales_agent.username }} - {{ invoice.currency.symbol }}{{ invoice.total_amount }}
                                     </p>
                                 </div>
                                 <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                    <p class="font-bold text-gray-900 mr-4">
-                                        {{ invoice.currency.symbol }}{{ invoice.total_amount }} {{ invoice.currency.code }}
-                                    </p>
                                     <p class="text-xs text-gray-400">
-                                        {{ invoice.created_at|date:"M d" }}
+                                        {{ invoice.created_at|date:"M d, H:i" }}
                                     </p>
                                 </div>
                             </div>

@@ -26,7 +26,7 @@ def marketing_dashboard(request):
     # Status: Default to 'real' revenue if empty
     selected_statuses = request.GET.getlist('status')
     if not selected_statuses:
-        selected_statuses = [Invoice.Status.PAID, Invoice.Status.DEPOSIT, Invoice.Status.INVOICED, Invoice.Status.VERIFIED]
+        selected_statuses = [Invoice.Status.PAID, Invoice.Status.DEPOSIT, Invoice.Status.INVOICED]
 
     # Currency: Default to CAD or first available
     selected_currency_code = request.GET.get('currency', 'CAD')
