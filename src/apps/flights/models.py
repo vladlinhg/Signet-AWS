@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import uuid
 
 class Airport(models.Model):
     code = models.CharField(max_length=3, unique=True, help_text="IATA Code, e.g. YVR")
@@ -87,11 +88,10 @@ class FlightTicket(models.Model):
 
     def save(self, *args, **kwargs):
         # Auto-Generate Code
-        if self.flight.code:
-            base = f"{self.flight.code}-{self.seat_number}"
+        if self.flight.unique_code:
+            base = f"{self.flight.unique_code}-{self.seat_number}"
             if self.seat_number == "TBA":
                 # Ensure uniqueness for TBA tickets
-                import uuid
                 self.ticket_code = f"{base}-{uuid.uuid4().hex[:6]}"
             else:
                 self.ticket_code = base

@@ -7,7 +7,7 @@ class ImportDataForm(forms.Form):
         ('tours', 'Tours/Products CSV'),
         ('users', 'Users CSV'),
         ('currencies', 'Currencies CSV'),
-        ('legacy', 'Legacy Invoices CSV (Images)'),
+        ('legacy', 'Legacy Data Import (Enhanced)'),
     ]
     import_type = forms.ChoiceField(choices=TYPE_CHOICES, label="Data Type")
     file = forms.FileField(label="Select CSV File", help_text="Upload a .csv file")

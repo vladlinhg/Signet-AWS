@@ -31,22 +31,27 @@ def import_data_view(request):
             # Filter only selected
             to_save = [all_data[int(i)]['data'] for i in selected_indices]
 
-            if import_type == 'legacy':
-                from apps.core.services.legacy_importer import LegacyImporter
-                # For legacy, we might re-process or just save.
-                # Actually, the Service handles parsing from file directly in current design.
-                # But here we have JSON data from stage 1.
-                # Let's adapt: if we already parsed, we can iterate.
-                # But LegacyImporter logic is tightly coupled to CSV row processing.
-                # We should probably refactor or just call process_row loop.
-                importer = LegacyImporter()
-                count = 0
-                for row in to_save:
-                    importer.process_row(row)
-                    count += 1
-            else:
-                service = DataImportService()
-                count = service.save_data(to_save, import_type)
+            try:
+                if import_type == 'legacy':
+                    from apps.core.services.legacy_importer import LegacyImporter
+                    importer = LegacyImporter()
+
+                    # Retrieve Action for each item
+                    count = 0
+                    for i in selected_indices:
+                        action_key = f"action_{i}"
+                        action = request.POST.get(action_key, 'MERGE')
+                        row_data = all_data[int(i)]['data']
+                        importer.execute(row_data, action=action)
+                        count += 1
+                else:
+                    service = DataImportService()
+                    count = service.save_data(to_save, import_type)
+            except Exception as e:
+                import traceback
+                traceback.print_exc()
+                messages.error(request, f"Import Error: {str(e)}")
+                return redirect('import_data')
 
             messages.success(request, f"Successfully imported {count} items.")
             return redirect('import_data')
@@ -62,9 +67,8 @@ def import_data_view(request):
             try:
                 if import_type == 'legacy':
                     from apps.core.services.legacy_importer import LegacyImporter
-                    # Pass the file object directly
-                    # Note: Django request.FILES are UploadedFile (Bytes)
-                    preview_data = [{'data': row} for row in LegacyImporter().parse_csv(csv_file.file)]
+                    # Pass the file object. Note: Django request.FILES are UploadedFile (Bytes)
+                    preview_data = LegacyImporter().preview(csv_file.file)
                 else:
                     preview_data = service.parse_csv(csv_file, import_type)
 

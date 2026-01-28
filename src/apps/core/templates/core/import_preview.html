@@ -3,48 +3,77 @@
 {% block title %}Confirm Import - Signet ERP{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow mt-6">
+<div class="max-w-6xl mx-auto bg-white p-6 rounded shadow mt-6">
     <h1 class="text-2xl font-bold mb-4 text-gray-800">Preview {{ import_type|title }} Import</h1>
-    <p class="text-gray-600 mb-6">Please select the items you wish to import.</p>
+    <p class="text-gray-600 mb-6">Please select actions for each item.</p>
 
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="confirm_import" value="1">
         <input type="hidden" name="import_type" value="{{ import_type }}">
-        <input type="hidden" name="preview_data" value="{{ raw_json }}">
+        <input type="hidden" name="import_type" value="{{ import_type }}">
+        <textarea name="preview_data" style="display:none;">{{ raw_json }}</textarea>
 
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <input type="checkbox" onclick="toggleAll(this)">
+                            <input type="checkbox" onclick="toggleAll(this)" checked>
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Action</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Details</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     {% for item in preview_data %}
-                    <tr class="{% if item.status != 'NEW' %}bg-yellow-50{% endif %}">
+                    <tr class="{% if item.status != 'NEW' %}bg-yellow-50{% endif %} hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <!-- Index as value -->
                             <input type="checkbox" name="selected_items" value="{{ forloop.counter0 }}"
-                                class="item-checkbox" {% if item.status == 'NEW' %}checked{% endif %}>
+                                class="item-checkbox" checked>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span
-                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                       {% if item.status == 'NEW' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {% if item.status == 'NEW' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
                                 {{ item.status }}
                             </span>
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                             <select name="action_{{ forloop.counter0 }}" class="border border-gray-300 rounded px-2 py-1 text-sm bg-white">
+                                {% if item.status == 'MATCH_FOUND' %}
+                                    <option value="MERGE" selected>Merge (Enrich)</option>
+                                    <option value="OVERWRITE">Overwrite (Update)</option>
+                                    <option value="NEW">Create New (Duplicate)</option>
+                                    <option value="SKIP">Skip</option>
+                                {% else %}
+                                    <option value="NEW" selected>Create New</option>
+                                    <option value="SKIP">Skip</option>
+                                {% endif %}
+                             </select>
+                        </td>
                         <td class="px-6 py-4 text-sm text-gray-500">
                             {% for k, v in item.data.items %}
-                            <strong>{{ k }}:</strong> {{ v }}<br>
+                                <div><strong>{{ k }}:</strong> {{ v }}</div>
                             {% endfor %}
+
+                            {% if item.conflicts %}
+                            <div class="mt-2 pt-2 border-t border-red-200 bg-red-50 p-2 rounded">
+                                <strong class="text-red-700 block mb-1">Conflicts Detected:</strong>
+                                {% for field, diff in item.conflicts.items %}
+                                    <div class="text-xs mt-1">
+                                        <span class="font-bold text-gray-700">{{ field|title }}:</span>
+                                        <span class="text-red-500 line-through mr-1">{{ diff.old }}</span>
+                                        &rarr;
+                                        <span class="text-green-600 font-bold ml-1">{{ diff.new }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -55,8 +84,9 @@
         <div class="mt-6 flex justify-end space-x-3">
             <a href="{% url 'import_data' %}"
                 class="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400">Cancel</a>
-            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Confirm
-                Import</button>
+            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                Confirm Import
+            </button>
         </div>
     </form>
 </div>

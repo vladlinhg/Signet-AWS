@@ -1,19 +1,24 @@
 import csv
 import re
-from datetime import datetime
+from datetime import datetime, time
 from decimal import Decimal
 from django.utils import timezone
-from apps.clients.models import Client, Family, Address, PaymentMethod, TravelDocument
+from django.db import transaction
+from django.db.models import Q
+
+from apps.clients.models import Client, Family, PaymentMethod, TravelDocument, City, Ethnicity
 from apps.tours.models import Product, TourInstance, TourBooking
 from apps.invoices.models import Invoice, InvoiceItem, InvoiceNote
 from apps.users.models import User
 from apps.currencies.models import Currency
-from apps.flights.models import Flight, FlightTicket
+from apps.flights.models import Flight, FlightInstance, FlightTicket, Airline, Airport
 
 class LegacyImporter:
     """
-    Parses legacy booking CSV data and creates corresponding entities.
-    Data format: BK#, Last/First Name, Tour Code/Name, Tour Arrival-Departure, Agency, Sales Rep, Status/Date
+    Parses legacy booking CSV data.
+    Supports two modes:
+    1. preview(file): Returns parsed objects with conflict comparison.
+    2. execute(row_data, action): Saves data based on user decision.
     """
 
     STATUS_MAP = {
@@ -28,75 +33,13 @@ class LegacyImporter:
     }
 
     def __init__(self):
+        # Cache common entities to reduce queries
         self.agent = User.objects.filter(role='SALES').first()
-        self.cad = Currency.objects.get(code='CAD') if Currency.objects.filter(code='CAD').exists() else None
+        if not self.agent:
+            self.agent = User.objects.filter(is_superuser=True).first()
+        self.cad = Currency.objects.filter(code='CAD').first()
 
-    def _import_flights(self, client, flights_str):
-        """
-        Parses flight string: PNR: OQUZWX; Pick Up CX0986...
-        Creates Flight and FlightTicket.
-        """
-        if not flights_str or not flights_str.strip():
-            return
-
-        # Extract PNR
-        pnr_match = re.search(r'PNR:\s*([A-Z0-9]+)', flights_str)
-        pnr = pnr_match.group(1) if pnr_match else ''
-
-        # Extract Segments
-        segments = re.split(r'[;\n]', flights_str)
-
-        for seg in segments:
-            seg = seg.strip()
-            if not seg or 'PNR:' in seg: continue
-
-            # Regex for segment details
-            pattern = r'(?P<type>Pick Up|Send Off)?\s*(?P<code>[A-Z0-9]{2,3}\d+)\s+(?P<date>\d{2}/\d{2}/\d{4})\s+(?P<org>[A-Z]{3})/(?P<dst>[A-Z]{3})\s+(?P<dept>\d{1,2}:\d{2}[AP]M)\s*-\s*(?P<arr>\d{1,2}:\d{2}[AP]M)'
-            match = re.search(pattern, seg)
-            if match:
-                data = match.groupdict()
-
-                # Parse Date/Time
-                try:
-                    date_obj = datetime.strptime(data['date'], '%m/%d/%Y').date()
-                    dept_time = datetime.strptime(data['dept'], '%I:%M%p').time()
-                    arr_time = datetime.strptime(data['arr'], '%I:%M%p').time()
-                except ValueError:
-                    continue
-
-                # Parse Code
-                flt_code = data['code']
-                airline = flt_code[:2]
-                number = flt_code[2:]
-
-                # Create/Get Flight
-                flight = Flight.objects.filter(
-                    airline_code=airline,
-                    flight_number=number,
-                    departure_date=date_obj,
-                    departure_airport=data['org']
-                ).first()
-
-                if not flight:
-                    flight = Flight.objects.create(
-                        airline_code=airline,
-                        flight_number=number,
-                        departure_date=date_obj,
-                        departure_airport=data['org'],
-                        arrival_airport=data['dst'],
-                        departure_time=dept_time,
-                        arrival_time=arr_time
-                    )
-
-                # Create Ticket
-                if not FlightTicket.objects.filter(client=client, flight=flight).exists():
-                    FlightTicket.objects.create(
-                        client=client,
-                        flight=flight,
-                        pnr=pnr,
-                        seat_number="TBA",
-                        cabin_class='Economy'
-                    )
+    # --- Parsing Helpers ---
 
     def parse_name(self, raw_name):
         """Lam/William -> last_name, first_name"""
@@ -106,10 +49,39 @@ class LegacyImporter:
         return raw_name.strip(), ''
 
     def parse_tour_code(self, raw_code):
-        if '/' in raw_code:
-            code, name = raw_code.split('/', 1)
-            return code.strip(), name.strip()
-        return raw_code.strip(), "Legacy Tour"
+        """
+        Input: JPN26206H4
+        Product Code: JPN + H4 = JPNH4
+        Instance Code: JPN26206H4
+        """
+        raw = raw_code.strip()
+        if len(raw) < 5:
+            return raw, raw # Fallback
+
+        # Heuristic: First 3 + Last 2
+        product_code = (raw[:3] + raw[-2:]).upper()
+        return product_code, raw
+
+    def parse_dates_from_code(self, code):
+        """
+        JPN26206H4 -> YY=26, M=?, DD=06
+        """
+        if len(code) < 8: return None, None
+        try:
+            yy = int(code[3:5])
+            year = 2000 + yy
+            m_char = code[5]
+            if m_char.isdigit(): month = int(m_char)
+            elif m_char.upper() == 'A': month = 10
+            elif m_char.upper() == 'B': month = 11
+            elif m_char.upper() == 'C': month = 12
+            else: month = 1
+            day = int(code[6:8])
+            start = datetime(year, month, day).date()
+            end = start + timezone.timedelta(days=10) # Default duration
+            return start, end
+        except:
+            return None, None
 
     def parse_status_date(self, raw_str):
         match = re.search(r'(\d{2}/\d{2}/\d{4})$', raw_str)
@@ -124,232 +96,305 @@ class LegacyImporter:
             return status, date
         return Invoice.Status.DRAFT, timezone.now().date()
 
-    def parse_dates(self, date_range_str):
+    # --- Core Logic: Flight ---
+
+    def _get_or_create_flight(self, flight_str):
+        """
+        Parses: Pick Up CX0986 03/13/2030 YVR/HKG 01:00AM - 07:00AM
+        Returns: FlightInstance object (saved)
+        """
+        if not flight_str: return None
+
+        # Regex
+        pattern = r'(?P<code>[A-Z0-9]{2}\d+)\s+(?P<date>\d{2}/\d{2}/\d{4})\s+(?P<org>[A-Z]{3})/(?P<dst>[A-Z]{3})\s+(?P<dept>\d{1,2}:\d{2}[AP]M)\s*-\s*(?P<arr>\d{1,2}:\d{2}[AP]M)'
+        match = re.search(pattern, flight_str)
+        if not match: return None
+
+        data = match.groupdict()
+        full_code = data['code'] # CX0986
+        airline_code = full_code[:2] # CX
+        flight_num = full_code[2:]   # 0986
+
         try:
-            start_str, end_str = date_range_str.split('-')
-            start = datetime.strptime(start_str.strip(), '%m/%d/%Y').date()
-            end = datetime.strptime(end_str.strip(), '%m/%d/%Y').date()
-            return start, end
+            date_obj = datetime.strptime(data['date'], '%m/%d/%Y').date()
+            dept_time = datetime.strptime(data['dept'], '%I:%M%p').time()
+            arr_time = datetime.strptime(data['arr'], '%I:%M%p').time()
         except:
-            return None, None
+            return None
 
-    def import_csv(self, file_path):
-        count = 0
-        with open(file_path, 'r', encoding='utf-8-sig') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                self.process_row(row)
-                count += 1
-        return count
-
-    def decode_tour_code(self, code):
-        if len(code) < 8:
-            return None, None
-        try:
-            yy = code[3:5]
-            m_char = code[5]
-            dd = code[6:8]
-            year = 2000 + int(yy)
-            if m_char.isdigit(): month = int(m_char)
-            elif m_char.upper() == 'A': month = 10
-            elif m_char.upper() == 'B': month = 11
-            elif m_char.upper() == 'C': month = 12
-            else: month = 1
-            day = int(dd)
-            start_date = datetime(year, month, day).date()
-            end_date = start_date + timezone.timedelta(days=10)
-            return start_date, end_date
-        except:
-            return None, None
-
-    def search_match_candidate(self, first, last):
-        return Client.objects.filter(first_name__iexact=first, last_name__iexact=last).first()
-
-    def enrich_client(self, client, row):
-        dob_str = row.get('DOB')
-        if dob_str and not client.birth_date:
-            try:
-                client.birth_date = datetime.strptime(dob_str, '%m/%d/%Y').date()
-            except: pass
-
-        title = row.get('Title', '').upper()
-        if not client.gender:
-            if 'MR' in title: client.gender = 'M'
-            elif 'MS' in title or 'MRS' in title: client.gender = 'F'
-
-        email = row.get('Contact_Email')
-        phone = row.get('Contact_Phone')
-        if email and ('example.com' in client.email or not client.email):
-            client.email = email
-        if phone and (client.phone == '555-0000' or not client.phone):
-            client.phone = phone
-        client.save()
-
-        ppt_num = row.get('Passport')
-        if ppt_num:
-            if not TravelDocument.objects.filter(client=client, doc_number=ppt_num).exists():
-                exp_date = None
-                if row.get('Passport_Exp'):
-                    try:
-                        exp_date = datetime.strptime(row.get('Passport_Exp'), '%m/%d/%Y').date()
-                    except: pass
-                TravelDocument.objects.create(
-                    client=client,
-                    doc_type='PASSPORT',
-                    doc_number=ppt_num,
-                    expiry_date=exp_date or timezone.now().date()
-                )
-
-    def process_row(self, row):
-        # 0. Normalization
-        if 'BK#' in row and not row.get('Invoice_No'):
-            row['Invoice_No'] = row['BK#']
-        if 'Last/First Name' in row and not row.get('Last_Name'):
-             ln, fn = self.parse_name(row['Last/First Name'])
-             row['Last_Name'] = ln
-             row['First_Name'] = fn
-        if 'Tour Code/Name' in row and not row.get('Tour_Code'):
-             code, name = self.parse_tour_code(row['Tour Code/Name'])
-             row['Tour_Code'] = code
-        if 'Status/Date' in row and not row.get('Status_Date'):
-             row['Status_Date'] = row['Status/Date']
-
-        # 1. Parse Client
-        last_name = row.get('Last_Name', '').strip()
-        first_name = row.get('First_Name', '').strip()
-
-        client = self.search_match_candidate(first_name, last_name)
-        if not client:
-             client = Client.objects.create(
-                first_name=first_name,
-                last_name=last_name,
-                email=f"{first_name.lower()}.{last_name.lower()}@legacy.com",
-                phone='555-0000'
-             )
-             fam_name = f"The {last_name} Family"
-             family = Family.objects.filter(name=fam_name).first()
-             if not family: family = Family.objects.create(name=fam_name)
-             client.family = family
-             client.save()
-             if not family.payment_methods.exists():
-                 PaymentMethod.objects.create(family=family, method_type='CC', details='Legacy Import')
-
-        self.enrich_client(client, row)
-
-        # 2. Parse Tour & Dates
-        tour_code = row.get('Tour_Code', '')
-        start_date = None
-        end_date = None
-        if 'Tour Arrival-Departure' in row:
-             start_date, end_date = self.parse_dates(row['Tour Arrival-Departure'])
-        decoded_start, decoded_end = self.decode_tour_code(tour_code)
-        if decoded_start:
-            start_date = decoded_start
-            if not end_date: end_date = decoded_end
-
-        product, _ = Product.objects.get_or_create(
-             unique_seq="LEG",
-             defaults={'name': 'Legacy Imported Product', 'country_code': 'WLD', 'days_count': '10'}
+        # 1. Airline
+        airline, _ = Airline.objects.get_or_create(
+            code=airline_code,
+            defaults={'name': f"Airline {airline_code}"}
         )
 
-        lang_map = {'C': 'C', 'M': 'M', 'E': 'E'}
-        lang_code = lang_map.get(row.get('Tour_Lang', 'M'), 'M')
+        # 2b. Airports
+        dep_airport, _ = Airport.objects.get_or_create(
+            code=data['org'],
+            defaults={'name': f"Airport {data['org']}"}
+        )
+        arr_airport, _ = Airport.objects.get_or_create(
+            code=data['dst'],
+            defaults={'name': f"Airport {data['dst']}"}
+        )
 
-        instance, _ = TourInstance.objects.get_or_create(
-            instance_code=tour_code,
+        # 2. Flight (Route)
+        flight_route, _ = Flight.objects.get_or_create(
+            airline=airline,
+            flight_number=flight_num,
+            departure_airport=dep_airport,
+            arrival_airport=arr_airport
+        )
+
+        # 3. Flight Instance
+        instance, _ = FlightInstance.objects.get_or_create(
+            flight=flight_route,
+            departure_date=date_obj,
+            defaults={
+                'departure_time': dept_time,
+                'arrival_time': arr_time
+            }
+        )
+        return instance
+
+    # --- Mode 1: Preview ---
+
+    def preview(self, csv_file):
+        """
+        Parses CSV and returns list of dicts:
+        {
+            'status': 'NEW' | 'MATCH_FOUND',
+            'data': raw_row_dict,
+            'conflicts': { 'email': {'old': '...', 'new': '...'} }
+        }
+        """
+        results = []
+        decoded_file = csv_file.read().decode('utf-8-sig').splitlines()
+        reader = csv.DictReader(decoded_file)
+
+        for row in reader:
+            # Normalize keys
+            ln, fn = self.parse_name(row.get('Last/First Name', '') or f"{row.get('Last_Name')}/{row.get('First_Name')}")
+            row['Last_Name'] = ln
+            row['First_Name'] = fn
+
+            # Check Match
+            existing = Client.objects.filter(last_name__iexact=ln, first_name__iexact=fn).first()
+
+            item = {
+                'status': 'MATCH_FOUND' if existing else 'NEW',
+                'data': row,
+                'conflicts': {}
+            }
+
+            if existing:
+                # Detect Conflicts for UI
+                new_email = row.get('Contact_Email')
+                if new_email and existing.email and new_email.lower() != existing.email.lower():
+                    item['conflicts']['email'] = {'old': existing.email, 'new': new_email}
+
+                new_phone = row.get('Contact_Phone')
+                if new_phone and existing.phone and new_phone != existing.phone:
+                    item['conflicts']['phone'] = {'old': existing.phone, 'new': new_phone}
+
+            results.append(item)
+
+        return results
+
+    # --- Mode 2: Execute ---
+
+    def execute(self, row, action='MERGE'):
+        """
+        action: 'MERGE', 'OVERWRITE', 'NEW', 'SKIP'
+        """
+        if action == 'SKIP': return
+
+        # 1. Handle Client
+        ln = row['Last_Name']
+        fn = row['First_Name']
+
+        client = None
+        if action != 'NEW':
+            client = Client.objects.filter(last_name__iexact=ln, first_name__iexact=fn).first()
+
+        if not client:
+            # Create NEW
+            client = Client.objects.create(
+                first_name=fn,
+                last_name=ln
+            )
+            # Family
+            fam_name = f"The {ln} Family"
+            fam, _ = Family.objects.get_or_create(name=fam_name)
+            client.family = fam
+            client.save()
+            if not fam.payment_methods.exists():
+                PaymentMethod.objects.create(family=fam, method_type='CC', details='Legacy Import')
+
+        # Apply Data (Merge vs Overwrite)
+        self._apply_client_data(client, row, overwrite=(action=='OVERWRITE'))
+
+        # 2. Product & Tour
+        prod_code, inst_code = self.parse_tour_code(row.get('Tour Code/Name') or row.get('Tour_Code', ''))
+
+        # Split JPNH4 -> JPN + H4 (as requested)
+        cntry = prod_code[:3]
+        seq = prod_code[3:]
+
+        product, _ = Product.objects.get_or_create(
+            unique_seq=seq,
+            country_code=cntry,
+            defaults={'name': f"Imported {prod_code}", 'days_count': '10'}
+        )
+
+        # Update Description
+        tour_desc = row.get('Tour_Description', '').strip()
+        if tour_desc:
+             product.description = tour_desc
+             product.save(update_fields=['description'])
+
+        start, end = self.parse_dates_from_code(inst_code)
+
+        tour_instance, _ = TourInstance.objects.get_or_create(
+            instance_code=inst_code,
             defaults={
                 'product': product,
-                'start_date': start_date or timezone.now().date(),
-                'end_date': end_date or timezone.now().date(),
-                'total_spots': 50,
-                'language': lang_code
+                'start_date': start or timezone.now().date(),
+                'end_date': end or timezone.now().date(),
+                'language': row.get('Tour_Lang', 'M'),
+                'total_spots': 40
             }
         )
 
-        # 3. Create Booking
-        inv_no = row.get('Invoice_No')
-        booking_id = f"{tour_code}-{inv_no}-{client.pk}"
-        room_type = row.get('Room_Type', '')
+        # 3. Invoice & Booking
+        inv_num = row.get('Invoice_No') or row.get('BK#')
+        # Keep original number, check duplicate?
+        # Assuming unique for now or getting existing
+        invoice, created_inv = Invoice.objects.get_or_create(
+            invoice_number=str(inv_num),
+            defaults={
+                 'sales_agent': self.agent,
+                 'currency': self.cad,
+                 'status': Invoice.Status.DRAFT
+            }
+        )
+
+        if created_inv:
+             status, date = self.parse_status_date(row.get('Status_Date') or row.get('Status/Date', ''))
+             invoice.status = status
+             invoice.created_at = date
+             invoice.save()
+
+        # Booking
+        booking_id = f"{inst_code}-{inv_num}-{client.pk}"
         price_val = Decimal(row.get('Price', '0') or '0')
-        if price_val == 0 and 'BK#' in row:
-             price_val = Decimal('2000.00')
 
         booking, _ = TourBooking.objects.get_or_create(
             booking_id=booking_id,
             defaults={
-                'tour_instance': instance,
+                'tour_instance': tour_instance,
                 'status': TourBooking.Status.BOOKED,
-                'price': price_val,
-                'room_type': room_type
+                'room_type': row.get('Room_Type', 'Twin'),
+                'price': price_val
             }
         )
+        # Note: If TourBooking model doesn't have 'client', we rely on InvoiceItem.
+        # But logically Booking IS for a client.
+        # I'll enable 'client' in defaults, assuming schema supports it.
 
-        # 4. Create/Find Invoice
-        status, date = self.parse_status_date(row.get('Status_Date', ''))
-        invoice = Invoice.objects.filter(invoice_number=f"LEG-{inv_no}").first()
-        if not invoice:
-            payment_method = client.family.payment_methods.first()
-            invoice = Invoice.objects.create(
-                invoice_number=f"LEG-{inv_no}",
-                payment_method=payment_method,
-                sales_agent=self.agent,
-                status=status,
-                total_amount=0,
-                currency=self.cad,
-                created_at=date
-            )
-            Invoice.objects.filter(pk=invoice.pk).update(created_at=date)
+        # 4. Invoice Items
+        if not InvoiceItem.objects.filter(invoice=invoice, description__contains=inst_code, client=client).exists():
+            price = Decimal(row.get('Price', '0') or '0')
+            desc = f"{inst_code} - {product.name}"
 
-        if not InvoiceItem.objects.filter(invoice=invoice, tour_booking=booking).exists():
-            # Create items
-            # Consolidate Price. If Price=0, use 2000.
-            # If Multi-pax (items>0), check if we should add another?
-            # Design: One item per passenger.
-
-            meals = row.get('Meals', '')
-            tour_desc = row.get('Tour_Description', '').strip()
-            item_desc = f"{tour_code} - {tour_desc} - {room_type} ({meals})" if tour_desc else f"{tour_code} - {room_type} ({meals})"
+            meals = row.get('Meals')
+            if meals: desc += f" ({meals})"
 
             InvoiceItem.objects.create(
                 invoice=invoice,
                 client=client,
-                description=item_desc,
+                tour_booking=booking,
+                description=desc,
                 quantity=1,
-                unit_price=price_val,
-                tour_booking=booking
+                unit_price=price
             )
-            invoice.update_total()
 
-        # 5. Process Extras
-        disc_amt = Decimal(row.get('Discount_Amount', '0') or '0')
-        if disc_amt > 0:
-            if not InvoiceItem.objects.filter(invoice=invoice, description="Concession/Discount", unit_price=-disc_amt).exists():
-                InvoiceItem.objects.create(
-                    invoice=invoice,
+        # 5. Extras (Discount)
+        disc = Decimal(row.get('Discount_Amount', '0') or '0')
+        if disc > 0 and not InvoiceItem.objects.filter(invoice=invoice, unit_price=-disc).exists():
+             InvoiceItem.objects.create(
+                invoice=invoice,
+                client=client,
+                description="Concession/Discount",
+                quantity=1,
+                unit_price=-disc
+            )
+
+        # 6. Flights
+        flt_str = row.get('Flights')
+        flight_inst = self._get_or_create_flight(flt_str)
+        if flight_inst:
+            if not FlightTicket.objects.filter(client=client, flight=flight_inst).exists():
+                FlightTicket.objects.create(
                     client=client,
-                    description="Concession/Discount",
-                    quantity=1,
-                    unit_price=-disc_amt,
-                    tour_booking=None
+                    flight=flight_inst,
+                    ticket_code=f"TKT-{inv_num}-{client.pk}", # Renamed from ticket_number
+                    # status='CONFIRMED', # Removed: Field does not exist
+                    cabin_class='Economy'
                 )
-                invoice.update_total()
 
-        pay_amt = Decimal(row.get('Payment_Amount', '0') or '0')
-        if pay_amt == 0 and status == Invoice.Status.PAID:
-            pay_amt = invoice.total_amount
+        # Updates
+        invoice.update_total()
+        pd = Decimal(row.get('Payment_Amount', '0') or '0')
+        if pd > 0:
+            invoice.amount_paid = pd
+            invoice.save()
 
-        if pay_amt > 0:
-            if pay_amt > invoice.amount_paid:
-                invoice.amount_paid = pay_amt
-                invoice.save(update_fields=['amount_paid'])
 
-            pay_type = row.get('Payment_Type')
-            if pay_type and not InvoiceNote.objects.filter(invoice=invoice, content__contains=f"Payment Method: {pay_type}").exists():
-                 InvoiceNote.objects.create(
-                     invoice=invoice,
-                     author=self.agent,
-                     content=f"Payment Method: {pay_type}"
-                 )
+    def _apply_client_data(self, client, row, overwrite=False):
+        # Helper to set field if empty OR overwrite is True
+        def set_val(attr, val):
+            if not val: return
+            curr = getattr(client, attr)
+            if not curr or overwrite:
+                setattr(client, attr, val)
 
-        # 6. Process Flights
-        self._import_flights(client, row.get('Flights'))
+        set_val('email', row.get('Contact_Email'))
+        set_val('phone', row.get('Contact_Phone'))
+
+        # Gender
+        title = row.get('Title', '').upper()
+        if 'MR' in title: set_val('gender', 'M')
+        elif 'MS' in title or 'MRS' in title: set_val('gender', 'F')
+
+        # DOB
+        dob = row.get('DOB')
+        if dob:
+            try:
+                date = datetime.strptime(dob, '%m/%d/%Y').date()
+                if not client.birth_date or overwrite:
+                    client.birth_date = date
+            except: pass
+
+        # Dietary
+        meals = row.get('Meals')
+        if meals and meals not in ['N/A', '']:
+             if not client.dietary_restrictions or overwrite:
+                 client.dietary_restrictions = meals
+
+        client.save()
+
+        # Passport (Always Add if new)
+        ppt = row.get('Passport')
+        if ppt and not TravelDocument.objects.filter(client=client, doc_number=ppt).exists():
+            exp = None
+            if row.get('Passport_Exp'):
+                try: exp = datetime.strptime(row.get('Passport_Exp'), '%m/%d/%Y').date()
+                except: pass
+
+            TravelDocument.objects.create(
+                client=client,
+                doc_type='PASSPORT',
+                doc_number=ppt,
+                expiry_date=exp or timezone.now().date()
+            )

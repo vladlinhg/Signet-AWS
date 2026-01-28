@@ -12,7 +12,6 @@ class Product(models.Model):
     description = models.TextField(blank=True)
 
     @property
-    @property
     def code(self):
         """Reconstruct: {Country}{Unique} e.g. JPNH4"""
         return f"{self.country_code}{self.unique_seq}".upper()
