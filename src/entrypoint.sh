@@ -6,7 +6,7 @@ echo "Applying database migrations..."
 python manage.py migrate --noinput
 
 echo "Auto-importing initial users..."
-python manage.py import_erp_data --users-only
+# python manage.py import_erp_data --users-only
 
 echo "Collecting static files..."
 python manage.py collectstatic --noinput

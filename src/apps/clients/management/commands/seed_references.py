@@ -3,7 +3,7 @@ from apps.clients.models import City, Ethnicity
 from apps.flights.models import Airport, Airline
 
 class Command(BaseCommand):
-    help = 'Seeds reference data for Cities, Ethnicities, Airports, and Airlines.'
+    help = 'Seeds reference data for Cities, Ethnicities, Airports, Airlines, Currencies, and Users.'
 
     def handle(self, *args, **options):
         self.stdout.write("Seeding Reference Data...")
@@ -107,7 +107,7 @@ class Command(BaseCommand):
                 )
         self.stdout.write(f"Seeded {Airport.objects.count()} Airports.")
 
-        # Optional: Seed a few Airlines
+        # 4. Airlines
         airlines = [
             {"code": "AC", "name": "Air Canada"},
             {"code": "BR", "name": "EVA Air"},
@@ -119,5 +119,71 @@ class Command(BaseCommand):
             {"code": "MU", "name": "China Eastern Airlines"},
         ]
         for al in airlines:
-           Airline.objects.get_or_create(code=al["code"], defaults={'name': al["name"]})
+            Airline.objects.get_or_create(code=al["code"], defaults={'name': al["name"]})
         self.stdout.write("Seeded Airlines.")
+
+        # 5. Currencies
+        currencies_data = [
+            {"code": "CAD", "symbol": "$", "name": "Canadian Dollar", "rate": 1.00},
+            {"code": "USD", "symbol": "$", "name": "US Dollar", "rate": 0.75},
+            {"code": "EUR", "symbol": "€", "name": "Euro", "rate": 0.68},
+            {"code": "GBP", "symbol": "£", "name": "British Pound", "rate": 0.58},
+            {"code": "CHF", "symbol": "CHF", "name": "Swiss Franc", "rate": 0.51},
+            {"code": "AUD", "symbol": "$", "name": "Australian Dollar", "rate": 0.49},
+            {"code": "NZD", "symbol": "$", "name": "New Zealand Dollar", "rate": 0.46},
+            {"code": "CNY", "symbol": "¥", "name": "Chinese Yuan", "rate": 0.20},
+            {"code": "TWD", "symbol": "NT$", "name": "New Taiwan Dollar", "rate": 0.045},
+            {"code": "JPY", "symbol": "¥", "name": "Japanese Yen", "rate": 0.0091},
+            {"code": "KRW", "symbol": "₩", "name": "South Korean Won", "rate": 0.00068},
+            {"code": "HKD", "symbol": "$", "name": "Hong Kong Dollar", "rate": 0.11},
+            {"code": "THB", "symbol": "฿", "name": "Thai Baht", "rate": 0.025},
+            {"code": "PHP", "symbol": "₱", "name": "Philippine Peso", "rate": 0.017},
+            {"code": "INR", "symbol": "₹", "name": "Indian Rupee", "rate": 0.012},
+            {"code": "VND", "symbol": "₫", "name": "Vietnamese Dong", "rate": 0.00034},
+            {"code": "IDR", "symbol": "Rp", "name": "Indonesian Rupiah", "rate": 0.00039},
+            {"code": "SGD", "symbol": "$", "name": "Singapore Dollar", "rate": 0.27},
+            {"code": "MYR", "symbol": "RM", "name": "Malaysian Ringgit", "rate": 0.27},
+            {"code": "MXN", "symbol": "$", "name": "Mexican Peso", "rate": 0.18},
+        ]
+
+        from apps.currencies.models import Currency, ExchangeRate
+        for curr in currencies_data:
+            c, _ = Currency.objects.update_or_create(
+                code=curr['code'],
+                defaults={'name': curr['name'], 'symbol': curr['symbol'], 'is_base': (curr['code'] == 'CAD')}
+            )
+            # Seed Initial Rate
+            ExchangeRate.objects.get_or_create(
+                currency=c,
+                date='2026-01-01',
+                defaults={'rate_to_base': curr['rate']}
+            )
+        self.stdout.write(f"Seeded {len(currencies_data)} Currencies.")
+
+        # 6. Users
+        users_data = [
+            {"username": "manager1", "role": "MANAGER", "email": "mgr@erp.com"},
+            {"username": "accountant1", "role": "ACCOUNTANT", "email": "acc@erp.com"},
+            {"username": "sales1", "role": "SALES", "email": "s1@erp.com"},
+            {"username": "sales2", "role": "SALES", "email": "s2@erp.com"},
+            {"username": "sales3", "role": "SALES", "email": "s3@erp.com"},
+            {"username": "market1", "role": "MARKETING", "email": "mkt@erp.com"},
+            {"username": "it_admin", "role": "IT_ADMIN", "email": "it@erp.com"},
+        ]
+
+        from apps.users.models import User
+        from django.core.management import call_command
+
+        for u_data in users_data:
+            user, created = User.objects.update_or_create(
+                username=u_data['username'],
+                defaults={'role': u_data['role'], 'email': u_data['email'], 'is_active': True}
+            )
+            if created:
+                user.set_password('pass123')
+                user.save()
+        self.stdout.write(f"Seeded {len(users_data)} Users.")
+
+        # 7. Permissions
+        self.stdout.write("Setting up Permissions...")
+        call_command('setup_permissions')
