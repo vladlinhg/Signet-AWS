@@ -7,6 +7,7 @@ class ImportDataForm(forms.Form):
         ('tours', 'Tours/Products CSV'),
         ('users', 'Users CSV'),
         ('currencies', 'Currencies CSV'),
+        ('legacy', 'Legacy Invoices CSV (Images)'),
     ]
     import_type = forms.ChoiceField(choices=TYPE_CHOICES, label="Data Type")
     file = forms.FileField(label="Select CSV File", help_text="Upload a .csv file")
@@ -16,7 +17,7 @@ class ImportDataForm(forms.Form):
         if not file.name.endswith('.csv'):
             raise forms.ValidationError("Only .csv files are allowed.")
         return file
-    
+
 class WipeDataForm(forms.Form):
     confirm_string = forms.CharField(
         label="CONFIRMATION",
@@ -36,7 +37,7 @@ class WipeDataForm(forms.Form):
 
         if confirm != "DELETE-ALL-DATA":
             self.add_error('confirm_string', "Incorrect confirmation string.")
-        
+
         # Hardcoded approval code for demo
         if code != "MGR-APPROVE":
             self.add_error('manager_code', "Invalid Manager Approval Code.")

@@ -17,7 +17,7 @@ class DataImportService:
         # Ensure we are at start
         if hasattr(file_obj, 'seek'):
             file_obj.seek(0)
-            
+
         content = file_obj.read()
         if isinstance(content, bytes):
             decoded_file = content.decode('utf-8-sig')
@@ -28,18 +28,18 @@ class DataImportService:
         # Handle potential empty file
         if not decoded_file.strip():
             return []
-            
+
         reader = csv.DictReader(io_string)
-        
+
         preview_data = []
-        
+
         for row in reader:
             item = {'data': row, 'status': 'NEW'}
-            
+
             if import_type == 'clients':
                 if Client.objects.filter(first_name=row['first'], last_name=row['last']).exists():
                     item['status'] = 'DUPLICATE'
-                    
+
             elif import_type == 'flights':
                 # Check based on Flight Code factors
                 # {Airline}{FlightNum}{Date}{Dept}
@@ -47,19 +47,19 @@ class DataImportService:
                 flight_no = row['flight_no']
                 dept = row['dept']
                 dates = row['dates'].split('|')
-                
+
                 # If ANY date exists, mark row as partial duplicate or duplicate?
                 # Simply check if the FIRST date exists for now, or just Flag if any combo exists.
-                # Since one row = multiple flights, let's just check the first one for simplicity 
+                # Since one row = multiple flights, let's just check the first one for simplicity
                 # or expand the row into multiple preview items.
                 # Expanding is better.
-                pass 
-                
+                pass
+
             elif import_type == 'tours':
                 # Check Product Code Factors
                 if Product.objects.filter(country_code=row['country'], unique_seq=row['unique']).exists():
                     item['status'] = 'DUPLICATE (Product)'
-            
+
             elif import_type == 'users':
                 if User.objects.filter(username=row['username']).exists():
                     item['status'] = 'DUPLICATE'
@@ -67,9 +67,9 @@ class DataImportService:
             elif import_type == 'currencies':
                 if Currency.objects.filter(code=row['code']).exists():
                     item['status'] = 'DUPLICATE'
-            
+
             preview_data.append(item)
-            
+
         # Special handling for Flights (One row -> Multiple Dates)
         if import_type == 'flights':
             expanded_data = []
@@ -84,7 +84,7 @@ class DataImportService:
                          # Reconstruct what the code WOULD be, or just query fields
                          if Flight.objects.filter(airline_code=row['airline'], flight_number=row['flight_no'], departure_date=dt_obj).exists():
                              is_dup = True
-                    
+
                     new_item = {
                         'data': {
                             'airline': row['airline'],
@@ -151,7 +151,7 @@ class DataImportService:
                         )
 
                 count += 1
-            
+
             elif import_type == 'users':
                 if not User.objects.filter(username=row['username']).exists():
                     u = User.objects.create_user(

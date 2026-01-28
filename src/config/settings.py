@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # Third party
     'widget_tweaks',
     'django_htmx',
@@ -27,10 +27,12 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.invoices',  # Renamed from sales
     'apps.clients',
+    'apps.agents',
+    'apps.documents',
     'apps.flights',
     'apps.tours',
     'apps.currencies',
-    
+
     # Engine Pages
     'engine.pages.sales',
     'engine.pages.manager',

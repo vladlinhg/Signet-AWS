@@ -21,7 +21,7 @@ def marketing_dashboard(request):
     # 1. Currency Logic
     target_currency_code = request.GET.get('currency', 'CAD')
     target_currency = get_object_or_404(Currency, code=target_currency_code)
-    
+
     # Get Rate (Base -> Target)
     # Simplified: Find latest rate. In real app, we'd convert each transaction by its date.
     # Here we assume all totals are in BASE (CAD) and we convert the final aggregate.
@@ -30,20 +30,20 @@ def marketing_dashboard(request):
         .values('currency__code', 'currency__symbol') \
         .annotate(total=Sum('total_amount')) \
         .order_by('currency__code')
-        
+
     # Rate Logic for Charts (Approximate to Chosen Currency)
     rate = 1.0
     if not target_currency.is_base:
         latest_rate = ExchangeRate.objects.filter(currency=target_currency).first()
         if latest_rate and latest_rate.rate_to_base:
-            # rate_to_base is Foreign -> Base. 
+            # rate_to_base is Foreign -> Base.
             # To go Base -> Foreign (Chart is in Base Sum), we divide.
             rate = 1 / float(latest_rate.rate_to_base)
-    
+
     # 2. Monthly Sales (Verified Only)
     sales_qs = Invoice.objects.filter(status=Invoice.Status.VERIFIED)
     monthly_data = sales_qs.annotate(month=TruncMonth('created_at')).values('month').annotate(total=Sum('total_amount')).order_by('month')
-    
+
     chart_labels = []
     chart_values = []
     for entry in monthly_data:
@@ -54,17 +54,30 @@ def marketing_dashboard(request):
             chart_values.append(round(val, 2))
 
     # 3. Top Products
-    # We need InvoiceItems -> TourInstance -> Product
-    top_products_qs = InvoiceItem.objects.filter(invoice__status=Invoice.Status.VERIFIED).values('tour_instance__product__name').annotate(revenue=Sum('unit_price')).order_by('-revenue')[:5]
-    
-    prod_labels = []
-    prod_values = []
-    for entry in top_products_qs:
-        name = entry['tour_instance__product__name']
-        if name:
-            prod_labels.append(name)
-            val = float(entry['revenue']) * rate
-            prod_values.append(round(val, 2))
+    # We need InvoiceItems -> TourBooking -> TourInstance -> Product
+    # Refactor: tour_instance removed, use tour_booking
+    from django.db.models import F
+
+    # 3. Client Growth (Line Chart)
+    from django.db.models import Count
+
+    growth_qs = InvoiceItem.objects.filter(
+        invoice__status=Invoice.Status.VERIFIED,
+        tour_booking__isnull=False
+    ).annotate(
+        tour_month=TruncMonth('tour_booking__tour_instance__start_date')
+    ).values('tour_month').annotate(
+        client_count=Count('client', distinct=True)
+    ).order_by('tour_month')
+
+
+
+    growth_labels = []
+    growth_values = []
+    for entry in growth_qs:
+        if entry['tour_month']:
+            growth_labels.append(entry['tour_month'].strftime('%b %Y'))
+            growth_values.append(entry['client_count'])
 
     context = {
         'wallet_data': wallet_data,
@@ -72,7 +85,7 @@ def marketing_dashboard(request):
         'current_currency': target_currency,
         'chart_labels': chart_labels,
         'chart_values': chart_values,
-        'prod_labels': prod_labels,
-        'prod_values': prod_values,
+        'growth_labels': growth_labels,
+        'growth_values': growth_values,
     }
     return render(request, 'roles/marketing/dashboard.html', context)

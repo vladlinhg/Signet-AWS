@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.contrib import messages
 from apps.invoices.models import Invoice, InvoiceItem
 from apps.clients.models import Client, TravelDocument
@@ -26,97 +26,124 @@ def dashboard_router(request):
 @login_required
 def sales_dashboard(request):
     """
-    Dedicated dashboard for Sales Agents.
-    Shows: Wallet (My Sales), Recent Invoices, Quick Actions.
+    Refactored Sales Dashboard: "My Work" Console.
+    Supports Tabs: Invoices (default), Clients, Flights, Tours.
+    Features: Search, Sort, and Scoped Data.
     """
     user = request.user
-    # 1. Wallet Logic (Manager Only - wait, originally it said Manager Only but code allows User to see OWN wallet?)
-    # Original code: show_wallet = user.role == User.Role.MANAGER or user.is_superuser
-    # Actually checking original file: users only see wallet if MANAGER? No wait...
-    # Re-reading original `views.py` logic:
-    # "show_wallet = user.role == User.Role.MANAGER or user.is_superuser"
-    # Wait, if Sales Agent can't see wallet, why is it there?
-    # Ah, the template had logic.
-    # I will preserve original logic.
-    
-    show_wallet = user.role == User.Role.MANAGER or user.is_superuser
-    if show_wallet:
-        wallet_data = Invoice.objects.filter(sales_agent=user, status=Invoice.Status.VERIFIED) \
-            .values('currency__code', 'currency__symbol') \
-            .annotate(total=Sum('total_amount')) \
-            .order_by('currency__code')
-    else:
-        wallet_data = []
-    
-    # 2. Pending Count
-    pending_count = Invoice.objects.filter(sales_agent=user, status__in=[Invoice.Status.DRAFT, Invoice.Status.NEEDS_FIX]).count()
-    
-    # 3. Recent Invoices
-    recent_invoices = Invoice.objects.filter(sales_agent=user).order_by('-created_at')[:10]
 
-    # 4. Contextual "Recent Activity"
-    recent_invoice_ids = recent_invoices.values_list('id', flat=True)
-    recent_items = InvoiceItem.objects.filter(invoice__in=recent_invoice_ids)
-    
-    # Extract unique Clients
-    seen_clients = set()
-    recent_clients = []
-    for inv in recent_invoices:
-        if inv.client and inv.client.id not in seen_clients:
-            recent_clients.append(inv.client)
-            seen_clients.add(inv.client.id)
-            if len(recent_clients) >= 5: break
-            
-    # Extract unique Flights
-    recent_flights = []
-    seen_flights = set()
-    flight_items = recent_items.filter(flight_ticket__isnull=False).select_related('flight_ticket')
-    for item in flight_items:
-        flight = item.flight_ticket.flight
-        if flight and flight.id not in seen_flights:
-            recent_flights.append(flight)
-            seen_flights.add(flight.id)
-            if len(recent_flights) >= 5: break
-            
-    # Extract unique Tours
-    recent_tours = []
-    seen_tours = set()
-    tour_items = recent_items.filter(tour_instance__isnull=False).select_related('tour_instance')
-    for item in tour_items:
-        tour = item.tour_instance
-        if tour and tour.id not in seen_tours:
-            recent_tours.append(tour)
-            seen_tours.add(tour.id)
-            if len(recent_tours) >= 5: break
-            
-    real_flights = recent_flights
-    real_tours = recent_tours
+    # Parameters
+    tab = request.GET.get('tab', 'invoices')
+    query = request.GET.get('q', '').strip()
+    sort = request.GET.get('sort', '')
 
-    # 5. Reminders
-    today = timezone.now().date()
-    my_client_ids = Invoice.objects.filter(sales_agent=user).values_list('client_id', flat=True).distinct()
-    
-    upcoming_birthdays = Client.objects.filter(
-        id__in=my_client_ids, 
-        birth_date__month=today.month, 
-        birth_date__day__gte=today.day
-    ).order_by('birth_date__day')[:5]
-    
-    passport_expiry = TravelDocument.objects.filter(
-        client__id__in=my_client_ids,
-        doc_type=TravelDocument.Type.PASSPORT,
-        expiry_date__range=[today, today + timezone.timedelta(days=180)]
-    ).select_related('client').order_by('expiry_date')[:5]
+    # Defaults
+    items = []
+    headers = []
+
+    # 1. INVOICES TAB
+    if tab == 'invoices':
+        # Optimizing query with select_related/prefetch
+        qs = Invoice.objects.filter(sales_agent=user).select_related('payment_method__family').prefetch_related('items__client')
+
+        # Search
+        if query:
+            qs = qs.filter(
+                Q(invoice_number__icontains=query) |
+                Q(payment_method__family__name__icontains=query) |
+                Q(items__client__last_name__icontains=query)
+            ).distinct()
+
+        # Sort
+        if sort == 'date_asc':
+            qs = qs.order_by('created_at')
+        elif sort == 'amount_desc':
+            qs = qs.order_by('-total_amount')
+        elif sort == 'status_asc':
+            qs = qs.order_by('status')
+        else:
+            qs = qs.order_by('-created_at') # Default
+
+        items = qs
+
+    # 2. CLIENTS TAB
+    elif tab == 'clients':
+        # Client -> InvoiceItem -> Invoice -> SalesAgent
+        qs = Client.objects.filter(invoice_items__invoice__sales_agent=user).distinct()
+
+        if query:
+            qs = qs.filter(
+                Q(last_name__icontains=query) |
+                Q(email__icontains=query) |
+                Q(phone__icontains=query)
+            )
+
+        if sort == 'name_asc':
+            qs = qs.order_by('last_name', 'first_name')
+        else:
+            qs = qs.order_by('-created_at')
+
+        items = qs
+
+    # 3. FLIGHTS TAB
+    elif tab == 'flights':
+        from apps.flights.models import Flight
+        # Flight -> Tickets -> InvoiceItems -> Invoice -> SalesAgent
+        qs = Flight.objects.filter(tickets__invoice_items__invoice__sales_agent=user).distinct()
+
+        if query:
+            qs = qs.filter(
+                Q(flight_number__icontains=query) |
+                Q(origin__icontains=query) | # Flight model uses origin/destination but display uses arrival/dep airport? Check model.
+                Q(destination__icontains=query)
+            )
+
+        if sort == 'date_asc':
+            qs = qs.order_by('departure_date', 'departure_time')
+        elif sort == 'airline_asc':
+            qs = qs.order_by('airline_code', 'flight_number')
+        elif sort == 'departure_asc':
+            qs = qs.order_by('departure_airport', 'departure_date')
+        elif sort == 'arrival_asc':
+            qs = qs.order_by('arrival_airport', 'departure_date')
+        else:
+            qs = qs.order_by('-departure_date', '-departure_time')
+
+        items = qs
+
+    # 4. TOURS TAB
+    elif tab == 'tours':
+        from apps.tours.models import TourInstance
+        # TourInstance -> TourBooking -> InvoiceItem -> Invoice -> SalesAgent
+        qs = TourInstance.objects.filter(bookings__invoice_items__invoice__sales_agent=user).distinct().select_related('product')
+
+        if query:
+            qs = qs.filter(
+                Q(product__name__icontains=query) |
+                Q(product__country_code__icontains=query)
+            )
+
+        if sort == 'date_asc':
+            qs = qs.order_by('start_date')
+        elif sort == 'country_asc':
+            qs = qs.order_by('product__country_code', 'start_date')
+        elif sort == 'spots_asc':
+            items = sorted(qs, key=lambda t: t.available_spots)
+            pass
+        elif sort == 'spots_desc':
+            items = sorted(qs, key=lambda t: t.available_spots, reverse=True)
+            pass
+        else:
+            qs = qs.order_by('-start_date')
+
+        # If manual sort wasn't applied, use qs
+        if not (sort == 'spots_asc' or sort == 'spots_desc'):
+            items = qs
 
     context = {
-        'wallet_data': wallet_data,
-        'show_wallet': show_wallet,
-        'pending_count': pending_count,
-        'recent_invoices': recent_invoices,
-        'recent_clients': recent_clients,
-        'recent_flights': real_flights,
-        'recent_tours': real_tours,
-        'reminders_birthdays': upcoming_birthdays,
-        'reminders_passports': passport_expiry,
+        'active_tab': tab,
+        'items': items,
+        'search_query': query,
+        'current_sort': sort,
     }
     return render(request, 'roles/sales/dashboard.html', context)

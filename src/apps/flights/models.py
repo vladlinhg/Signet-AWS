@@ -12,12 +12,12 @@ class Flight(models.Model):
     departure_date = models.DateField()
     departure_airport = models.CharField(max_length=3, help_text="e.g. YVR, YYZ")
     arrival_airport = models.CharField(max_length=3, help_text="e.g. TPE, NRT")
-    
+
     # Metadata
     airline_name = models.CharField(max_length=100, blank=True)
     departure_time = models.TimeField(null=True, blank=True)
     arrival_time = models.TimeField(null=True, blank=True)
-    
+
     code = models.CharField(max_length=50, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -38,21 +38,35 @@ class FlightTicket(models.Model):
     Example: BR00911NOV27YVR32D
     """
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name='tickets')
-    seat_number = models.CharField(max_length=10)
-    
+
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+
+    # Link to Client (Optional, or explicit name fields above)
+    client = models.ForeignKey('clients.Client', on_delete=models.SET_NULL, null=True, blank=True, related_name='tickets')
+
+    pnr = models.CharField(max_length=20, blank=True, help_text="Passenger Name Record")
+    seat_number = models.CharField(max_length=10, default="TBA", help_text="Specific seat or TBA")
+
     # Instance Details
     cabin_class = models.CharField(max_length=20, default='Economy', choices=[
         ('Economy', 'Economy'), ('Business', 'Business'), ('First', 'First')
     ])
     meal_plan = models.CharField(max_length=50, blank=True, help_text="e.g. Vegetarian, Standard")
     bags = models.IntegerField(default=1)
-    
+
     ticket_code = models.CharField(max_length=100, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Auto-Generate Code
-        if self.flight.code and self.seat_number:
-            self.ticket_code = f"{self.flight.code}{self.seat_number}"
+        if self.flight.code:
+            base = f"{self.flight.code}-{self.seat_number}"
+            if self.seat_number == "TBA":
+                # Ensure uniqueness for TBA tickets
+                import uuid
+                self.ticket_code = f"{base}-{uuid.uuid4().hex[:6]}"
+            else:
+                self.ticket_code = base
         super().save(*args, **kwargs)
 
     def __str__(self):

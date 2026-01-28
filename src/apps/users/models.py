@@ -12,12 +12,20 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.SALES)
     department = models.CharField(max_length=100, blank=True)
 
+    agent_profile = models.ForeignKey('agents.Agent', on_delete=models.SET_NULL, null=True, blank=True, related_name='user_account')
+
+    @property
+    def display_name(self):
+        if self.agent_profile:
+            return f"{self.agent_profile.first_name} {self.agent_profile.last_name}"
+        return f"{self.first_name} {self.last_name}".strip() or self.username
+
     def is_manager(self):
         return self.role == self.Role.MANAGER
 
     def is_accountant(self):
         return self.role == self.Role.ACCOUNTANT
-    
+
     def is_sales(self):
         return self.role == self.Role.SALES
 

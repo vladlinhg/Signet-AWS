@@ -67,10 +67,10 @@
             <canvas id="salesChart"></canvas>
         </div>
 
-        <!-- Top Products -->
+        <!-- Client Growth -->
         <div class="bg-white p-6 rounded-lg shadow">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Top Performing Products</h3>
-            <canvas id="productsChart"></canvas>
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Client Growth (Travelers per Month)</h3>
+            <canvas id="growthChart"></canvas>
         </div>
     </div>
 </div>
@@ -78,8 +78,8 @@
 <!-- Data injection -->
 {{ chart_labels|json_script:"sales-labels" }}
 {{ chart_values|json_script:"sales-values" }}
-{{ prod_labels|json_script:"prod-labels" }}
-{{ prod_values|json_script:"prod-values" }}
+{{ growth_labels|json_script:"growth-labels" }}
+{{ growth_values|json_script:"growth-values" }}
 
 <script>
     // Sales Chart
@@ -106,25 +106,29 @@
         }
     });
 
-    // Products Chart
-    const prodLabels = JSON.parse(document.getElementById('prod-labels').textContent);
-    const prodValues = JSON.parse(document.getElementById('prod-values').textContent);
+    // Client Growth Chart
+    const growthLabels = JSON.parse(document.getElementById('growth-labels').textContent);
+    const growthValues = JSON.parse(document.getElementById('growth-values').textContent);
 
-    const prodCtx = document.getElementById('productsChart').getContext('2d');
-    new Chart(prodCtx, {
-        type: 'doughnut',
+    const growthCtx = document.getElementById('growthChart').getContext('2d');
+    new Chart(growthCtx, {
+        type: 'line',
         data: {
-            labels: prodLabels,
+            labels: growthLabels,
             datasets: [{
-                data: prodValues,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
-                ],
+                label: 'Active Travelers',
+                data: growthValues,
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderColor: 'rgba(16, 185, 129, 1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3 // Smooth curves
             }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
         }
     });
 </script>
