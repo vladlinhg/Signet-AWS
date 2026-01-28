@@ -10,15 +10,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         client = Client()
-        
+
         # 1. Login as Admin
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', 'admin@test.com', 'adminpass')
-        
-        self.stdout.write("Logging in as admin...")
-        login = client.login(username='admin', password='adminpass')
-        if not login:
-            self.stdout.write(self.style.ERROR("Login failed."))
+        # 1. Login as it_admin (as requested)
+        username = 'it_admin'
+        try:
+            user = User.objects.get(username=username)
+            self.stdout.write(f"Logging in as {username}...")
+            client.force_login(user)
+        except User.DoesNotExist:
+            self.stdout.write(self.style.ERROR(f"User {username} not found!"))
             return
 
         # 2. Define URL Patterns to Test
@@ -33,13 +34,13 @@ class Command(BaseCommand):
             '/admin/',
             # Entities (assuming ID 1 exists, usually fails if DB empty)
         ]
-        
+
         # Add dynamic entity URLs only if objects exist
         from apps.invoices.models import Invoice
         from apps.clients.models import Client as ClientModel
         from apps.flights.models import Flight
         from apps.tours.models import TourInstance
-        
+
         if Invoice.objects.exists():
             urls.append(reverse('invoice_detail', args=[Invoice.objects.first().pk]))
         if ClientModel.objects.exists():
@@ -50,7 +51,7 @@ class Command(BaseCommand):
             urls.append(reverse('tour_detail', args=[TourInstance.objects.first().pk]))
 
         self.stdout.write(f"Testing {len(urls)} URLs...")
-        
+
         failures = 0
         for url in urls:
             try:

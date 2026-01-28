@@ -12,9 +12,10 @@ class Product(models.Model):
     description = models.TextField(blank=True)
 
     @property
+    @property
     def code(self):
-        """Reconstruct: {Country}{Days}{Unique}"""
-        return f"{self.country_code}{self.days_count}{self.unique_seq}".upper()
+        """Reconstruct: {Country}{Unique} e.g. JPNH4"""
+        return f"{self.country_code}{self.unique_seq}".upper()
 
     def __str__(self):
         return f"{self.code} - {self.name}"
@@ -55,10 +56,22 @@ class TourInstance(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.instance_code and self.product and self.start_date:
-            # Format: {ProductCode}{StartDate (DDMMMYY)}
-            # Example: JPN0600111NOV26
-            date_str = self.start_date.strftime('%d%b%y').upper()
-            self.instance_code = f"{self.product.code}{date_str}"
+            # Format: {ProductCode}{YY}{M}{DD}
+            # Example: JPN26206H4 (Feb 06, 2026 for Product JPNH4)
+            # Logic: YY is 2 digits, M is non-zero-padded if <10 (user req?), DD is padded?
+            # User example: JPN26206H4 -> JPN (Prod) + 26 (Year) + 2 (Month) + 06 (Day) + H4 (Prod Unique)?
+            # Wait, user said: "JPNH4" is product. "JPN26206H4".
+            # So: {Country}{YY}{M}{DD}{Unique}
+
+            yy = self.start_date.strftime('%y')
+            m = str(self.start_date.month) # No padding
+            dd = self.start_date.strftime('%d') # Padding 06 -> 06
+
+            # Reconstruct per user example: JPN + 26 + 2 + 06 + H4
+            # Actually user said: "JPN26206H4 mean start date ... with content from product JPNH4"
+            # It seems the middle part is inserted.
+
+            self.instance_code = f"{self.product.country_code}{yy}{m}{dd}{self.product.unique_seq}".upper()
         super().save(*args, **kwargs)
 
     @property

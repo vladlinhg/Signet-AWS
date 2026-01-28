@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Product, TourInstance
+from .models import Product, TourInstance, TourBooking
+
+@admin.register(TourBooking)
+class TourBookingAdmin(admin.ModelAdmin):
+    list_display = ('booking_id', 'tour_instance', 'status', 'booking_type')
+    list_filter = ('status', 'tour_instance')
+    search_fields = ('booking_id',)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):

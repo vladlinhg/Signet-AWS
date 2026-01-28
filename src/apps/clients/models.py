@@ -12,6 +12,27 @@ class Family(models.Model):
     def __str__(self):
         return self.name
 
+class City(models.Model):
+    name = models.CharField(max_length=100)
+    country_code = models.CharField(max_length=3, blank=True, help_text="ISO 3-letter code if applicable")
+
+    class Meta:
+        verbose_name_plural = "Cities"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+class Ethnicity(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name_plural = "Ethnicities"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
 class Address(models.Model):
     street_number = models.CharField(max_length=20)
     street_name = models.CharField(max_length=200)
@@ -49,8 +70,10 @@ class Client(models.Model):
 
     gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.OTHER)
     preferred_language = models.CharField(max_length=2, choices=Language.choices, default=Language.MANDARIN)
-    origin = models.CharField(max_length=100, blank=True, help_text="City, Country")
-    ethnicity = models.CharField(max_length=100, blank=True)
+
+    # Refactored to FKs
+    origin = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True, related_name='residents')
+    ethnicity = models.ForeignKey(Ethnicity, on_delete=models.SET_NULL, null=True, blank=True, related_name='clients')
 
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20, blank=True)
