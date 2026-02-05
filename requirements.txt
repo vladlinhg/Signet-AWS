@@ -6,3 +6,5 @@ django-widget-tweaks
 django-htmx
 gunicorn
 whitenoise
+psycopg2-binary
+dj-database-url

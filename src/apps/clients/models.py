@@ -1,13 +1,13 @@
 from django.db import models
 
-class Family(models.Model):
-    name = models.CharField(max_length=200, help_text="e.g. 'The Smith Family'")
+class TravelGroup(models.Model):
+    name = models.CharField(max_length=200, help_text="e.g. 'John Doe Travel Partners'")
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = "Families"
+        verbose_name_plural = "Travel Groups"
 
     def __str__(self):
         return self.name
@@ -59,7 +59,7 @@ class Client(models.Model):
     last_name = models.CharField(max_length=100)
 
     # Relationships
-    family = models.ForeignKey(Family, on_delete=models.SET_NULL, null=True, blank=True, related_name='members')
+    travel_group = models.ForeignKey(TravelGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='members')
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, related_name='residents')
 
     # Details
@@ -102,7 +102,7 @@ class PaymentMethod(models.Model):
         CASH = 'CASH', 'Cash'
         OTHER = 'OTHER', 'Other'
 
-    family = models.ForeignKey(Family, on_delete=models.CASCADE, related_name='payment_methods')
+    travel_group = models.ForeignKey(TravelGroup, on_delete=models.CASCADE, related_name='payment_methods', null=True, blank=True)
     method_type = models.CharField(max_length=10, choices=Type.choices, default=Type.CREDIT_CARD)
     details = models.CharField(max_length=255, help_text="e.g. 'Visa ending 4242' or Account Number")
 

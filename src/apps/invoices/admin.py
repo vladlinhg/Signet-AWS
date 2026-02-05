@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Invoice, InvoiceItem, InvoiceNote, AddonService, Coupon
+from .models import Invoice, InvoiceItem, InvoiceNote, AddonService, Coupon, InvoicePayment
+
+class InvoicePaymentInline(admin.TabularInline):
+    model = InvoicePayment
+    extra = 0
 
 class InvoiceItemInline(admin.TabularInline):
     model = InvoiceItem
@@ -11,9 +15,9 @@ class InvoiceNoteInline(admin.StackedInline):
 
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ('invoice_number', 'sales_agent', 'status', 'total_amount', 'language', 'created_at')
+    list_display = ('booking_number', 'invoice_number', 'sales_agent', 'status', 'total_amount', 'amount_paid', 'balance', 'created_at')
     list_filter = ('status', 'sales_agent', 'language', 'created_at')
-    inlines = [InvoiceItemInline, InvoiceNoteInline]
+    inlines = [InvoiceItemInline, InvoicePaymentInline, InvoiceNoteInline]
     readonly_fields = ('created_at',)
 
 @admin.register(InvoiceNote)

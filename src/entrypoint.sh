@@ -3,10 +3,10 @@
 # Check if we should run migrations
 # In a real CI/CD pipeline you might want to control this, but for this setup it ensures parity.
 echo "Applying database migrations..."
-python manage.py migrate --noinput
+python manage.py migrate --noinput --fake-initial
 
 echo "Auto-importing initial users..."
-# python manage.py import_erp_data --users-only
+python manage.py import_erp_data --users-only
 
 echo "Collecting static files..."
 python manage.py collectstatic --noinput

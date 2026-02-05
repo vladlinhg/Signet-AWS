@@ -54,9 +54,9 @@ class Invoice(models.Model):
         NEEDS_FIX = 'NEEDS_FIX', 'Needs Fix'
         CLARIFY = 'CLARIFY', 'Clarify'
 
-    invoice_number = models.CharField(max_length=50, unique=True)
-    # Refactor: Client moved to Item level. PaymentMethod added here.
-    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.PROTECT, related_name='invoices', null=True, blank=True)
+    booking_number = models.CharField(max_length=50, unique=True, help_text="Mandatory Booking Reference")
+    invoice_number = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="Generated when status is INVOICED or PAID")
+
     sales_agent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='sales_invoices')
     external_agent = models.ForeignKey('agents.Agent', on_delete=models.SET_NULL, null=True, blank=True, related_name='referred_invoices')
 
@@ -71,31 +71,48 @@ class Invoice(models.Model):
     has_flight_intinerary = models.BooleanField(default=False, help_text="Client itinerary must be confirmed (flight info required)")
 
     supporting_documents = models.ManyToManyField('documents.SupportingDocument', blank=True, related_name='invoices')
-
-    total_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    amount_paid = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     currency = models.ForeignKey(Currency, on_delete=models.PROTECT, null=True, blank=True)
+
+    @property
+    def total_amount(self):
+        return sum(item.get_total() for item in self.items.all())
+
+    @property
+    def amount_paid(self):
+        return sum(payment.amount for payment in self.payments.all())
 
     @property
     def balance(self):
         return self.total_amount - self.amount_paid
 
-    def update_total(self):
-        """Recalculates total_amount based on items."""
-        total = sum(item.get_total() for item in self.items.all())
-        self.total_amount = total
-        self.save(update_fields=['total_amount'])
-
     def save(self, *args, **kwargs):
-        if not self.invoice_number:
-            # Simple Auto-Gen: INV-{Year}-{Count+1}
-            count = Invoice.objects.count() + 1
-            year = timezone.now().year
-            self.invoice_number = f"INV-{year}-{count:04d}"
+        if not self.booking_number:
+             # Auto-Gen Booking Number: BK-{Year}-{Random}
+             import uuid
+             year = timezone.now().year
+             self.booking_number = f"BK-{year}-{uuid.uuid4().hex[:6].upper()}"
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.invoice_number} ({self.get_status_display()})"
+        return f"{self.booking_number} ({self.get_status_display()})"
+
+class InvoicePayment(models.Model):
+    class PaymentType(models.TextChoices):
+        DEPOSIT = 'DEPOSIT', 'Deposit'
+        FULL_PAYMENT = 'FULL_PAYMENT', 'Full Payment'
+        PAYMENT = 'PAYMENT', 'Payment'
+
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='payments')
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    payment_type = models.CharField(max_length=20, choices=PaymentType.choices)
+    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, null=True, blank=True)
+    date = models.DateField(default=timezone.now)
+    description = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.payment_type} - {self.amount}"
 
 class InvoiceItem(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
@@ -118,7 +135,6 @@ class InvoiceItem(models.Model):
     def save(self, *args, **kwargs):
         self.total_price = self.quantity * self.unit_price
         super().save(*args, **kwargs)
-        # Verify invoice total update needs to be called explicitly or via signal
 
     def get_total(self):
         return self.quantity * self.unit_price

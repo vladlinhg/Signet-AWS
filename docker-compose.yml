@@ -1,9 +1,20 @@
 services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=signet
+      - POSTGRES_USER=signet
+      - POSTGRES_PASSWORD=signet_local_pass
   web:
     build: .
     # Override CMD to use gunicorn with RELOAD for local development
     # This matches the production server (Gunicorn) but enables dev features (Reload)
-    command: sh -c "python manage.py migrate && python manage.py import_erp_data --users-only && gunicorn --bind 0.0.0.0:8000 --reload config.wsgi:application"
+    # Entrypoint script handles migrations and data import
+    # Fix CRLF line endings caused by Windows checkout and ensure args are passed
+    entrypoint: ["sh", "-c", "sed -i 's/\\r$//' /app/entrypoint.sh && mkdir -p /app/staticfiles && exec sh /app/entrypoint.sh \"$@\"", "--"]
+    command: gunicorn --bind 0.0.0.0:8000 --reload config.wsgi:application
     volumes:
       - ./src:/app
       - ./data:/data
@@ -12,4 +23,9 @@ services:
     environment:
       - DEBUG=1
       - SECRET_KEY=dev_secret_key
-      # If we switch to Postgres later, we add DB env vars here
+      - DATABASE_URL=postgres://signet:signet_local_pass@db:5432/signet
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

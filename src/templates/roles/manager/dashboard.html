@@ -12,16 +12,16 @@
                 <p class="text-sm text-gray-500">Global performance overview.</p>
             </div>
              <div class="mt-4 sm:mt-0">
-                 <!-- Global Wallet Highlight (Single Currency, IGNORES Status Filter) -->
+                 <!-- Global Wallet Highlight -->
                 <div class="flex items-center space-x-2 bg-indigo-50 px-4 py-2 rounded-lg border border-indigo-100">
-                    <span class="text-sm font-medium text-indigo-600">Global Revenue ({{ selected_currency_code }}):</span>
-                    <span class="text-xl font-bold text-indigo-800">${{ global_wallet_total|floatformat:2 }}</span>
+                    <span class="text-sm font-medium text-indigo-600">Global Revenue ({{ selected_currency_code }} - {{ mode|title }}):</span>
+                    <span class="text-xl font-bold text-indigo-800">${{ total_revenue|floatformat:2 }}</span>
                 </div>
             </div>
         </div>
 
         <!-- Filter Form -->
-        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end border-t pt-4">
+        <form method="get" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end border-t pt-4">
             <!-- Currency -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Currency</label>
@@ -34,112 +34,130 @@
                 </select>
             </div>
 
+            <!-- Calculation Mode -->
+             <div>
+                <label class="block text-sm font-medium text-gray-700">Revenue Mode</label>
+                <select name="mode" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option value="anticipated" {% if mode == 'anticipated' %}selected{% endif %}>Anticipated (Invoiced)</option>
+                    <option value="actual" {% if mode == 'actual' %}selected{% endif %}>Actual (Payments)</option>
+                </select>
+            </div>
+
             <!-- Date Range -->
             <div>
-                <label class="block text-sm font-medium text-gray-700">From</label>
-                <input type="date" name="date_from" value="{{ date_from|default:'' }}"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700">To</label>
-                <input type="date" name="date_to" value="{{ date_to|default:'' }}"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label class="block text-sm font-medium text-gray-700">Range</label>
+                <select name="range" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                     <option value="week" {% if range == 'week' %}selected{% endif %}>Last 7 Days</option>
+                     <option value="month" {% if range == 'month' %}selected{% endif %}>Last 30 Days</option>
+                     <option value="quarter" {% if range == 'quarter' %}selected{% endif %}>Last 90 Days</option>
+                     <option value="year" {% if range == 'year' %}selected{% endif %}>Last Year</option>
+                </select>
             </div>
 
             <!-- Apply Button -->
-            <div>
+            <div class="md:col-span-2">
                 <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
                     Apply Filters
                 </button>
             </div>
-
-            <!-- Status (Multi-Select) -->
-            <div class="md:col-span-4 flex flex-wrap items-center gap-4 mt-2">
-                <span class="text-sm font-medium text-gray-700">Performance Scope:</span>
-                {% for status in available_statuses %}
-                <label class="inline-flex items-center">
-                    <input type="checkbox" name="status" value="{{ status }}"
-                           {% if status in selected_statuses %}checked{% endif %}
-                           class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
-                    <span class="ml-2 text-sm text-gray-600">{{ status }}</span>
-                </label>
-                {% endfor %}
-            </div>
         </form>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- 2. Main Content (Stacked) -->
 
-        <!-- 2. Performance Panel (Leaderboard) -->
-        <div class="lg:col-span-1 bg-white shadow sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Agent Performance</h3>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">Based on filtered scope.</p>
-            </div>
-            <ul class="divide-y divide-gray-200">
-                {% for agent in agent_stats %}
-                <li class="px-4 py-4 flex items-center justify-between hover:bg-gray-50">
-                    <div class="flex items-center">
-                        <span class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-bold mr-3">
-                            {{ forloop.counter }}
-                        </span>
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">{{ agent.username }}</p>
-                            <p class="text-xs text-gray-500">{{ agent.total_revenue|floatformat:0 }} {{ selected_currency_code }}</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-bold text-gray-900">{{ agent.total_invoices }}</p>
-                        <p class="text-xs text-gray-500">Invoices</p>
-                    </div>
-                </li>
-                {% empty %}
-                <li class="px-4 py-4 text-center text-gray-500">No agent activity found in scope.</li>
-                {% endfor %}
-            </ul>
+    <!-- A. Global Activity Table (Full Width) -->
+    <div class="bg-white shadow sm:rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Global Activity</h3>
         </div>
-
-        <!-- 3. Operations Overview (Right 2 cols) -->
-        <div class="lg:col-span-2 space-y-6">
-
-            <!-- Recent Global Invoices -->
-            <div class="bg-white shadow sm:rounded-lg">
-                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Global Activity</h3>
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">BK#</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Paid</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for row in activity_data %}
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="/admin/invoices/invoice/{{ row.id }}/change/" class="text-indigo-600 hover:text-indigo-900 border-b border-dotted border-indigo-300">
+                                            {{ row.booking_number }}
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        {% if row.client_id %}
+                                        <a href="/admin/clients/client/{{ row.client_id }}/change/" class="text-indigo-600 hover:text-indigo-900 hover:underline">
+                                            {{ row.client_name }}
+                                        </a>
+                                        {% else %}
+                                            {{ row.client_name }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div><a href="tel:{{ row.phone }}" class="hover:text-indigo-600">{{ row.phone }}</a></div>
+                                        <div class="text-xs text-gray-400"><a href="mailto:{{ row.email }}" class="hover:text-indigo-600">{{ row.email }}</a></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 truncate max-w-xs" title="{{ row.description }}">
+                                        {{ row.description|truncatechars:30 }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
+                                        {{ row.payments_total|floatformat:2 }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                            {% if row.status == 'Paid in Full' %}bg-green-100 text-green-800
+                                            {% elif row.status == 'Cancelled' %}bg-red-100 text-red-800
+                                            {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                            {{ row.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                                        No recent activity found.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <ul class="divide-y divide-gray-200">
-                    {% for invoice in recent_invoices %}
-                    <li>
-                        <div class="px-4 py-4 sm:px-6 hover:bg-gray-50 transition">
-                            <div class="flex items-center justify-between">
-                                <p class="text-sm font-medium text-indigo-600 truncate">
-                                    {{ invoice.invoice_number }}
-                                </p>
-                                <div class="ml-2 flex-shrink-0 flex">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                        {% if invoice.status == 'PAID' %}bg-green-100 text-green-800{% elif invoice.status == 'CANCELLED' %}bg-red-100 text-red-800{% else %}bg-gray-100 text-gray-800{% endif %}">
-                                        {{ invoice.get_status_display }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="mt-2 sm:flex sm:justify-between">
-                                <div class="sm:flex">
-                                    <p class="flex items-center text-sm text-gray-500">
-                                        {{ invoice.sales_agent.username }} - {{ invoice.currency.symbol }}{{ invoice.total_amount }}
-                                    </p>
-                                </div>
-                                <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                    <p class="text-xs text-gray-400">
-                                        {{ invoice.created_at|date:"M d, H:i" }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
             </div>
         </div>
     </div>
+
+    <!-- B. Agent Performance (Bottom) -->
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Agent Performance</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Top performers in scope.</p>
+        </div>
+        <div class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {% for agent in agent_stats %}
+            <div class="flex items-center p-3 border rounded-lg bg-gray-50">
+                <span class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-bold mr-3 text-lg">
+                    {{ forloop.counter }}
+                </span>
+                <div>
+                    <h4 class="text-sm font-bold text-gray-900">{{ agent.sales_agent__username }}</h4>
+                    <p class="text-xs text-gray-500">{{ agent.count }} Invoices</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center text-gray-500 py-4">No agent activity found.</div>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
 {% endblock %}

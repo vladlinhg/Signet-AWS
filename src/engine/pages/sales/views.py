@@ -44,13 +44,16 @@ def sales_dashboard(request):
     # 1. INVOICES TAB
     if tab == 'invoices':
         # Optimizing query with select_related/prefetch
-        qs = Invoice.objects.filter(sales_agent=user).select_related('payment_method__family').prefetch_related('items__client')
+        if user.is_superuser or user.role == 'IT_ADMIN':
+            qs = Invoice.objects.all().select_related('payment_method__travel_group').prefetch_related('items__client')
+        else:
+            qs = Invoice.objects.filter(sales_agent=user).select_related('payment_method__travel_group').prefetch_related('items__client')
 
         # Search
         if query:
             qs = qs.filter(
-                Q(invoice_number__icontains=query) |
-                Q(payment_method__family__name__icontains=query) |
+                Q(booking_number__icontains=query) |
+                Q(payment_method__travel_group__name__icontains=query) |
                 Q(items__client__last_name__icontains=query)
             ).distinct()
 
@@ -69,8 +72,10 @@ def sales_dashboard(request):
     # 2. CLIENTS TAB
     elif tab == 'clients':
         # Client -> InvoiceItem -> Invoice -> SalesAgent
-        # Fix: Use 'invoiceitem' instead of 'invoice_items' (default reverse name)
-        qs = Client.objects.filter(invoiceitem__invoice__sales_agent=user).distinct()
+        if user.is_superuser or user.role == 'IT_ADMIN':
+            qs = Client.objects.all()
+        else:
+            qs = Client.objects.filter(invoiceitem__invoice__sales_agent=user).distinct()
 
         if query:
             qs = qs.filter(
@@ -90,8 +95,10 @@ def sales_dashboard(request):
     elif tab == 'flights':
         from apps.flights.models import Flight
         # Flight -> FlightInstance(instances) -> FlightTicket(tickets) -> InvoiceItem -> Invoice -> SalesAgent
-        # Fix: chained lookup for Flight model
-        qs = Flight.objects.filter(instances__tickets__invoiceitem__invoice__sales_agent=user).distinct()
+        if user.is_superuser or user.role == 'IT_ADMIN':
+             qs = Flight.objects.all()
+        else:
+             qs = Flight.objects.filter(instances__tickets__invoiceitem__invoice__sales_agent=user).distinct()
 
         if query:
             qs = qs.filter(
@@ -115,8 +122,10 @@ def sales_dashboard(request):
     elif tab == 'tours':
         from apps.tours.models import TourInstance
         # TourInstance -> TourBooking(bookings) -> InvoiceItem -> Invoice -> SalesAgent
-        # Fix: correct reverse lookup
-        qs = TourInstance.objects.filter(bookings__invoiceitem__invoice__sales_agent=user).distinct().select_related('product')
+        if user.is_superuser or user.role == 'IT_ADMIN':
+            qs = TourInstance.objects.all().select_related('product')
+        else:
+            qs = TourInstance.objects.filter(bookings__invoiceitem__invoice__sales_agent=user).distinct().select_related('product')
 
         if query:
             qs = qs.filter(
