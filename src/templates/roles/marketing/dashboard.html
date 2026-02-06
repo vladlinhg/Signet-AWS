@@ -86,7 +86,8 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{% url 'marketing_client_history' client.client__id %}" class="text-indigo-600 hover:text-indigo-900 hover:underline">
-                                                {{ client.client__first_name }} {{ client.client__last_name }}
+                                                {% if client.client__gender == 'M' %}Mr.{% elif client.client__gender == 'F' %}Ms.{% else %}Mx.{% endif %}
+                                                {{ client.client__last_name }}/{{ client.client__first_name }}
                                             </a>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

@@ -16,21 +16,27 @@ class AddonService(models.Model):
         return self.title
 
 class Coupon(models.Model):
+    class Type(models.TextChoices):
+        COUPON = 'COUPON', 'Coupon'
+        DISCOUNT = 'DISCOUNT', 'Discount'
+        OTHER = 'OTHER', 'Other'
+
     class Status(models.TextChoices):
         ACTIVE = 'ACTIVE', 'Active'
         USED = 'USED', 'Used'
         EXPIRED = 'EXPIRED', 'Expired'
 
-    code = models.CharField(max_length=50, unique=True)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, help_text="Numeric value only")
+    code = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    coupon_type = models.CharField(max_length=20, choices=Type.choices, default=Type.COUPON, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, help_text="Numeric value only", null=True, blank=True)
     expiry_date = models.DateField(null=True, blank=True)
-    client = models.ForeignKey('clients.Client', on_delete=models.CASCADE, related_name='coupons')
+    client = models.ForeignKey('clients.Client', on_delete=models.CASCADE, related_name='coupons', null=True, blank=True)
     invoice_used = models.ForeignKey('Invoice', on_delete=models.SET_NULL, null=True, blank=True, related_name='used_coupons')
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE, blank=True, null=True)
     date_used = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.code
+        return self.code or f"{self.get_coupon_type_display() or 'Coupon'} ({self.pk or 'New'})"
 
 class Invoice(models.Model):
     class Status(models.TextChoices):
@@ -60,7 +66,7 @@ class Invoice(models.Model):
     sales_agent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='sales_invoices', verbose_name="Sales")
     external_agent = models.ForeignKey('agents.Agent', on_delete=models.SET_NULL, null=True, blank=True, related_name='referred_invoices', verbose_name="Agency")
 
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     created_time = models.TimeField(default='00:00:00')
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -86,6 +92,8 @@ class Invoice(models.Model):
         return self.total_amount - self.amount_paid
 
     def save(self, *args, **kwargs):
+        if not self.created_at:
+             self.created_at = timezone.now()
         if not self.booking_number:
              # Auto-Gen Booking Number: BK-{Year}-{Random}
              import uuid
@@ -99,8 +107,8 @@ class Invoice(models.Model):
 class InvoicePayment(models.Model):
     class PaymentType(models.TextChoices):
         DEPOSIT = 'DEPOSIT', 'Deposit'
-        FULL_PAYMENT = 'FULL_PAYMENT', 'Full Payment'
-        PAYMENT = 'PAYMENT', 'Payment'
+        BALANCE = 'BALANCE', 'Balance'
+        FULL_AMOUNT = 'FULL_AMOUNT', 'Full Amount'
 
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='payments')
     amount = models.DecimalField(max_digits=12, decimal_places=2)
@@ -119,7 +127,7 @@ class InvoiceItem(models.Model):
     # Refactor: Client is mandatory here now
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, blank=True)
 
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True)
     quantity = models.IntegerField(default=1)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
 

@@ -15,7 +15,7 @@ from engine.services.global_filter import GlobalFilterService
 User = get_user_model()
 
 def is_marketing_or_manager(user):
-    return user.is_authenticated and (user.role in ['MARKETING', 'MANAGER'] or user.is_superuser)
+    return user.is_authenticated and (user.role in ['MARKETING', 'MANAGER', 'SALES'] or user.is_superuser)
 
 @login_required
 @user_passes_test(is_marketing_or_manager)
@@ -71,14 +71,16 @@ def marketing_dashboard(request):
         total_revenue = payments_qs.aggregate(Sum('amount'))['amount__sum'] or 0
 
         # Trend: Payment Date
-        revenue_trend = payments_qs.values('date')\
+        # Trend: Invoice Creation Date (Align with User's Manual Backdating)
+        revenue_trend = payments_qs.values('invoice__created_at__date')\
             .annotate(total=Sum('amount'))\
-            .order_by('date')
+            .order_by('invoice__created_at__date')
 
         for entry in revenue_trend:
-            if entry['date']:
+            d = entry['invoice__created_at__date']
+            if d:
                 trend_data.append({
-                    'x': entry['date'].strftime('%Y-%m-%d'),
+                    'x': d.strftime('%Y-%m-%d'),
                     'y': float(entry['total'])
                 })
     else:
@@ -109,7 +111,10 @@ def marketing_dashboard(request):
 
     # 4.2 Client Distribution by Destination (Pie Chart)
     # Changed from Country Code to Product Name (Destination)
-    dest_stats = passenger_qs.values('tour_booking__tour_instance__product__name')\
+    dest_stats = passenger_qs.values(
+        'tour_booking__tour_instance__product__name',
+        'tour_booking__tour_instance__product__country_code'
+    )\
         .annotate(count=Count('id'))\
         .order_by('-count')
 
@@ -117,9 +122,10 @@ def marketing_dashboard(request):
     pie_values = []
     for entry in dest_stats:
         name = entry['tour_booking__tour_instance__product__name']
-        if name:
-            pie_labels.append(name)
-            pie_values.append(entry['count'])
+        country = entry['tour_booking__tour_instance__product__country_code']
+        label = name or country or "Unknown"
+        pie_labels.append(label)
+        pie_values.append(entry['count'])
 
     # 4.3 Passenger Trend (Daily Departures) - Bar Chart
     # Group by Tour Start Date
@@ -142,6 +148,7 @@ def marketing_dashboard(request):
         'client__id',
         'client__first_name',
         'client__last_name',
+        'client__gender',
         'client__email',
         'client__phone'
     ).annotate(
@@ -187,9 +194,11 @@ def marketing_client_history(request, client_id):
 
     # Get all InvoiceItems linked to this client
     # Sorted by Invoice Date
-    items = InvoiceItem.objects.filter(client=client)\
-        .select_related('invoice', 'tour_booking__tour_instance__product')\
-        .order_by('-invoice__created_at')
+    # Sort by Invoice Date, Filter only Tour or Flight items
+    items = InvoiceItem.objects.filter(client=client).filter(
+        Q(tour_booking__isnull=False) | Q(flight_ticket__isnull=False)
+    ).select_related('invoice', 'tour_booking__tour_instance__product', 'flight_ticket')\
+    .order_by('-invoice__created_at')
 
     context = {
         'client': client,

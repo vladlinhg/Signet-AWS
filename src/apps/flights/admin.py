@@ -23,11 +23,13 @@ class FlightAdmin(admin.ModelAdmin):
 
 @admin.register(FlightInstance)
 class FlightInstanceAdmin(admin.ModelAdmin):
-    list_display = ('unique_code', 'flight', 'departure_date', 'departure_time')
+    list_display = ('flight_code', 'flight', 'departure_date', 'departure_time')
     list_filter = ('departure_date',)
+    readonly_fields = ('flight_code',)
     inlines = [TicketInline]
 
 @admin.register(FlightTicket)
 class FlightTicketAdmin(admin.ModelAdmin):
     list_display = ('ticket_code', 'flight', 'seat_number', 'cabin_class')
-    search_fields = ('ticket_code', 'flight__unique_code')
+    search_fields = ('ticket_code', 'flight__flight_code')
+    readonly_fields = ('ticket_code',)

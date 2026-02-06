@@ -124,7 +124,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                              {% with first_item=invoice.items.first %}
-                                {{ first_item.client.first_name }} {{ first_item.client.last_name }}
+                                {{ first_item.client.formal_name }}
                              {% endwith %}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

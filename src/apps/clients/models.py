@@ -57,6 +57,13 @@ class Client(models.Model):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.OTHER)
+
+    @property
+    def formal_name(self):
+        """Returns Mr. Last/First"""
+        prefix = "Mr." if self.gender == 'M' else "Ms." if self.gender == 'F' else "Mx."
+        return f"{prefix} {self.last_name}/{self.first_name}"
 
     # Relationships
     travel_group = models.ForeignKey(TravelGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='members')

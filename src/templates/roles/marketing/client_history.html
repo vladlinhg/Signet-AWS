@@ -8,7 +8,9 @@
     <!-- Header -->
     <div class="bg-white p-4 rounded shadow sm:flex sm:items-center sm:justify-between">
         <div>
-             <h1 class="text-2xl font-bold text-gray-900">{{ client.first_name }} {{ client.last_name }}</h1>
+             <h1 class="text-2xl font-bold text-gray-900">
+                 {{ client.formal_name }}
+             </h1>
              <p class="text-sm text-gray-500">Client History Record</p>
         </div>
         <div class="mt-4 sm:mt-0 flex space-x-3">
@@ -38,7 +40,6 @@
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice / Product</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cost</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -51,13 +52,13 @@
                                         {{ item.invoice.created_at|date:"Y-m-d" }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        <div>{{ item.invoice.booking_number }}</div>
+                                        <div class="text-indigo-600 font-bold mb-1">{{ item.invoice.invoice_number|default:item.invoice.booking_number }}</div>
+
                                         {% if item.tour_booking %}
-                                        <div class="text-xs text-indigo-600">{{ item.tour_booking.tour_instance.product.name }}</div>
+                                            <div>Tour: {{ item.tour_booking.tour_instance.product.name|default:"" }} {{ item.tour_booking.tour_instance.tour_code }}</div>
+                                        {% elif item.flight_ticket %}
+                                            <div>Flight: {{ item.flight_ticket.flight_instance.flight_code }} ({{ item.flight_ticket.ticket_number }})</div>
                                         {% endif %}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 truncate max-w-xs" title="{{ item.description }}">
-                                        {{ item.description|truncatechars:40 }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
                                         {{ item.invoice.currency.code }} {{ item.unit_price|floatformat:2 }}

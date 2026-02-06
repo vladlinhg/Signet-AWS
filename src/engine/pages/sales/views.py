@@ -32,6 +32,15 @@ def sales_dashboard(request):
     """
     user = request.user
 
+    # Service
+    from engine.services.global_filter import GlobalFilterService
+    filter_service = GlobalFilterService(request)
+    filter_context = filter_service.get_context()
+
+    start_date = filter_context['start_date']
+    end_date = filter_context['end_date']
+    calc_mode = filter_context['calc_mode']
+
     # Parameters
     tab = request.GET.get('tab', 'invoices')
     query = request.GET.get('q', '').strip()
@@ -45,23 +54,44 @@ def sales_dashboard(request):
     if tab == 'invoices':
         # Optimizing query with select_related/prefetch
         if user.is_superuser or user.role == 'IT_ADMIN':
-            qs = Invoice.objects.all().select_related('payment_method__travel_group').prefetch_related('items__client')
+            qs = Invoice.objects.all().prefetch_related('items__client__travel_group')
         else:
-            qs = Invoice.objects.filter(sales_agent=user).select_related('payment_method__travel_group').prefetch_related('items__client')
+            qs = Invoice.objects.filter(sales_agent=user).prefetch_related('items__client__travel_group')
+
+        # Date Filter
+        if start_date and end_date:
+             qs = qs.filter(created_at__date__range=[start_date, end_date])
+        elif start_date:
+             qs = qs.filter(created_at__date__gte=start_date)
 
         # Search
         if query:
             qs = qs.filter(
                 Q(booking_number__icontains=query) |
-                Q(payment_method__travel_group__name__icontains=query) |
                 Q(items__client__last_name__icontains=query)
             ).distinct()
+
+        # Annotate for sorting by total amount
+        from django.db.models.functions import Coalesce
+        from django.db.models import Value
+        from decimal import Decimal
+
+        if calc_mode == 'actual':
+             # Sum of Payments
+            qs = qs.annotate(
+                annotated_total=Coalesce(Sum('payments__amount'), Value(Decimal('0')))
+            )
+        else:
+            # Sum of Items (Anticipated)
+            qs = qs.annotate(
+                annotated_total=Coalesce(Sum('items__total_price'), Value(Decimal('0')))
+            )
 
         # Sort
         if sort == 'date_asc':
             qs = qs.order_by('created_at')
         elif sort == 'amount_desc':
-            qs = qs.order_by('-total_amount')
+            qs = qs.order_by('-annotated_total')
         elif sort == 'status_asc':
             qs = qs.order_by('status')
         else:
@@ -155,5 +185,8 @@ def sales_dashboard(request):
         'items': items,
         'search_query': query,
         'current_sort': sort,
+        'filter_action': 'sales_dashboard',
+        'extra_params': f'tab={tab}',
+        **filter_context, # Unpack for direct template access
     }
     return render(request, 'roles/sales/dashboard.html', context)

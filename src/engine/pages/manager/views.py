@@ -77,10 +77,7 @@ def manager_dashboard(request):
         client_email = ""
 
         if client:
-            # Format: Mr./Mrs. Lastname/Firstname
-            title = "Mr." if client.gender == 'M' else "Mrs."
-            if client.gender == 'X': title = ""
-            client_name = f"{title} {client.last_name}/{client.first_name}".strip()
+            client_name = client.formal_name
             client_phone = client.phone
             client_email = client.email
 
