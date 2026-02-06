@@ -62,7 +62,15 @@ def manager_dashboard(request):
     # Filter by currency to keep context relevant
     recent_invoices = invoices\
         .select_related('sales_agent', 'currency')\
-        .prefetch_related('items', 'items__client', 'payments')\
+        .prefetch_related(
+            'items',
+            'items__client',
+            'payments',
+            'items__tour_booking__tour_instance__product',
+            'items__flight_ticket__flight_instance',
+            'items__addon_service',
+            'items__coupon'
+        )\
         .order_by('-created_at')
 
     activity_data = []
@@ -81,7 +89,30 @@ def manager_dashboard(request):
             client_phone = client.phone
             client_email = client.email
 
-        desc = first_item.description if first_item else "No Items"
+        # Prepare Item Badges (Max 3)
+        items_display = []
+        for item in inv.items.all()[:3]:
+            label = item.description or "Item"
+            badge_class = "bg-gray-100 text-gray-800"
+
+            if item.tour_booking:
+                tour = item.tour_booking.tour_instance
+                # Product Name or Country Name or Country Code or "Tour"
+                p_name = tour.product.name if tour.product and tour.product.name else (tour.product.country_code if tour.product else "Tour")
+                label = f"Tour: {p_name} ({tour.tour_code})"
+                badge_class = "bg-indigo-100 text-indigo-800"
+            elif item.flight_ticket:
+                flight = item.flight_ticket.flight_instance
+                label = f"Flight: {flight.flight_code}"
+                badge_class = "bg-green-100 text-green-800"
+            elif item.addon_service:
+                label = f"Addon: {item.addon_service.title}"
+                badge_class = "bg-yellow-100 text-yellow-800"
+            elif item.coupon:
+                label = f"Coupon: {item.coupon.code}"
+                badge_class = "bg-pink-100 text-pink-800"
+
+            items_display.append({'label': label, 'class': badge_class})
 
         # Calculate Row Value based on Mode
         if calc_mode == 'actual':
@@ -89,8 +120,6 @@ def manager_dashboard(request):
             row_value = sum(p.amount for p in inv.payments.all())
         else:
             # Anticipated: Sum of items
-            # Recalculating item sum per invoice.
-            # Could pre-annotate query, but simple loop is fine for 50 items.
             row_value = sum(item.unit_price * item.quantity for item in inv.items.all())
 
         activity_data.append({
@@ -100,7 +129,7 @@ def manager_dashboard(request):
             'client_name': client_name,
             'phone': client_phone,
             'email': client_email,
-            'description': desc,
+            'items_display': items_display,
             'amount_display': row_value, # Dynamic Value
             'status': inv.get_status_display(),
             'agent': inv.sales_agent.username

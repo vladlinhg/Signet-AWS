@@ -200,8 +200,15 @@ def marketing_client_history(request, client_id):
     ).select_related('invoice', 'tour_booking__tour_instance__product', 'flight_ticket')\
     .order_by('-invoice__created_at')
 
+    # Calculate Total Spending per Currency
+    # Group by Currency Code and Sum Total Price of items linked to this client
+    spending_summary = items.values('invoice__currency__code')\
+        .annotate(total=Sum('total_price'))\
+        .order_by('invoice__currency__code')
+
     context = {
         'client': client,
         'items': items,
+        'spending_summary': spending_summary,
     }
     return render(request, 'roles/marketing/client_history.html', context)

@@ -22,6 +22,16 @@
                  <span class="block text-gray-500 text-xs uppercase tracking-wide">Email</span>
                  <a href="mailto:{{ client.email }}" class="font-medium text-gray-900 hover:text-indigo-600">{{ client.email }}</a>
              </div>
+             <div class="text-sm bg-indigo-50 px-3 py-2 rounded border border-indigo-100">
+                 <span class="block text-indigo-500 text-xs uppercase tracking-wide">Total Spend</span>
+                 <div class="font-bold text-indigo-700">
+                     {% for curr in spending_summary %}
+                        <div>{{ curr.invoice__currency__code }} {{ curr.total|floatformat:2 }}</div>
+                     {% empty %}
+                        <div>-</div>
+                     {% endfor %}
+                 </div>
+             </div>
         </div>
     </div>
 
