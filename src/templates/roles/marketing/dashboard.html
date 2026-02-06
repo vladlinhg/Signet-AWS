@@ -1,336 +1,242 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Marketing Analytics - Signet ERP{% endblock %}
 
 {% block content %}
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="space-y-6">
-    <!-- 1. Header & Filters -->
-    <div class="bg-white p-4 rounded shadow">
-        <div class="sm:flex sm:items-center sm:justify-between mb-4">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Marketing Command Center</h1>
-                <p class="text-sm text-gray-500">Deep dive into revenue, customers, and product performance.</p>
+    <!-- 1. Header & Filters (Centralized) -->
+    {% include 'components/dashboard_filter.html' %}
+
+    <!-- 2. Metrics & Charts Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- A. Metrics Cards (Top Row) -->
+        <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Revenue -->
+            <div class="bg-white overflow-hidden shadow rounded-lg p-5 border-l-4 border-indigo-500">
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Revenue ({{ selected_currency_code }})</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ total_revenue|floatformat:2 }}</dd>
+                <p class="text-xs text-gray-400 mt-1">Based on {{ calc_mode|title }}</p>
+            </div>
+
+            <!-- Invoices -->
+            <div class="bg-white overflow-hidden shadow rounded-lg p-5 border-l-4 border-blue-500">
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Invoices</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ invoice_count }}</dd>
+                 <p class="text-xs text-gray-400 mt-1">Volume in Period</p>
+            </div>
+
+            <!-- Passengers -->
+            <div class="bg-white overflow-hidden shadow rounded-lg p-5 border-l-4 border-green-500">
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Passengers</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ total_passengers }}</dd>
+                <p class="text-xs text-gray-400 mt-1">Departing in Period</p>
             </div>
         </div>
 
-        <!-- Filter Form -->
-        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end border-t pt-4">
-            <!-- Hidden Input for Active Tab (Preserve Tab on Filter) -->
-            <input type="hidden" name="tab" value="{{ active_tab }}">
-
-            <!-- Currency -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Currency</label>
-                <select name="currency" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    {% for curr in available_currencies %}
-                    <option value="{{ curr.code }}" {% if curr.code == selected_currency_code %}selected{% endif %}>
-                        {{ curr.code }} ({{ curr.symbol }})
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- Date Range -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700">From</label>
-                <input type="date" name="date_from" value="{{ date_from|default:'' }}"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700">To</label>
-                <input type="date" name="date_to" value="{{ date_to|default:'' }}"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-
-            <!-- Apply Button -->
-            <div>
-                <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
-                    Apply Filters
-                </button>
-            </div>
-
-            <!-- Status (Multi-Select style checkboxes) -->
-            <div class="md:col-span-4 flex items-center space-x-4 mt-2">
-                <span class="text-sm font-medium text-gray-700">Include Status:</span>
-                {% for status in available_statuses %}
-                <label class="inline-flex items-center">
-                    <input type="checkbox" name="status" value="{{ status }}"
-                           {% if status in selected_statuses %}checked{% endif %}
-                           class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
-                    <span class="ml-2 text-sm text-gray-600">{{ status }}</span>
-                </label>
-                {% endfor %}
-            </div>
-        </form>
-    </div>
-
-    <!-- 2. Tabs Navigation -->
-    <div class="border-b border-gray-200">
-        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-            <!-- Helper to generate tab links preserving filters -->
-             {% with params=request.GET.urlencode %}
-            <a href="?{{ params }}&tab=invoices"
-               class="{% if active_tab == 'invoices' %}border-indigo-500 text-indigo-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                Invoices (Revenue)
-            </a>
-            <a href="?{{ params }}&tab=customers"
-               class="{% if active_tab == 'customers' %}border-indigo-500 text-indigo-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                Customers
-            </a>
-            <a href="?{{ params }}&tab=products"
-               class="{% if active_tab == 'products' %}border-indigo-500 text-indigo-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                Products (Tours)
-            </a>
-            <a href="?{{ params }}&tab=flights"
-               class="{% if active_tab == 'flights' %}border-indigo-500 text-indigo-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                Flights
-            </a>
-            {% endwith %}
-        </nav>
-    </div>
-
-    <!-- 3. Tab Content -->
-
-    <!-- TAB: INVOICES -->
-    {% if active_tab == 'invoices' %}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Metrics -->
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Total Revenue ({{ selected_currency_code }})</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ total_revenue|floatformat:2 }}</dd>
-        </div>
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Total Invoices</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ invoice_count }}</dd>
-        </div>
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Average Value</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ avg_invoice_value|floatformat:2 }}</dd>
-        </div>
-
-        <!-- Chart -->
-        <div class="md:col-span-3 bg-white p-6 rounded-lg shadow">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Revenue Trend</h3>
-            <canvas id="mainChart" height="80"></canvas>
-        </div>
-
-        <!-- Recent Invoices Table -->
-        <div class="md:col-span-3 bg-white shadow overflow-hidden sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Invoices</h3>
-            </div>
-            <div class="border-t border-gray-200">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice #</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Values</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        {% for inv in recent_invoices %}
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">
-                                <a href="{% url 'admin:invoices_invoice_change' inv.id %}" class="hover:text-indigo-900">
-                                    {{ inv.invoice_number }}
-                                </a>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ inv.currency.symbol }}{{ inv.total_amount }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ inv.created_at|date:"M d, Y" }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    {{ inv.status }}
-                                </span>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        <!-- B. Revenue Trend (Scatter/Line) - 2/3 Width -->
+        <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Revenue Trend (Daily)</h3>
+            <div class="relative h-72">
+                 <canvas id="trendChart"></canvas>
             </div>
         </div>
-    </div>
-    {% endif %}
 
-    <!-- TAB: CUSTOMERS -->
-    {% if active_tab == 'customers' %}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Active Travelers (In Period)</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ active_customers }}</dd>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Traveler Activity</h3>
-            <canvas id="mainChart" height="100"></canvas>
-        </div>
-
-        <!-- Recent Customers Table -->
-        <div class="md:col-span-2 bg-white shadow overflow-hidden sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Customers</h3>
-            </div>
-             <div class="border-t border-gray-200">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Family</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Joined</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        {% for cust in recent_customers %}
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">
-                                <a href="{% url 'admin:clients_client_change' cust.id %}" class="hover:text-indigo-900">
-                                    {{ cust.first_name }} {{ cust.last_name }}
-                                </a>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ cust.family.name|default:"-" }}
-                            </td>
-                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ cust.created_at|date:"M d, Y" }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        <!-- C. Client Distribution (Pie) - 1/3 Width -->
+        <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Departing Passengers (by Destination)</h3>
+             <div class="relative h-72 flex justify-center">
+                 <canvas id="pieChart"></canvas>
             </div>
         </div>
-    </div>
-    {% endif %}
 
-    <!-- TAB: PRODUCTS -->
-    {% if active_tab == 'products' %}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Seats Sold</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ seats_sold }}</dd>
-        </div>
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Product Revenue</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ product_revenue|floatformat:2 }}</dd>
-        </div>
-
-        <div class="md:col-span-2 bg-white p-6 rounded-lg shadow">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Top Performing Tours</h3>
-            <canvas id="mainChart" height="100"></canvas>
-        </div>
-
-        <!-- Top Products List -->
-         <div class="md:col-span-2 bg-white shadow overflow-hidden sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Top Products Breakdown</h3>
+        <!-- D. Passenger Trend (Daily) - Full Width or Stacked -->
+        <div class="lg:col-span-3 bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Passenger Departures (Daily)</h3>
+             <div class="relative h-72">
+                 <canvas id="passengerChart"></canvas>
             </div>
-            <ul class="divide-y divide-gray-200">
-                {% for prod in top_products %}
-                <li class="px-4 py-4 flex justify-between">
-                    <span class="text-sm font-medium text-indigo-600">
-                         <a href="{% url 'admin:tours_product_change' prod.tour_booking__tour_instance__product__id %}" class="hover:text-indigo-900">
-                            {{ prod.tour_booking__tour_instance__product__name }}
-                         </a>
-                    </span>
-                    <span class="text-sm text-gray-500">Rev: {{ prod.rev|floatformat:0 }} | Sold: {{ prod.sold }}</span>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- TAB: FLIGHTS -->
-    {% if active_tab == 'flights' %}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Flight Tickets Sold</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ tickets_sold }}</dd>
-        </div>
-        <div class="bg-white overflow-hidden shadow rounded-lg p-5">
-            <dt class="text-sm font-medium text-gray-500 truncate">Flight Revenue</dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ flight_revenue|floatformat:2 }}</dd>
         </div>
 
-        <!-- Recent Tickets or Top Items -->
-         <div class="md:col-span-2 bg-white shadow overflow-hidden sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6">
-                {% if recent_tickets %}
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Flight Tickets (Direct)</h3>
-                {% else %}
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Top Flight Items (By Description)</h3>
-                {% endif %}
+        <!-- E. Top Passengers Table (Most Frequent) -->
+        <div class="lg:col-span-3 bg-white shadow sm:rounded-lg overflow-hidden">
+            <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Most Frequent Passengers</h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">Top 10 clients by trip frequency in this period.</p>
             </div>
-            <ul class="divide-y divide-gray-200">
-                {% if recent_tickets %}
-                    {% for ticket in recent_tickets %}
-                    <li class="px-4 py-4 flex justify-between items-center">
-                        <div>
-                             <a href="{% url 'admin:flights_flightticket_change' ticket.id %}" class="text-sm font-medium text-indigo-600 hover:text-indigo-900">
-                                {{ ticket.ticket_code }}
-                             </a>
-                             <p class="text-xs text-gray-500">{{ ticket.flight.flight.airline.name|default:"Airline" }} - {{ ticket.flight.unique_code }}</p>
+            <div class="flex flex-col">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg max-h-96 overflow-y-auto">
+                            <table class="min-w-full divide-y divide-gray-200 relative">
+                                <thead class="bg-gray-50 sticky top-0 z-10">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client Name</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trips</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Spend</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    {% for client in top_passengers %}
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="{% url 'marketing_client_history' client.client__id %}" class="text-indigo-600 hover:text-indigo-900 hover:underline">
+                                                {{ client.client__first_name }} {{ client.client__last_name }}
+                                            </a>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <div><a href="tel:{{ client.client__phone }}" class="hover:text-indigo-600">{{ client.client__phone }}</a></div>
+                                            <div class="text-xs text-gray-400"><a href="mailto:{{ client.client__email }}" class="hover:text-indigo-600">{{ client.client__email }}</a></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
+                                            {{ client.trips }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ selected_currency_code }} {{ client.total_spend|floatformat:2 }}
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No data found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
-                        <span class="text-sm text-gray-500">{{ ticket.client.first_name }} {{ ticket.client.last_name }}</span>
-                    </li>
-                    {% endfor %}
-                {% else %}
-                    {% for item in top_items %}
-                    <li class="px-4 py-4 flex justify-between">
-                        <span class="text-sm font-medium text-gray-900">{{ item.description }}</span>
-                        <span class="text-sm text-gray-500">Rev: {{ item.r|floatformat:0 }} | Qty: {{ item.c }}</span>
-                    </li>
-                    {% endfor %}
-                {% endif %}
-            </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    {% endif %}
 
+    </div>
 </div>
 
-<!-- Universal Chart Injector -->
-{% if chart_labels %}
-{{ chart_labels|json_script:"chart-labels" }}
-{{ chart_values|json_script:"chart-values" }}
+<!-- Data Injection -->
+{{ trend_data|json_script:"trend-data" }}
+{{ pie_labels|json_script:"pie-labels" }}
+{{ pie_values|json_script:"pie-values" }}
+{{ passenger_trend_data|json_script:"passenger-data" }}
+
 <script>
-    const labels = JSON.parse(document.getElementById('chart-labels').textContent);
-    const values = JSON.parse(document.getElementById('chart-values').textContent);
-    const ctx = document.getElementById('mainChart').getContext('2d');
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Revenue Scatter/Line Chart
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        const trendDataRaw = JSON.parse(document.getElementById('trend-data').textContent);
 
-    // Determine Type
-    let type = 'bar';
-    if ("{{ active_tab }}" === "customers") type = 'line';
-    if ("{{ active_tab }}" === "products") type = 'bar'; // or pie
+        // Parse data for Chart.js
+        const labels = trendDataRaw.map(d => d.x);
+        const dataPoints = trendDataRaw.map(d => d.y);
 
-    new Chart(ctx, {
-        type: type,
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Metric',
-                data: values,
-                backgroundColor: 'rgba(79, 70, 229, 0.6)',
-                borderColor: 'rgba(79, 70, 229, 1)',
-                borderWidth: 1,
-                fill: (type === 'line')
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true }
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: labels, // X-Axis Labels
+                datasets: [{
+                    label: 'Revenue',
+                    data: dataPoints,
+                    backgroundColor: 'rgba(79, 70, 229, 0.5)',
+                    borderColor: 'rgba(79, 70, 229, 1)',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    tension: 0.1,
+                    showLine: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { autoSkip: true, maxTicksLimit: 10 }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { borderDash: [2, 4] }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
             }
-        }
+        });
+
+        // 2. Client Distribution Pie Chart (Destinations)
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        const pieLabels = JSON.parse(document.getElementById('pie-labels').textContent);
+        const pieValues = JSON.parse(document.getElementById('pie-values').textContent);
+
+        // Dynamic Colors
+        const colors = [
+            '#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6',
+            '#EC4899', '#6366F1', '#14B8A6', '#F97316', '#84CC16'
+        ];
+
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: pieLabels,
+                datasets: [{
+                    data: pieValues,
+                    backgroundColor: colors.slice(0, pieLabels.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // 3. Passenger Trend Bar Chart
+        const passCtx = document.getElementById('passengerChart').getContext('2d');
+        const passDataRaw = JSON.parse(document.getElementById('passenger-data').textContent);
+
+        const passLabels = passDataRaw.map(d => d.x);
+        const passValues = passDataRaw.map(d => d.y);
+
+        new Chart(passCtx, {
+            type: 'bar',
+            data: {
+                labels: passLabels,
+                datasets: [{
+                    label: 'Departing Passengers',
+                    data: passValues,
+                    backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                     x: {
+                        grid: { display: false },
+                        ticks: { autoSkip: true, maxTicksLimit: 15 }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 } // Integers only
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
     });
 </script>
-{% endif %}
-
 {% endblock %}

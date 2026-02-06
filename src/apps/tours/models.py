@@ -3,11 +3,11 @@ from django.db.models import Sum
 
 class Product(models.Model):
     # Old fields
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
     # Replaced 'code' with components
     country_code = models.CharField(max_length=3, verbose_name="Country (3)")
-    days_count = models.CharField(max_length=2, verbose_name="Days (2)")
-    unique_seq = models.CharField(max_length=3, verbose_name="Unique Seq (3)")
+    days_count = models.CharField(max_length=2, verbose_name="Days (2)", null=True, blank=True)
+    unique_seq = models.CharField(max_length=2, verbose_name="Unique Seq (2)")
 
     description = models.TextField(blank=True)
 

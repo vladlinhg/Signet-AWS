@@ -57,8 +57,8 @@ class Invoice(models.Model):
     booking_number = models.CharField(max_length=50, unique=True, help_text="Mandatory Booking Reference")
     invoice_number = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="Generated when status is INVOICED or PAID")
 
-    sales_agent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='sales_invoices')
-    external_agent = models.ForeignKey('agents.Agent', on_delete=models.SET_NULL, null=True, blank=True, related_name='referred_invoices')
+    sales_agent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='sales_invoices', verbose_name="Sales")
+    external_agent = models.ForeignKey('agents.Agent', on_delete=models.SET_NULL, null=True, blank=True, related_name='referred_invoices', verbose_name="Agency")
 
     created_at = models.DateTimeField(default=timezone.now)
     created_time = models.TimeField(default='00:00:00')

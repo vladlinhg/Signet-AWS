@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Client History: {{ client.first_name }} {{ client.last_name }} - Signet ERP{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="bg-white p-4 rounded shadow sm:flex sm:items-center sm:justify-between">
+        <div>
+             <h1 class="text-2xl font-bold text-gray-900">{{ client.first_name }} {{ client.last_name }}</h1>
+             <p class="text-sm text-gray-500">Client History Record</p>
+        </div>
+        <div class="mt-4 sm:mt-0 flex space-x-3">
+             <div class="text-sm bg-gray-50 px-3 py-2 rounded border">
+                 <span class="block text-gray-500 text-xs uppercase tracking-wide">Phone</span>
+                 <a href="tel:{{ client.phone }}" class="font-medium text-gray-900 hover:text-indigo-600">{{ client.phone }}</a>
+             </div>
+             <div class="text-sm bg-gray-50 px-3 py-2 rounded border">
+                 <span class="block text-gray-500 text-xs uppercase tracking-wide">Email</span>
+                 <a href="mailto:{{ client.email }}" class="font-medium text-gray-900 hover:text-indigo-600">{{ client.email }}</a>
+             </div>
+        </div>
+    </div>
+
+    <!-- History Table -->
+    <div class="bg-white shadow sm:rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Invoiced Items History</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">All services linked to this client.</p>
+        </div>
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice / Product</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cost</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for item in items %}
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ item.invoice.created_at|date:"Y-m-d" }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <div>{{ item.invoice.booking_number }}</div>
+                                        {% if item.tour_booking %}
+                                        <div class="text-xs text-indigo-600">{{ item.tour_booking.tour_instance.product.name }}</div>
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 truncate max-w-xs" title="{{ item.description }}">
+                                        {{ item.description|truncatechars:40 }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
+                                        {{ item.invoice.currency.code }} {{ item.unit_price|floatformat:2 }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                            {% if item.invoice.status == 'PAID' or item.invoice.status == 'Paid in Full' %}bg-green-100 text-green-800
+                                            {% elif item.invoice.status == 'CANCELLED' %}bg-red-100 text-red-800
+                                            {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                            {{ item.invoice.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="/admin/invoices/invoice/{{ item.invoice.id }}/change/" class="text-indigo-600 hover:text-indigo-900">View Invoice</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">No records found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div>
+        <a href="{% url 'marketing_dashboard' %}" class="text-indigo-600 hover:text-indigo-800 font-medium">&larr; Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

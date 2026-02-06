@@ -7,6 +7,10 @@ from apps.currencies.models import Currency
 from apps.clients.models import Client
 from apps.flights.models import FlightTicket
 from django.contrib.auth import get_user_model
+from django.utils import timezone
+import datetime
+from datetime import timedelta
+from engine.services.global_filter import GlobalFilterService
 
 User = get_user_model()
 
@@ -18,137 +22,177 @@ def is_marketing_or_manager(user):
 def marketing_dashboard(request):
     """
     Marketing Analytics "Command Center"
-    Refactored for New Schema (Booking Number, InvoicePayment, TravelGroup).
+    Enhanced with Scatter Charts, Departure-based Passenger Counts, and Product Distribution.
     """
-    # --- 1. Filter Parameters ---
-    selected_statuses = request.GET.getlist('status')
-    if not selected_statuses:
-        selected_statuses = [Invoice.Status.PAID, Invoice.Status.DEPOSIT, Invoice.Status.INVOICED]
+    # --- 1. Global Filter Service (Centralized Logic) ---
+    filter_service = GlobalFilterService(request)
+    filter_context = filter_service.get_context()
 
-    # Currency
-    selected_currency_code = request.GET.get('currency', 'CAD')
+    # Extract needed values for QuerySets
+    selected_statuses = filter_context['selected_statuses']
+    selected_currency_code = filter_context['selected_currency_code']
+    start_date = filter_context['start_date']
+    end_date = filter_context['end_date']
+    calc_mode = filter_context['calc_mode']
 
-    # Date Range
-    date_from = request.GET.get('date_from')
-    date_to = request.GET.get('date_to')
+    # --- 2. Base QuerySets ---
 
-    # Tab
-    active_tab = request.GET.get('tab', 'invoices')
-
-    # --- 2. Build Base QuerySet ---
-    base_qs = Invoice.objects.filter(
-        currency__code=selected_currency_code,
-        status__in=selected_statuses
+    # A. Financial QuerySet (COHORT MODEL: Anchored to Invoice Creation)
+    # Status Agnostic for Revenue. Only filter by Currency and Creation Date.
+    inv_qs = Invoice.objects.filter(
+        currency__code=selected_currency_code
     )
+    if start_date:
+        inv_qs = inv_qs.filter(created_at__date__gte=start_date)
+    if end_date:
+        inv_qs = inv_qs.filter(created_at__date__lte=end_date)
 
-    if date_from:
-        base_qs = base_qs.filter(created_at__date__gte=date_from)
-    if date_to:
-        base_qs = base_qs.filter(created_at__date__lte=date_to)
+    # B. Passenger QuerySet (Based on DEPARTURE DATE - TourInstance.start_date)
+    # We look for InvoiceItems -> Linked to TourBooking -> Linked to TourInstance
+    passenger_qs = InvoiceItem.objects.filter(
+        invoice__status__in=selected_statuses, # Only confirmed/paid bookings?
+        tour_booking__isnull=False
+    )
+    if start_date:
+        passenger_qs = passenger_qs.filter(tour_booking__tour_instance__start_date__gte=start_date)
+    if end_date:
+        passenger_qs = passenger_qs.filter(tour_booking__tour_instance__start_date__lte=end_date)
+
+
+    # --- 3. Metrics Calculation ---
+
+    # 3.1 Financial Metrics (Revenue)
+    total_revenue = 0
+    trend_data = []
+
+    if calc_mode == 'actual':
+        # Use Payments for Actual Revenue
+        payments_qs = InvoicePayment.objects.filter(invoice__in=inv_qs)
+        total_revenue = payments_qs.aggregate(Sum('amount'))['amount__sum'] or 0
+
+        # Trend: Payment Date
+        revenue_trend = payments_qs.values('date')\
+            .annotate(total=Sum('amount'))\
+            .order_by('date')
+
+        for entry in revenue_trend:
+            if entry['date']:
+                trend_data.append({
+                    'x': entry['date'].strftime('%Y-%m-%d'),
+                    'y': float(entry['total'])
+                })
+    else:
+        # Anticipated: Sum of Invoice Items (Unit Price * Quantity)
+        items_qs = InvoiceItem.objects.filter(invoice__in=inv_qs)
+        total_revenue = items_qs.aggregate(s=Sum(F('unit_price') * F('quantity')))['s'] or 0
+
+        # Trend: Invoice Creation Date
+        revenue_trend = items_qs.values('invoice__created_at__date')\
+            .annotate(total=Sum(F('unit_price') * F('quantity')))\
+            .order_by('invoice__created_at__date')
+
+        for entry in revenue_trend:
+            d = entry['invoice__created_at__date']
+            if d:
+                trend_data.append({
+                    'x': d.strftime('%Y-%m-%d'),
+                    'y': float(entry['total'])
+                })
+
+    invoice_count = inv_qs.count()
+
+    # 3.2 Passenger Metrics
+    total_passengers = passenger_qs.count()
+
+
+    # --- 4. Charts Data Preparation ---
+
+    # 4.2 Client Distribution by Destination (Pie Chart)
+    # Changed from Country Code to Product Name (Destination)
+    dest_stats = passenger_qs.values('tour_booking__tour_instance__product__name')\
+        .annotate(count=Count('id'))\
+        .order_by('-count')
+
+    pie_labels = []
+    pie_values = []
+    for entry in dest_stats:
+        name = entry['tour_booking__tour_instance__product__name']
+        if name:
+            pie_labels.append(name)
+            pie_values.append(entry['count'])
+
+    # 4.3 Passenger Trend (Daily Departures) - Bar Chart
+    # Group by Tour Start Date
+    passenger_trend = passenger_qs.values('tour_booking__tour_instance__start_date')\
+        .annotate(count=Count('id'))\
+        .order_by('tour_booking__tour_instance__start_date')
+
+    passenger_trend_data = []
+    for entry in passenger_trend:
+        d = entry['tour_booking__tour_instance__start_date']
+        if d:
+            passenger_trend_data.append({
+                'x': d.strftime('%Y-%m-%d'),
+                'y': entry['count']
+            })
+
+    # 4.4 Most Frequent Passengers (Top 10)
+    # Group by Client
+    top_passengers_qs = passenger_qs.values(
+        'client__id',
+        'client__first_name',
+        'client__last_name',
+        'client__email',
+        'client__phone'
+    ).annotate(
+        trips=Count('id'),
+        total_spend=Sum(F('unit_price') * F('quantity'))
+    ).order_by('-trips')[:100]
+
+    # --- 5. Context ---
+    context = {
+        # Base Filter Context (includes calc_mode)
+        **filter_context,
+
+        'active_tab': request.GET.get('tab', 'overview'),
+
+        # Override dashboard titles for component
+        'dashboard_title': 'Marketing Command Center',
+        'dashboard_subtitle': 'Revenue trends, passenger counts, and market distribution.',
+
+        # Metrics
+        'total_revenue': total_revenue,
+        'invoice_count': invoice_count,
+        'total_passengers': total_passengers,
+
+        # Charts
+        'trend_data': trend_data,
+        'pie_labels': pie_labels,
+        'pie_values': pie_values,
+        'passenger_trend_data': passenger_trend_data,
+
+        # Tables
+        'top_passengers': top_passengers_qs,
+        # 'recent_invoices': inv_qs.select_related('sales_agent').order_by('-created_at')[:20], # Replaced by Top Passengers
+    }
+    return render(request, 'roles/marketing/dashboard.html', context)
+
+@login_required
+@user_passes_test(is_marketing_or_manager)
+def marketing_client_history(request, client_id):
+    """
+    Detailed history for a specific client viewed by Marketing.
+    """
+    client = get_object_or_404(Client, id=client_id)
+
+    # Get all InvoiceItems linked to this client
+    # Sorted by Invoice Date
+    items = InvoiceItem.objects.filter(client=client)\
+        .select_related('invoice', 'tour_booking__tour_instance__product')\
+        .order_by('-invoice__created_at')
 
     context = {
-        'active_tab': active_tab,
-        'selected_statuses': selected_statuses,
-        'selected_currency_code': selected_currency_code,
-        'date_from': date_from,
-        'date_to': date_to,
-        'available_currencies': Currency.objects.filter(invoice__isnull=False).distinct(),
-        'available_statuses': Invoice.Status.values,
+        'client': client,
+        'items': items,
     }
-
-    # TAB 1: INVOICES (Revenue)
-    if active_tab == 'invoices':
-        # Metrics: Use Payments for Actual Revenue (since total_amount is property)
-        # OR use InvoicePayment objects filtered by these invoices
-        payments_qs = InvoicePayment.objects.filter(invoice__in=base_qs)
-
-        aggregates = payments_qs.aggregate(total_rev=Sum('amount'))
-        total_rev = aggregates['total_rev'] or 0
-
-        count = base_qs.count()
-        avg_val = total_rev / count if count > 0 else 0
-
-        # Chart: Revenue by Month (using Payments)
-        chart_qs = payments_qs.annotate(month=TruncMonth('date')).values('month').annotate(val=Sum('amount')).order_by('month')
-
-        context.update({
-            'total_revenue': total_rev,
-            'invoice_count': count,
-            'avg_invoice_value': avg_val,
-            'recent_invoices': base_qs.select_related('sales_agent').prefetch_related('payments').order_by('-created_at')[:50],
-            'chart_labels': [x['month'].strftime('%Y-%m') for x in chart_qs if x['month']],
-            'chart_values': [float(x['val']) for x in chart_qs if x['month']]
-        })
-
-    # TAB 2: CUSTOMERS
-    elif active_tab == 'customers':
-        # Clients in these invoices
-        client_qs = Client.objects.filter(invoiceitem__invoice__in=base_qs).distinct()
-        active_count = client_qs.count()
-        recent_customers = client_qs.order_by('-created_at')[:10]
-
-        # Chart: Active Customers by Month (Invoice Date)
-        # Count unique clients per month based on Invoice Created At
-        growth_qs = base_qs.annotate(month=TruncMonth('created_at'))\
-            .values('month')\
-            .annotate(cnt=Count('items__client', distinct=True))\
-            .order_by('month')
-
-        context.update({
-            'active_customers': active_count,
-            'recent_customers': recent_customers,
-            'chart_labels': [x['month'].strftime('%Y-%m') for x in growth_qs if x['month']],
-            'chart_values': [x['cnt'] for x in growth_qs if x['month']]
-        })
-
-    # TAB 3: PRODUCTS (Tours)
-    elif active_tab == 'products':
-        items_qs = InvoiceItem.objects.filter(invoice__in=base_qs, tour_booking__isnull=False)
-
-        seats_sold = items_qs.count()
-        # Revenue from Items: unit_price * quantity (Aggregation needs ExpressionWrapper if computed)
-        # InvoiceItem has unit_price field? Yes.
-        # But total is property. Let's aggregate unit_price (approx for single items)
-        # or iterate if volume is low. For dashboard, let's try F expression.
-        product_rev = items_qs.aggregate(s=Sum(F('unit_price') * F('quantity')))['s'] or 0
-
-        # Top Products
-        # Group by Product Name
-        top_products = items_qs.values(
-            'tour_booking__tour_instance__product__name'
-        ).annotate(
-            sold=Count('id'),
-            rev=Sum(F('unit_price') * F('quantity'))
-        ).order_by('-rev')[:10]
-
-        context.update({
-            'seats_sold': seats_sold,
-            'product_revenue': product_rev,
-            'top_products': top_products,
-            'chart_labels': [x['tour_booking__tour_instance__product__name'] for x in top_products],
-            'chart_values': [float(x['rev']) for x in top_products]
-        })
-
-    # TAB 4: FLIGHTS
-    elif active_tab == 'flights':
-        # Flight Items or Ticket objects
-        flight_items = InvoiceItem.objects.filter(
-            invoice__in=base_qs
-        ).filter(Q(description__icontains='Flight') | Q(flight_ticket__isnull=False))
-
-        flight_rev = flight_items.aggregate(s=Sum(F('unit_price') * F('quantity')))['s'] or 0
-        tickets_sold = flight_items.count()
-
-        # Top Flight Descriptions (e.g. "Flight: AC098")
-        top_items = flight_items.values('description').annotate(
-            c=Count('id'),
-            r=Sum(F('unit_price') * F('quantity'))
-        ).order_by('-r')[:10]
-
-        context.update({
-            'tickets_sold': tickets_sold,
-            'flight_revenue': flight_rev,
-            'top_items': top_items
-        })
-
-    return render(request, 'roles/marketing/dashboard.html', context)
+    return render(request, 'roles/marketing/client_history.html', context)

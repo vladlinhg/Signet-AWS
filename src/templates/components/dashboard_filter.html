@@ -1,0 +1,120 @@
+<!-- Global Filter Partial -->
+<div class="bg-white p-4 rounded shadow">
+    <div class="sm:flex sm:items-center sm:justify-between mb-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">{{ dashboard_title|default:"Dashboard" }}</h1>
+            <p class="text-sm text-gray-500">{{ dashboard_subtitle|default:"Overview and Analytics" }}</p>
+        </div>
+
+        <!-- Month Navigation (Quick View) -->
+        <div class="mt-4 sm:mt-0 flex space-x-2">
+            <a href="?month_offset={{ month_offset|add:'-1' }}&currency={{ selected_currency_code }}&mode={{ calc_mode }}"
+               class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+               &larr; Prev
+            </a>
+
+            <span class="px-4 py-2 text-sm font-bold text-center min-w-[140px] bg-gray-50 rounded text-gray-900 border border-gray-200">
+                {{ current_month_label }}
+            </span>
+
+            <a href="?month_offset={{ month_offset|add:'1' }}&currency={{ selected_currency_code }}&mode={{ calc_mode }}"
+               class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+               Next &rarr;
+            </a>
+        </div>
+    </div>
+
+    <!-- Filter Form -->
+    <form method="get" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end border-t pt-4">
+        <!-- Reset offset if manually filtering -->
+        <!-- Persist Offset (if exists), Disable if manual date picked -->
+        {% if month_offset is not None %}
+        <input type="hidden" name="month_offset" value="{{ month_offset }}" id="active-month-offset">
+        {% endif %}
+
+        <!-- Revenue Mode -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Revenue Mode</label>
+            <select name="mode" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                <option value="actual" {% if calc_mode == 'actual' %}selected{% endif %}>Actual (Paid)</option>
+                <option value="anticipated" {% if calc_mode == 'anticipated' %}selected{% endif %}>Anticipated (Invoiced)</option>
+            </select>
+        </div>
+
+        <!-- Currency -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Currency</label>
+            <select name="currency" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                {% for curr in available_currencies %}
+                <option value="{{ curr.code }}" {% if curr.code == selected_currency_code %}selected{% endif %}>
+                    {{ curr.code }} ({{ curr.symbol }})
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Date Range -->
+        <div class="md:col-span-2 grid grid-cols-2 gap-2">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">From</label>
+                <input type="date" name="date_from" value="{{ date_from|default:'' }}"
+                       onchange="try{document.getElementById('active-month-offset').disabled=true;}catch(e){}"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">To</label>
+                <input type="date" name="date_to" value="{{ date_to|default:'' }}"
+                       onchange="try{document.getElementById('active-month-offset').disabled=true;}catch(e){}"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+        </div>
+
+        <!-- All Time Toggle -->
+        <div class="md:col-span-5 flex items-center justify-end space-x-2">
+            <input type="checkbox" name="all_time" id="all-time-toggle" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                   {% if current_month_label == 'All Time' %}checked{% endif %}>
+            <label for="all-time-toggle" class="text-sm text-gray-700 font-medium">All Time</label>
+        </div>
+
+         <!-- Apply Button -->
+        <div>
+            <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                Apply Filters
+            </button>
+        </div>
+
+    </form>
+
+    <script>
+        const allTimeToggle = document.getElementById('all-time-toggle');
+        const dateInputs = document.querySelectorAll('input[type="date"]');
+        const monthOffsetInput = document.getElementById('active-month-offset');
+
+        function toggleDateInputs() {
+            if(!allTimeToggle) return;
+            const isAllTime = allTimeToggle.checked;
+            dateInputs.forEach(input => {
+                input.disabled = isAllTime;
+                if (isAllTime) input.value = '';
+            });
+            if (isAllTime && monthOffsetInput) {
+                monthOffsetInput.disabled = true;
+            }
+        }
+
+        if(allTimeToggle) {
+            allTimeToggle.addEventListener('change', toggleDateInputs);
+
+            // If user manually picks a date, uncheck All Time
+            dateInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    allTimeToggle.checked = false;
+                    if (monthOffsetInput) monthOffsetInput.disabled = false;
+                });
+            });
+
+            // Init
+            toggleDateInputs();
+        }
+    </script>
+</div>
