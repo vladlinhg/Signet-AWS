@@ -156,3 +156,102 @@ def manager_dashboard(request):
         'agent_stats': agent_stats,
     }
     return render(request, 'roles/manager/dashboard.html', context)
+
+def is_manager_or_sales(user):
+    return user.is_authenticated and (user.role in ['MANAGER', 'SALES'] or user.is_superuser)
+
+@login_required
+@user_passes_test(is_manager_or_sales)
+def import_booking_pdf(request):
+    from django.contrib import messages
+    from django.shortcuts import redirect
+
+    # Check if this is a "Restart" request (clear session)
+    if request.GET.get('reset'):
+        if 'import_preview_data' in request.session:
+            del request.session['import_preview_data']
+
+    if request.method == "POST":
+        pdf_file = request.FILES.get('pdf_file')
+        if not pdf_file:
+            messages.error(request, "Please upload a file.")
+            return redirect('import_booking_pdf')
+
+        try:
+            # 1. Parse PDF
+            from apps.core.services.pdf_parser import PDFParserService
+
+            # Save temp file for PyMuPDF (it needs a path or bytes)
+            # We'll pass the stream content directly if possible, or save temp
+            # PyMuPDF fits.open(stream=bytes, filetype="pdf") works perfectly
+
+            file_bytes = pdf_file.read()
+            print(f"DEBUG: Uploaded file size: {len(file_bytes)} bytes") # Log file size
+
+            parser = PDFParserService(file_stream=file_bytes)
+            parsed_data = parser.parse()
+
+            # Debug Logs
+            text_len = len(parsed_data.get('raw_text_preview', ''))
+            print(f"DEBUG: Extracted Text Length: {text_len}")
+            print(f"DEBUG: Header Extracted: {parsed_data.get('header')}")
+            if text_len > 0:
+                print(f"DEBUG: Text Preview (Start): {parsed_data['raw_text_preview'][:100]}")
+            else:
+                print("DEBUG: Raw text is EMPTY")
+
+            # 2. Store in Session for Review
+            # We need to serialize this data (it's mostly dicts/lists/strings, so it's JSON safe)
+            # Just ensure no non-serializable objects (like datetime objects) are in there yet
+            # The parser returns strings currently, so we should be good.
+            request.session['import_preview_data'] = parsed_data
+
+            messages.success(request, "PDF analyzed successfully. Please review the details below.")
+            return render(request, 'roles/manager/import_preview.html', {'preview_data': parsed_data})
+
+        except Exception as e:
+            messages.error(request, f"Import Error: {str(e)}")
+            return redirect('import_booking_pdf')
+
+    # GET Request: Show Upload Form (or Preview if session exists?)
+    # Usually better to stay on upload form unless explicitly in preview flow.
+    # If we have data in session, let's clear it unless we just posted?
+    # Actually, let's keep it simple: GET always shows upload form.
+    return render(request, 'roles/manager/import_booking.html')
+
+@login_required
+@user_passes_test(is_manager_or_sales)
+def confirm_booking_import(request):
+    from django.contrib import messages
+    from django.shortcuts import redirect
+    from apps.core.services.booking_importer import BookingImporterService
+
+    if request.method != "POST":
+         return redirect('import_booking_pdf')
+
+    parsed_data = request.session.get('import_preview_data')
+    if not parsed_data:
+        messages.error(request, "Session expired or no data found. Please upload again.")
+        return redirect('import_booking_pdf')
+
+    try:
+        # Execute Import
+        importer = BookingImporterService(parsed_data, user=request.user)
+        invoice = importer.import_booking()
+
+        # Success
+        messages.success(request, f"Booking {invoice.booking_number} imported successfully!")
+
+        # Clear session
+        del request.session['import_preview_data']
+
+        # Redirect to Invoice
+        # Assuming 'sales:invoice_detail' or similar exists, or manager view
+        # Let's try to find a generic invoice detail view, or fallback to dashboard
+        return redirect(f'/invoices/view/{invoice.id}/') # Adjust URL name as needed
+
+    except Exception as e:
+        messages.error(request, f"Database Import Failed: {str(e)}")
+        # Keep session data so they can try again if it's transient,
+        # or stick on preview page?
+        return redirect('import_booking_pdf')

@@ -1,0 +1,268 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+Grand Total
+CAD9,400
+SIG_CAN  356310
+02/24/2023
+Group No.
+ Update: (03/08/2023)
+12
+1
+Cancelled - Penalty Completed
+CAD188 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+Single 
+Mrs
+Sep 03 1953 (69)
+A CAD9,400
+#0
+Tsang Chan,
+Kwok Fun Amy
+N/A
+N/A
+Total: CAD9,400
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: Hyatt Regency Lanzhou
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (1) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Coupon
+PT230010…
+CAD250
+1
+2023NY-Red
+Kai
+CXD
+CAD250
+-
+New OBS
+ Contact
+Ms. Tsang Chan, Kwok Fun Amy
++1 (647) 546-9262
+hmts1688@gmail.com
+Contact info:
+絲路北疆風情14天12夜 CHN23901Z1 (R12/12, G24/0)
+Tour starts/ends: 09/01/2023 LHW - 09/13/2023 URC
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:44 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=356310
+1/3
+
+=== Page 2 ===
+Total Paid:
+-CAD0
+Balance  CAD8,550
+Balance  CAD600
+ 
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CC
+HYDZIW
+CAD600
+1
+USD500 CC chg by LAX
+Kai
+Esther
+CXD
+CAD600
+-
+Cancellation Penalty
+Items
+Amount
+Remark
+Submit
+Handler
+Action
+Status
+Actual Amount
+Penalty
+CAD600
+Move tour and transfer …
+tour cancel penalty
+Kai
+Esther
+CFM
+CAD0
+Total Paid
+CAD600
+Kai
+-CAD600
+CXL
+Revise booking
+Revise booking
+Preview
+Preview
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: kai.hu
+move and transfer credit to BK356686
+03/08/2023 10:49AM
+From: grace.hee
+MERCHANT CHARGED*** 1. XD¤0845882757/482.50/ 500.00/ 0.00/ALL/CCVIXXXXXXXX
+XXXX9740 TSANG CHAN KWOK FUN AMY MRS/1/D
+02/24/2023 10:31AM
+Logs
+History (12)
+PDF Doc. (4)
+Check List. (0)
+Date/Time
+Type
+Description
+By
+09/25/2024 2:50PM
+Payment
+Remark: LAX charged USD500 deposit
+Esther.Lin
+05/03/2023 1:27PM
+Penalty
+Cancellation Penalty has been Approved Remark: Move tour and transfer credit
+Esther.Lin
+05/02/2023 11:04AM
+Penalty
+Cancellation Penalty has been Confirm Remark: Move tour and transfer credit
+Esther.Lin
+03/08/2023 10:49AM
+Payment
+Deposit：USD500 CC chg by LAX has been cancel
+Kai.Hu
+03/08/2023 10:49AM
+Concession
+This coupon(2023NY-Red) has been cancel
+Kai.Hu
+03/08/2023 10:49AM
+Cancel Booking
+move and transfer credit to BK356686
+Kai.Hu
+02/24/2023 10:42AM
+Concession
+This Customer Coupon(2023NY-Red) has been submit
+Kai.Hu
+02/24/2023 10:40AM
+Payment Approved
+Deposit：USD500 CC chg by LAX has been Approved. Remark: LAX charged USD500 deposit
+Esther.Lin
+02/24/2023 10:40AM
+Status
+Status Changed: from New Booking to Deposited
+System
+02/24/2023 10:34AM
+Payment
+Deposit：USD500 CC chg by LAX has been submit
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:44 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=356310
+2/3
+
+=== Page 3 ===
+1
+2
+
+
+
+
+
+2/7/26, 4:44 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=356310
+3/3
+

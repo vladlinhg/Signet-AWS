@@ -1,0 +1,258 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SIG_CAN  400817
+08/28/2025
+Group No.
+ Update: (01/26/2026)
+7
+1
+Split
+CAD258 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0
+Mr
+(C)
+Apr 06 1944 (81)
+MYS H**8918
+Dec 05 2029
+A CAD6,450
+Mr
+(C)
+Apr 06 1980 (45)
+A CAD6,450
+Twin
+Lo, Tshin Foh
+N/A
+N/A
+Lo, Chen Ping
+N/A
+N/A
+Total: CAD12,900
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Local Flight 
+Hotel Ext. (0) - Pre Post
+Pre:
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+The Ritz-Carlton Chengdu - Deluxe Room
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Mr. Lo, Tshin Foh
++1 (416) 509-3269
+suling1986@yahoo.com
+Contact info:
+西藏林芝桃花季風情遊 (含聖母峰)15天14夜 CHN26330DC (R9/9, G18/0)
+Tour starts/ends: 03/30/2026 TFU - 04/13/2026 LXA
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:46 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=400817
+1/3
+
+=== Page 2 ===
+Grand Total
+CAD12,900
+Total Paid:
+-CAD12,900
+Balance  CAD0
+Payment (2) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Balance
+CC
+NOLCPE
+CAD10,300
+2
+USD 7200 cc credit fro…
+Kai
+Lisa
+CXL
+CAD10,300
+Deposit
+CC
+HHFVAT
+CAD2,600
+2
+CAD1300X2 cc charge…
+Kai
+Esther
+CXL
+CAD2,600
+-
+-
+Revise booking
+Revise booking
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: kai.hu
+Partial move to CHN26330DC1(404748);Partial move to CHN26330DC1(404749)
+01/26/2026 10:54AM
+From: kai.hu
+Informed Lo, Chen Ping will not join the tour on 1/15/2026
+01/16/2026 5:00PM
+From: System
+System Auto Cancelled
+08/28/2025 12:09PM
+Logs
+History (16)
+PDF Doc. (3)
+Check List. (0)
+1
+2
+Date/Time
+Type
+Description
+By
+01/26/2026 10:54AM
+Payment
+Balance：USD 7200 cc credit from BK400815 has been cancel
+Kai.Hu
+01/26/2026 10:54AM
+Payment
+Deposit：CAD1300X2 cc charged on 8/28/2025 has been cancel
+Kai.Hu
+01/26/2026 10:54AM
+Move Booking
+Partial move to CHN26330DC1(404749)
+Kai.Hu
+01/26/2026 10:54AM
+Move Booking
+Partial move to CHN26330DC1(404748)
+Kai.Hu
+01/13/2026 3:07PM
+Payment Approved
+Balance：USD 7200 cc credit from BK400815 has been Approved. Remark: USD 7200 cc credit from BK400815
+Lisa.Chen
+01/13/2026 3:01PM
+Payment
+Balance：USD 7200 cc credit from BK400815 has been submit
+Kai.Hu
+01/12/2026 8:37AM
+Balance Reminder
+System auto send balance reminder
+System
+01/04/2026 8:36AM
+Balance Reminder
+System auto send balance reminder
+System
+10/28/2025 10:04AM
+Cust. Profile
+Update: Tshin Foh, Lo
+Kai.Hu
+10/28/2025 9:56AM
+Cust. Profile
+Update: Tshin Foh, Lo
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:46 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=400817
+2/3
+
+=== Page 3 ===
+
+
+
+
+
+2/7/26, 4:46 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=400817
+3/3
+

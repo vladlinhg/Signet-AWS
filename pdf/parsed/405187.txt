@@ -1,0 +1,235 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD250
+SIG_CAN  405187
+02/06/2026
+Group No.
+ Update: (02/06/2026)
+3
+1
+New Booking
+2
+Deposit (Due by 02/11/2026)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD83 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ 
+Mrs
+(C)
+Mar 17 1950 (77)
+USA A**1315
+Dec 28 2033
+No raw fo…
+A CAD4,150
+Rooming with Auyeung, Catherine (#405186)
+Pre Tour
+ 
+ CHN27413G2
+ 04/13/2027 04/21/2027 joann.liu
+Twin #3
+Wong, Lorna
+Yeehuen
+N/A
+N/A
+Total: CAD4,150
+405185
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (1) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Membershi…
+24742
+CAD250
+1
+Membership Coupon
+Joann
+CFM
+CAD250
+CXL
+-
+New OBS
+ Contacted
+Ms. Wong , Lorna Yeehuen
++1 (608) 359-4682
+jlbdwong@gmail.com
+Contact info:
+雲南風情遊 含香格里拉10天9夜 CHN27421Y2 (R12/3, G6/0)
+Tour starts/ends: 04/21/2027 KMG - 04/30/2027 LJG
+Tour Language: C
+Signet Rep.: joann.liu
+
+
+
+
+
+2/7/26, 5:09 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405187
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD3,900
+Total Paid:
+-CAD0
+Balance  CAD3,900
+ 
+ 
+ 
+ 
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+From: Guest
+share room with Ms. Auyeung, Catherine
+02/06/2026 11:07AM
+Internal Note
+Add Note
+Logs
+History (7)
+PDF Doc. (1)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+02/06/2026 12:26PM
+Concession
+This Membership Coupon has been submit
+Joann.Liu
+02/06/2026 11:19AM
+Cust. Profile
+Update: Lorna Yeehuen, Wong
+Joann.Liu
+02/06/2026 11:16AM
+Contacted
+whatsapp
+Joann.Liu
+02/06/2026 11:08AM
+Group No
+Change Group No 4 to 3
+Joann.Liu
+02/06/2026 11:08AM
+Cust. Room
+Update Customer Wong Lorna Yeehuen,TW #4 is changed to TW #3
+Joann.Liu
+02/06/2026 11:07AM
+New Booking
+share room with Ms. Auyeung, Catherine
+System
+02/06/2026 11:07AM
+New Booking
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 5:09 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405187
+2/2
+

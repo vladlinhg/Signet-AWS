@@ -1,0 +1,208 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+Grand Total
+CAD15,600
+SIG_CAN  404924
+02/03/2026
+Group No.
+ Update: (02/03/2026)
+1
+1
+New Booking
+2
+Deposit (Due by 02/08/2026)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD312 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+Single 
+Ms
+(M)
+Apr 19 1966 (61)
+CAN P**36PC
+Jul 29 2034
+No Lamb, …
+Car sickn…
+A CAD15,600
+#1
+Lee, Mei Leng
+N/A
+N/A
+Total: CAD15,600
+Pick-up / Send-off 
+ *Need Signet air 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Ms. Mei Leng, Lee
++1 (778) 688-7303
+Ml6196604@gmail.com
+Contact info:
+冰島環島風情遊11天10夜 ISL27524A2 (R12/1, G1/0)
+Tour starts/ends: 05/24/2027 KEF - 06/03/2027 KEF
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:46 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404924
+1/2
+
+=== Page 2 ===
+Total Paid:
+-CAD0
+Balance  CAD15,600
+ 
+ 
+ 
+ 
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (5)
+PDF Doc. (1)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+02/03/2026 12:17PM
+Cust. Profile
+Update: Mei Leng, Lee
+Kai.Hu
+02/03/2026 12:17PM
+Cust. Profile
+Update: Mei Leng, Lee
+Kai.Hu
+02/03/2026 12:14PM
+Change Signet Rep
+Change esther.lin to kai.hu
+Kai.Hu
+02/03/2026 3:08AM
+New Booking
+From Online Submission
+System
+02/03/2026 3:08AM
+New Booking
+Need air ticket booking
+System
+
+
+
+
+
+2/7/26, 4:46 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404924
+2/2
+

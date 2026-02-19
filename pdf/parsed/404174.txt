@@ -1,0 +1,207 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+SUP_CAN  404174
+01/13/2026
+Group No.
+ Update: (01/13/2026)
+6
+1
+Cancelled
+CAD592 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0
+Mr
+May 12 1972 (54)
+A CAD7,400
+Ms
+Jan 26 1977 (49)
+A CAD7,400
+ #0
+Mr
+Sep 16 2004 (21)
+A CAD7,400
+Ms
+Oct 22 2007 (18)
+A CAD7,400
+Twin
+Yeeloy, Kenny
+N/A
+N/A
+Yee Loy, Wendy
+N/A
+N/A
+Twin
+Yeeloy, Tyler
+Nathan
+N/A
+N/A
+Yeeloy, Amanda
+Megan
+N/A
+N/A
+Total: CAD29,600
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Mr. Yeeloy, Kenny
++1 (604) 725-5009
+kaihu6@hotmail.com
+Contact info:
+Agency: N/A
+MASTERTOUR TRAVEL
+6042423393
+celly@mastertour.ca
+8080 Park Road
+Richmond, B.c. V6y 1t1
+Japan Classics Kanto + Kansai 9 days 8 nights JPN26512C2 (R12/11, G21/0)
+Tour starts/ends: 05/12/2026 NRT - 05/20/2026 KIX
+Tour Language: E
+Supera Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:51 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404174
+1/2
+
+=== Page 2 ===
+Total:
+-CAD0
+Grand Total
+CAD29,600
+Total Paid:
+-CAD0
+Balance  CAD29,600
+Agency commission: CAD500 x 4 ADT = CAD2000 
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: kai.hu
+CXL by agent
+01/13/2026 4:35PM
+Logs
+History (3)
+PDF Doc. (3)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+01/13/2026 4:35PM
+Cancel Booking
+CXL by agent
+Kai.Hu
+01/13/2026 1:37PM
+Confirmed
+From waiting list move to confirmed bookings. (Honor waiting price CAD7400)
+System
+01/05/2026 12:52PM
+Waiting List
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 4:51 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404174
+2/2
+

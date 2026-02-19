@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Review Booking Import</h1>
+            <p class="text-muted small">Please verify the data extracted from the PDF before importing.</p>
+        </div>
+        <div>
+            <form action="{% url 'confirm_booking_import' %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                    <i class="fas fa-check-circle me-2"></i>Confirm & Import
+                </button>
+            </form>
+            <a href="{% url 'import_booking_pdf' %}" class="btn btn-outline-danger btn-lg shadow-sm ms-2">
+                <i class="fas fa-times-circle me-2"></i>Cancel
+            </a>
+        </div>
+    </div>
+
+    <!-- Booking Details -->
+    <div class="row mb-4">
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Booking Number</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ preview_data.header.booking_number }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-hashtag fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tour Code</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ preview_data.header.tour_code }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-globe-americas fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Agent</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ preview_data.header.agent_username }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Passengers -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Passengers ({{ preview_data.passengers|length }})</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered text-center" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Name</th>
+                            <th>DOB</th>
+                            <th>Passport</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pax in preview_data.passengers %}
+                        <tr>
+                            <td>{{ pax.title }}</td>
+                            <td class="font-weight-bold">{{ pax.name }}</td>
+                            <td>{{ pax.dob }}</td>
+                            <td>{{ pax.passport }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No passengers detected.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flights -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Flights ({{ preview_data.flights|length }})</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered text-center" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Flight Code</th>
+                            <th>Date</th>
+                            <th>Route</th>
+                            <th>Cabin</th>
+                            <th>Seat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for flight in preview_data.flights %}
+                        <tr>
+                            <td class="font-weight-bold">{{ flight.code }}</td>
+                            <td>{{ flight.date }}</td>
+                            <td>{{ flight.route }}</td>
+                            <td>{{ flight.cabin }}</td>
+                            <td>{{ flight.seat }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No flights detected.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financials -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Financials</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Payments -->
+                <div class="col-md-6">
+                    <h5 class="small font-weight-bold text-uppercase mb-3">Payments Detected</h5>
+                    <ul class="list-group mb-3">
+                        {% for pay in preview_data.financials.payments %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ pay.type }}
+                            <span class="badge bg-success rounded-pill">${{ pay.amount }}</span>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted text-center">No payments detected.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Coupons -->
+                <div class="col-md-6">
+                     <h5 class="small font-weight-bold text-uppercase mb-3">Coupons/Discounts</h5>
+                     <ul class="list-group mb-3">
+                        {% for coupon in preview_data.financials.coupons %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                             {{ coupon.code }}
+                            <span class="badge bg-warning text-dark rounded-pill">${{ coupon.amount }}</span>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted text-center">No coupons detected.</li>
+                        {% endfor %}
+                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Debug: Raw Text (Always Visible) -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Debug: Raw PDF Text</h6>
+        </div>
+        <div class="card-body">
+            <p class="mb-2 text-muted small">Copy this text to share with the developer.</p>
+            <p class="font-weight-bold text-danger">
+                Debug Info: Length={{ preview_data.raw_text_preview|length }} chars.
+            </p>
+
+            <!-- Robust Text Area -->
+            <textarea class="form-control" rows="15" style="font-family: monospace; font-size: 0.8rem; background-color: #f8f9fa;">{{ preview_data.raw_text_preview }}</textarea>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,235 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SIG_CAN  403970
+12/24/2025
+Group No.
+ Update: (12/24/2025)
+12
+New Booking
+2
+Deposited (Due by 12/29/2025)
+3
+Invoiced 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD214 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+Single 
+ 
+Ms
+(M)
+Jun 25 1965 (60)
+MYS H**8053
+Aug 13 2029
+A CAD10,700
+Iwamuro Onsen Fujiya Standard Japanese rooms in Western Tower
+CAD0.00
+Tsukioka Onsen Shiratama no Yu Kaho Standard Japanese Room
+CAD0.00
+#13 UG
+Chang, Yee
+Vun
+N/A
+N/A
+Total: CAD10,700
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Ms. Chang, Yee Vun
++1 (416) 568-6969
+yeevunc@yahoo.com
+Contact info:
+日本北關東＋新潟風情遊花季10天9夜 JPN26419N2 (R13/13, G23/0)
+Tour starts/ends: 04/19/2026 NRT - 04/28/2026 NRT
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:51 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403970
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD10,700
+Total Paid:
+-CAD10,700
+Balance  CAD0
+ 
+ 
+ 
+ 
+Payment (2) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Balance
+CC
+EUIEQR
+CAD9,300
+1
+Credit Card
+System
+Lisa
+CFM
+CAD9,300
+Deposit
+CC
+EUIEQR
+CAD1,400
+1
+Credit Card
+System
+Esther
+CFM
+CAD1,400
+CXL
+-
+CXL
+-
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (5)
+PDF Doc. (5)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+01/27/2026 10:57AM
+Cust. Profile
+Update: Yee Vun, Chang
+Esther.Lin
+01/22/2026 10:23AM
+Online Payment
+Balance has been Approved. Remark: charge $9300 Auth06498I in Jan 22 2026
+Lisa.Chen
+12/29/2025 5:06PM
+Online Payment
+Deposit has been Approved.
+Esther.Lin
+12/29/2025 5:06PM
+Status
+Status Changed: from New Booking to Deposited
+System
+12/24/2025 9:52AM
+Move Booking
+Move from CHN26420Y21(403909)
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:51 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403970
+2/2
+

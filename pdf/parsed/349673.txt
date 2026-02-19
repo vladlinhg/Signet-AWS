@@ -1,0 +1,276 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SUP_CAN  349673
+05/18/2022
+Group No.
+ Update: (08/29/2022)
+1
+1
+Cancelled - Penalty Completed
+CAD202 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0
+Mr
+May 06 1945 (77)
+A CAD5,050
+Ms
+Jan 30 1964 (58)
+A CAD5,050
+Double
+Yang, Horng Bin
+N/A
+N/A
+Vuong, Sylvia Ly
+N/A
+N/A
+Total: CAD10,100
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: Sapporo Grand Hotel
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (2) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Discount
+CAD264
+2
+Credit: USD 200 x 2 = USD 400 provides by H/O (E…
+Sharain
+Jane
+CXD
+CAD528
+Discount
+CAD202
+1
+$10,100 x 2% = $202
+System
+CXD
+CAD202
+-
+-
+New OBS
+ Contact
+Mr. Yang, Horng Bin
++1 (949) 664-3502
+xian007@yahoo.com
+Contact info:
+Hokkaido: Turning of the Leaves 9 days 7 nights JPN22A048FE (R14/0, G0/0)
+Tour starts/ends: 10/04/2022 CTS - 10/11/2022 CTS
+Tour Language: E
+Supera Rep.: sharain.huang
+
+
+
+
+
+2/7/26, 4:58 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=349673
+1/3
+
+=== Page 2 ===
+Grand Total
+CAD10,100
+Total Paid:
+-CAD0
+Balance  CAD7,298
+Balance  CAD2600
+ 
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CR(CK)
+CAD2,600
+1
+Deposit USD1000 x 2 …
+Sharain
+Esther
+CXD
+CAD2,600
+-
+Cancellation Penalty
+Items
+Amount
+Remark
+Submit
+Handler
+Action
+Status
+Actual Amount
+Penalty
+CAD2,600
+tour cancelled by us
+tour cancel penalty
+Sharain
+Mason
+CFM
+CAD0
+Total Paid
+CAD2,600
+Sharain
+-CAD2,600
+CXL
+Revise booking
+Revise booking
+Preview
+Preview
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: sharain.huang
+Not enough guests and they don't want to move.
+08/29/2022 1:24PM
+Logs
+History (20)
+PDF Doc. (4)
+Check List. (0)
+1
+2
+Date/Time
+Type
+Description
+By
+09/25/2024 2:51PM
+Payment
+Remark: Deposit USD1000 x 2 = USD2000 by cheque received on 2/22/2022, transfer from JPN225228S, bk#347921
+Esther.Lin
+11/09/2022 1:31PM
+Penalty
+Cancellation Penalty has been Approved Remark: tour cancelled by us
+Kara.Yu
+11/09/2022 12:51PM
+Penalty
+Cancellation Penalty has been Confirm Remark: tour cancelled by us
+Mason.Ng
+08/29/2022 1:24PM
+Payment
+Deposit：Deposit USD1000 x 2 = USD2000 by cheque received on 2/22/2022, transfer from JPN225228S, bk#347921 has been cancel
+Sharain.Huang
+08/29/2022 1:24PM
+Concession
+This discount($10,100 x 2% = $202) has been cancel
+Sharain.Huang
+08/29/2022 1:24PM
+Cancel Booking
+Not enough guests and they don't want to move.
+Sharain.Huang
+08/22/2022 8:53AM
+Balance Reminder
+System auto send balance reminder
+System
+08/09/2022 8:51AM
+Balance Reminder
+System auto send balance reminder
+System
+07/29/2022 8:56AM
+Balance Reminder
+System auto send balance reminder
+System
+07/18/2022 8:33AM
+Balance Reminder
+System auto send balance reminder
+System
+
+
+
+
+
+2/7/26, 4:58 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=349673
+2/3
+
+=== Page 3 ===
+
+
+
+
+
+2/7/26, 4:58 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=349673
+3/3
+

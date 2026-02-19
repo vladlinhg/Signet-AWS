@@ -1,0 +1,214 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SIG_CAN  405186
+02/06/2026
+Group No.
+ Update: (02/06/2026)
+3
+1
+New Booking
+2
+Deposit (Due by 02/11/2026)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD83 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ 
+Mrs
+(C)
+Jan 11 1951 (76)
+CAN H**6560
+Jun 28 2026 
+No raw fo…
+Car sickn…
+A CAD4,150
+Rooming with Wong, Lorna Yeehuen (#405187)
+Pre Tour
+ 
+ CHN27413G2
+ 04/13/2027 04/21/2027 joann.liu
+Twin #3
+Auyeung,
+Catherine
+N/A
+N/A
+Total: CAD4,150
+405184
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contacted
+Ms. Auyeung , Catherine
++1 (647) 887-5076
+catauyeung8@gmail.com
+Contact info:
+雲南風情遊 含香格里拉10天9夜 CHN27421Y2 (R12/3, G6/0)
+Tour starts/ends: 04/21/2027 KMG - 04/30/2027 LJG
+Tour Language: C
+Signet Rep.: joann.liu
+
+
+
+
+
+2/7/26, 5:09 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405186
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD4,150
+Total Paid:
+-CAD0
+Balance  CAD4,150
+ 
+ 
+ 
+ 
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+From: Guest
+share room with Wong, Lorna Yeehuen
+02/06/2026 11:06AM
+Internal Note
+Add Note
+Logs
+History (4)
+PDF Doc. (1)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+02/06/2026 11:20AM
+Cust. Profile
+Update: Catherine, Auyeung
+Joann.Liu
+02/06/2026 11:16AM
+Contacted
+whatsapp
+Joann.Liu
+02/06/2026 11:06AM
+New Booking
+share room with Wong, Lorna Yeehuen
+System
+02/06/2026 11:06AM
+New Booking
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 5:09 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405186
+2/2
+

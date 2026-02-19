@@ -7,7 +7,7 @@ from apps.core.views import import_data_view, wipe_data_confirm, generate_data_v
 from engine.pages.sales.views import sales_dashboard
 from engine.pages.marketing.views import marketing_dashboard, marketing_client_history
 from engine.pages.accountant.views import accountant_dashboard
-from engine.pages.manager.views import manager_dashboard
+from engine.pages.manager import views as manager_views
 from engine.pages.router import dashboard_router
 
 urlpatterns = [
@@ -24,7 +24,9 @@ urlpatterns = [
 
     # --- Role Based Pages ---
     path('sales/dashboard/', sales_dashboard, name='sales_dashboard'),
-    path('manager/dashboard/', manager_dashboard, name='manager_dashboard'),
+    path('manager/dashboard/', manager_views.manager_dashboard, name='manager_dashboard'),
+    path('manager/import-booking/', manager_views.import_booking_pdf, name='import_booking_pdf'),
+    path('manager/import-booking/confirm/', manager_views.confirm_booking_import, name='confirm_booking_import'),
     path('marketing/dashboard/', marketing_dashboard, name='marketing_dashboard'),
     path('marketing/client/<int:client_id>/', marketing_client_history, name='marketing_client_history'),
     path('accountant/dashboard/', accountant_dashboard, name='accountant_dashboard'),

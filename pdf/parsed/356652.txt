@@ -1,0 +1,273 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+SUP_CAN  356652
+03/07/2023
+Group No.
+ Update: (06/07/2023)
+1
+1
+Cancelled - Penalty Completed
+CAD422 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0
+Mr
+Jun 10 1962 (61)
+A CAD10,550
+Ms
+May 01 1962 (61)
+A CAD10,550
+Twin
+Hayward,
+Christopher Lewis
+N/A
+N/A
+Hayward, Karen
+Lee
+N/A
+N/A
+Total: CAD21,100
+Pick-up / Send-off 
+ *Need Supera air 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: Sheraton Lisboa Hotel & Spa
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Mr. Hayward, Christopher Lewis
++1 (416) 221-7592
+ckhayward@bell.net
+Contact info:
+Agency: N/A
+SAFEWAY CONSULTING CORPORATION
+7789967711
+safewayconsulting01@gmail.com
+JOSEPH SHEU / safewayconsulting01@gmail.com
+906-850 Burrard Street
+Vancouver, BC V6Z 2J1
+Portugal + Spain: Iberian Dreams 14 days 12 nights PSP23929G2E (R15/0, G0/0)
+Tour starts/ends: 09/29/2023 LIS - 10/11/2023 BCN
+Tour Language: E
+Supera Rep.: louis.wu
+
+
+
+
+
+2/7/26, 4:58 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=356652
+1/3
+
+=== Page 2 ===
+Total:
+-CAD0
+Grand Total
+CAD21,100
+Total Paid:
+-CAD0
+Balance  CAD15,900
+Balance  CAD5200
+Agency commission: CAD400 x 2 ADT = CAD800 
+ 
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CC
+ZJOVLP
+CAD5,200
+2
+Credit Card
+System
+Esther
+CXD
+CAD5,200
+-
+Cancellation Penalty
+Items
+Amount
+Remark
+Submit
+Handler
+Action
+Status
+Actual Amount
+Penalty
+CAD5,200
+Tour was not guaranteed
+tour cancel penalty
+Louis
+Esther
+CFM
+CAD0
+Total Paid
+CAD5,200
+Louis
+-CAD5,200
+CXL
+Revise booking
+Revise booking
+Preview
+Preview
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: louis.wu
+HQ cancelled tour
+06/07/2023 10:01AM
+Logs
+History (10)
+PDF Doc. (5)
+Check List. (0)
+Date/Time
+Type
+Description
+By
+09/25/2024 2:50PM
+Payment
+Remark: undefined
+Esther.Lin
+08/29/2023 1:44PM
+Penalty
+Cancellation Penalty has been Approved Remark: Tour was not guaranteed
+Kara.Yu
+08/29/2023 12:09PM
+Penalty
+Cancellation Penalty has been Confirm Remark: Tour was not guaranteed
+Esther.Lin
+06/07/2023 10:01AM
+Payment
+Deposit：Credit Card has been cancel
+Louis.Wu
+06/07/2023 10:01AM
+Cancel Booking
+HQ cancelled tour
+Louis.Wu
+03/16/2023 12:58PM
+Online Payment
+Deposit has been Approved. Remark: CC charged deposit
+Esther.Lin
+03/16/2023 12:58PM
+Status
+Status Changed: from New Booking to Deposited
+System
+03/16/2023 10:45AM
+Change Agent
+Change Direct Customer to Agent
+Louis.Wu
+03/07/2023 11:21AM
+New Booking
+From Online Submission
+System
+03/07/2023 11:21AM
+New Booking
+Need air ticket booking
+System
+
+
+
+
+
+2/7/26, 4:58 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=356652
+2/3
+
+=== Page 3 ===
+1
+Date/Time
+Type
+Description
+By
+
+
+
+
+
+2/7/26, 4:58 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=356652
+3/3
+

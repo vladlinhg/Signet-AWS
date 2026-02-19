@@ -1,0 +1,199 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SUP_CAN  404245
+01/07/2026
+Group No.
+ Update: (01/07/2026)
+4
+1
+Total Move
+CAD222 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0
+Ms
+Dec 23 1952 (73)
+A CAD5,550
+Ms
+Jan 02 1990 (36)
+A CAD5,550
+Twin
+Pang, Henrianna
+Yicksing
+N/A
+N/A
+Kwok, Samantha
+Pang
+N/A
+N/A
+Total: CAD11,100
+Pick-up / Send-off 
+ *Need Supera air 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Ms. Pang, Henrianna
++1 (905) 467-6608
+henrianna.pang@gmail.com
+Contact info:
+Golden China: Beijing, Xi'an, Chengdu 10 days 9 nights CHN26B09A9 (R1/0, G0/0)
+Tour starts/ends: 11/09/2026 PEK - 11/18/2026 TFU
+Tour Language: E
+Supera Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:45 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404245
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD11,100
+Total Paid:
+-CAD0
+Balance  CAD11,100
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Note
+External Note
+Add Note
+From: Guest
+We would like to visit HongKong for about 3 to 4 days in this trip either prior to the start OR
+at the end (to be determined later) of this Golden China Tour. If the visit to HongKong is prior
+to the start of tour, then the flight will be from HongKong to Beijing and from Chengdu to
+Toronto (YYZ). If the visit to HongKong is at the end of tour, then the flight will be from
+Toronto (YYZ) to Beijing and from Chengdu to HongKong.
+01/07/2026 5:57AM
+Internal Note
+Add Note
+From: kai.hu
+Move to CHN26B09A83(404258)
+01/07/2026 2:53PM
+Logs
+History (4)
+PDF Doc. (1)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+01/07/2026 2:53PM
+Move Booking
+Move to CHN26B09A83(404258)
+Kai.Hu
+01/07/2026 5:57AM
+New Booking
+From Online Submission
+System
+01/07/2026 5:57AM
+New Booking
+Need air ticket booking
+System
+01/07/2026 5:57AM
+New Booking
+We would like to visit HongKong for about 3 to 4 days in this trip either prior to the start OR at the end (to be determined later) of this Golden China
+Tour. If the visit to HongKong is prior to the start of tour, then the flight will be from HongKong to Beijing and from Chengdu to Toronto (YYZ). If the visit
+to HongKong is at the end of tour, then the flight will be from Toronto (YYZ) to Beijing and from Chengdu to HongKong.
+System
+
+
+
+
+
+2/7/26, 4:45 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404245
+2/2
+

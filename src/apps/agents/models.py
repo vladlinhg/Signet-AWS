@@ -17,7 +17,7 @@ class Agent(Client):
     Agent inherits from Client (Customer).
     Has additional business info and Agency link.
     """
-    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, related_name='agents')
+    agency = models.ForeignKey(Agency, on_delete=models.SET_NULL, null=True, blank=True, related_name='agents')
     department = models.CharField(max_length=100, blank=True)
     employee_number = models.CharField(max_length=50, blank=True)
     sin_number = models.CharField(max_length=50, blank=True)

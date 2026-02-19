@@ -1,0 +1,236 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD454
+Grand Total
+CAD22,246
+SUP_CAN  403699
+12/11/2025
+Group No.
+ Update: (12/11/2025)
+10
+New Booking
+2
+Deposited (Due by 12/16/2025)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD454 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #8
+Mr
+Aug 05 1958 (67)
+A CAD11,350
+Ms
+Jun 06 1959 (67)
+A CAD11,350
+Twin
+Luk, Michael
+Koon Yuen
+N/A
+N/A
+Luk, Millie
+N/A
+N/A
+Total: CAD22,700
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (1) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Discount
+CAD454
+1
+$22,700 x 2% = $454
+System
+CFM
+CAD454
+CXL
+-
+New OBS
+ Contact
+Mr. Luk, Michael
++1 (416) 520-8898
+Sparklemgt@yahoo.com
+Contact info:
+Iceland: Land of Fire + Ice 11 days 10 nights ISL26803A2 (R10/10, G19/0)
+Tour starts/ends: 08/03/2026 KEF - 08/13/2026 KEF
+Tour Language: E
+Supera Rep.: kai.hu
+
+
+
+
+
+12:00 am-7:15 am
+CAD210/2 guests - 4 pax Taxi
+CAD275/4 guests - 8 pax Benz V-class
+2/7/26, 4:49 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403699
+1/2
+
+=== Page 2 ===
+Total Paid:
+-CAD4,400
+Balance  CAD17,846
+ 
+ 
+ 
+ 
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CK
+CAD4,400
+2
+Received ck CAD4400 …
+Kai
+Lisa
+CFM
+CAD4,400
+CXL
+-
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (6)
+PDF Doc. (2)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+12/15/2025 12:30PM
+Concession
+add 2% discount
+Lisa.Chen
+12/15/2025 12:30PM
+Payment Approved
+Deposit：Received ck CAD4400 on 12/15/2025 has been Approved.
+Lisa.Chen
+12/15/2025 12:30PM
+Status
+Status Changed: from New Booking to Deposited
+System
+12/15/2025 12:26PM
+Payment
+Deposit：Received ck CAD4400 on 12/15/2025 has been submit
+Kai.Hu
+12/11/2025 10:50AM
+Group No
+Change Group No 11 to 10
+Kai.Hu
+12/11/2025 7:47AM
+New Booking
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 4:49 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403699
+2/2
+

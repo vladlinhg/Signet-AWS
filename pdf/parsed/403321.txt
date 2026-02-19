@@ -1,0 +1,236 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SIG_CAN  403321
+11/26/2025
+Group No.
+ Update: (12/11/2025)
+9
+1
+Total Move
+CAD700 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0  
+Ms
+(M)
+Nov 18 1972 (53)
+CAN A**1849
+Jul 25 2033
+A CAD17,500
+Mr
+(M)
+Feb 27 1962 (64)
+CAN A**0280
+Mar 17 2033
+A CAD17,500
+Gran Melia Iguazu Deluxe Room Falls View
+CAD0.00
+Twin
+UG
+Wu, Shan
+N/A
+N/A
+Wang, Jichang
+N/A
+N/A
+Total: CAD35,000
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Local Flight 
+Hotel Ext. (0) - Pre Post
+Pre:
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Hotel Villa Amazonia - Superior Room
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (1) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Discount
+CAD700
+1
+$35,000 x 2% = $700
+System
+CXD
+CAD700
+-
+New OBS
+ Contact
+Ms. Wu, Shan
++1 (250) 415-6055
+shanwu172@gmail.com
+Contact info:
+亞馬遜、巴西風情遊 4晚亞馬遜15天14夜 BRA26514A2 (R12/12, G23/0)
+Tour starts/ends: 05/14/2026 MAO - 05/28/2026 GIG
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:48 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403321
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD35,000
+Total Paid:
+-CAD0
+Balance  CAD27,300
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CR(CK)
+CAD7,000
+2
+3500X2 credit transfer f…
+Kai
+Lisa
+CXD
+CAD7,000
+-
+Revise booking
+Revise booking
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: kai.hu
+Move to AEE26C06E31(403710)
+12/11/2025 12:48PM
+From: System
+USD 800 X2 Refund hotel accommodation difference for 08/26 & 08/27
+11/26/2025 9:53AM
+Logs
+History (8)
+PDF Doc. (3)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+12/11/2025 12:48PM
+Payment
+Deposit：3500X2 credit transfer from BK399235 has been cancel(Move to AEE26C06E31(403710))
+Kai.Hu
+12/11/2025 12:48PM
+Concession
+This discount($35,000 x 2% = $700) has been cancel
+Kai.Hu
+12/11/2025 12:48PM
+Move Booking
+Move to AEE26C06E31(403710)
+Kai.Hu
+12/02/2025 11:00AM
+Concession
+add 2% discount
+Lisa.Chen
+12/02/2025 11:00AM
+Payment Approved
+Deposit：3500X2 credit transfer from BK399235 has been Approved. Remark: 3500X2 credit transfer from BK399235
+Lisa.Chen
+12/02/2025 11:00AM
+Status
+Status Changed: from New Booking to Deposited
+System
+12/02/2025 10:46AM
+Payment
+Deposit：3500X2 credit transfer from BK399235 has been submit
+Kai.Hu
+11/26/2025 9:53AM
+Split Booking
+Split from BRA26514A21(399235)
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:48 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403321
+2/2
+

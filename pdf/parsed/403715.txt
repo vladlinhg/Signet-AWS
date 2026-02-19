@@ -1,0 +1,265 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SIG_CAN  403715
+12/11/2025
+Group No.
+ Update: (12/15/2025)
+10
+1
+Cancelled - Penalty Completed
+CAD272 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ 
+ 
+Ms
+(M)
+Nov 16 2001 (24)
+CAN A**6443
+Mar 22 2033
+A CAD13,600
+M.S. Mayflower Cruise Deluxe Cabin
+CAD0.00
+Twin #0 UG
+Wang, Luyang
+N/A
+N/A
+Total: CAD13,600
+Pick-up / Send-off (Local flight) 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Local Flight 
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (1) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Discount
+CAD272
+1
+$13,600 x 2% = $272
+System
+CXD
+CAD272
+-
+New OBS
+ Contact
+Ms. Wang, Luyang
+shanwu172@gmail.com
+Contact info:
+杜拜、埃及風情遊 三晚尼羅河輪下行13天12夜 AEE26A29D3 (R12/12, G24/0)
+Tour starts/ends: 10/29/2026 DXB - 11/10/2026 CAI
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:50 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403715
+1/3
+
+=== Page 2 ===
+Grand Total
+CAD13,600
+Total Paid:
+-CAD3,500
+Balance  CAD9,828
+Balance  CAD3500
+ 
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CR(CK)
+CAD3,500
+1
+CAD3500 credit transfe…
+Kai
+Lisa
+CXL
+CAD3,500
+-
+Cancellation Penalty
+Items
+Amount
+Remark
+Submit
+Handler
+Action
+Status
+Actual Amount
+Penalty
+CAD420
+Find another 2 friends …
+tour cancel penalty
+Kai
+Esther
+CFM
+CAD0
+Total Paid
+CAD3,500
+Kai
+-CAD3,500
+CXL
+Revise booking
+Revise booking
+Preview
+Preview
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: kai.hu
+already find the replacement. deposit goes to BK403714
+12/15/2025 10:28AM
+From: kai.hu
+cxl by pax
+12/15/2025 9:58AM
+From: System
+USD 800 X2 Refund hotel accommodation difference for 08/26 & 08/27
+12/11/2025 3:45PM
+Logs
+History (8)
+PDF Doc. (2)
+Check List. (0)
+Date/Time
+Type
+Description
+By
+12/17/2025 6:41PM
+Penalty
+Cancellation Penalty has been Approved Remark: Find another 2 friends as replacement-deposit paid
+Kara.Yu
+12/17/2025 10:40AM
+Penalty
+Cancellation Penalty has been Confirm Remark: Find another 2 friends as replacement-deposit paid
+Esther.Lin
+12/15/2025 9:58AM
+Payment
+Deposit：CAD3500 credit transfer from BK399235 has been cancel
+Kai.Hu
+12/15/2025 9:58AM
+Concession
+This discount($13,600 x 2% = $272) has been cancel
+Kai.Hu
+12/15/2025 9:58AM
+Cancel Booking
+cxl by pax
+Kai.Hu
+12/11/2025 3:45PM
+Concession
+add 2% discount
+Kai.Hu
+12/11/2025 3:45PM
+Payment Approved
+Deposit：CAD3500 credit transfer from BK399235(move from 403709)
+Kai.Hu
+12/11/2025 3:45PM
+Move Booking
+Move from AEE26C06E31(403709)
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:50 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403715
+2/3
+
+=== Page 3 ===
+1
+
+
+
+
+
+2/7/26, 4:50 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403715
+3/3
+

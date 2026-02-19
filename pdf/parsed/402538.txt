@@ -1,0 +1,201 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SIG_CAN  402538
+10/24/2025
+Group No.
+ Update: (10/31/2025)
+2
+1
+Cancelled
+CAD244 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0  
+Ms
+(C)
+Jun 21 1960 (66)
+CAN H**3215
+Mar 14 2027 
+A CAD6,100
+Mr
+(C)
+Jun 05 1958 (68)
+CAN H**4151
+Mar 17 2027 
+A CAD6,100
+Solest Takachiho Hotel Standard Room
+CAD0
+Twin
+UG
+Cheng, Winnie
+Wai Ling
+N/A
+N/A
+Yau, Andrew
+Tak Ming
+N/A
+N/A
+Total: CAD12,200
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Ms. Cheng, Winnie Wai Ling
++1 (416) 618-1960
+kaihu6@hotmail.com
+Contact info:
+日本東九州風情遊8天7夜 JPS26A13E2 (R10/2, G4/0)
+Tour starts/ends: 10/13/2026 FUK - 10/20/2026 FUK
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:48 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=402538
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD12,200
+Total Paid:
+-CAD0
+Balance  CAD12,200
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: System
+System Auto Cancelled
+10/31/2025 6:01PM
+Logs
+History (5)
+PDF Doc. (2)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+01/30/2026 4:09PM
+Reinstate Booking
+Reinstate booking #404867
+Kai.Hu
+10/31/2025 6:01PM
+Cancel Booking
+System Auto Cancelled
+System
+10/24/2025 10:56AM
+Cust. Profile
+Update: Andrew Tak Ming, Yau
+Kai.Hu
+10/24/2025 10:56AM
+Cust. Profile
+Update: Winnie Wai Ling, Cheng
+Kai.Hu
+10/24/2025 10:35AM
+New Booking
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 4:48 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=402538
+2/2
+

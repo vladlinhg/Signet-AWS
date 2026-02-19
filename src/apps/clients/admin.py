@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Client, TravelDocument, City, Ethnicity, Address
+from .models import Client, TravelDocument, City, Ethnicity, Address, TravelGroup
+
+@admin.register(TravelGroup)
+class TravelGroupAdmin(admin.ModelAdmin):
+    list_display = ('name', 'created_at')
+    search_fields = ('name',)
 
 class TravelDocumentInline(admin.StackedInline):
     model = TravelDocument

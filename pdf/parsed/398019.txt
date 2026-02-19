@@ -1,0 +1,268 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+SIG_CAN  398019
+06/17/2025
+Group No.
+ Update: (11/12/2025)
+5
+1
+Cancelled - Penalty Pending
+2% discount unavailable for this tour
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #0  
+Ms
+(C)
+Jun 02 1952 (74)
+CAN H**7108
+Mar 10 2027 
+No Lamb, …
+A CAD59,200
+Ms
+(C)
+Aug 01 1960 (66)
+CAN A**3026
+Sep 17 2027
+A CAD59,200
+National Geographic Endurance Category 1 - Standard (Deck 4)
+CAD0.00
+Twin
+UG
+Mok, Pui Ching
+N/A
+N/A
+Chin, Shelley
+Suk Han
+N/A
+N/A
+Total: CAD118,400
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Local Flight 
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Ms. Mok, Pui Ching
++1 (416) 671-3392
+cindypcmok@gmail.com
+Contact info:
+Agency: N/A
+Golden Pacific Travel Ltd. (Markham)
+905 513 9988
+Simon Kan / simonkan@goldenpacifictravel.ca
+Fortino Super Mall, 1661 Denison St., Unit T37
+Markham, ON L3R 6E4
+南極三島風情遊22天21夜 ATA27208A1 (R2/2, G4/0)
+Tour starts/ends: 02/08/2027 EZE - 03/01/2027 EZE
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:44 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=398019
+1/3
+
+=== Page 2 ===
+Total:
+CAD0
+Total:
+-CAD0
+Grand Total
+CAD118,400
+Total Paid:
+-CAD17,400
+Balance  CAD101,000
+Balance  CAD0
+Agency commission: CAD150 x 2 ADT = CAD300 
+ 
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CK
+CAD17,400
+2
+CAD17400 CK receive…
+Kai
+Lisa
+CXL
+CAD17,400
+-
+Cancellation Penalty
+Items
+Amount
+Remark
+Submit
+Handler
+Action
+Status
+Actual Amount
+Penalty
+CAD0
+tour cancel penalty
+Kai
+PND
+Total Paid
+CAD17,400
+Kai
+-CAD17,400
+Revise booking
+Revise booking
+Preview
+Preview
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: kai.hu
+tour not confirm to go
+11/12/2025 12:05PM
+From: kai.hu
+PAX is in CHN25622J1 Will pay the deposit after the tour
+06/23/2025 10:17AM
+From: System
+System Auto Cancelled
+06/16/2025 6:01PM
+Logs
+
+
+
+
+
+2/7/26, 4:44 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=398019
+2/3
+
+=== Page 3 ===
+History (7)
+PDF Doc. (4)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+11/12/2025 12:05PM
+Payment
+Deposit：CAD17400 CK received on 6/24/2025 has been cancel
+Kai.Hu
+11/12/2025 12:05PM
+Cancel Booking
+tour not confirm to go
+Kai.Hu
+06/24/2025 1:36PM
+Payment Approved
+Deposit：CAD17400 CK received on 6/24/2025 has been Approved. Remark: ETF $17400 in Jane 24 2025
+Lisa.Chen
+06/24/2025 1:36PM
+Status
+Status Changed: from New Booking to Deposited
+System
+06/24/2025 1:24PM
+Payment
+Deposit：CAD17400 CK received on 6/24/2025 has been submit
+Kai.Hu
+06/23/2025 10:17AM
+Deposit Date
+Change Deposit Date 06/22/2025 to 07/02/2025
+Kai.Hu
+06/17/2025 3:00PM
+New Booking
+Reinstate booking #397734
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:44 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=398019
+3/3
+

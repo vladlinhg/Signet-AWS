@@ -1,0 +1,235 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD260
+SIG_CAN  404876
+01/31/2026
+Group No.
+ Update: (01/31/2026)
+5
+1
+New Booking
+2
+Deposit (Due by 02/05/2026)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD222 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #3
+Mr
+(M)
+Apr 21 1964 (62)
+CAN P**5603
+Jul 13 2033
+A CAD5,550
+Ms
+(M)
+May 20 1968 (57)
+CAN P**5884
+Jul 13 2033
+A CAD5,550
+Double
+Qiang, Neng
+N/A
+N/A
+Sha, Na
+N/A
+N/A
+Total: CAD11,100
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (2) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Coupon
+SY-ES-ISL…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+Coupon
+SY-ES-ISL…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+CXL
+-
+CXL
+-
+New OBS
+ Contact
+Mr. Qiang, Neng
++1 (778) 327-8436
+neng@norya.ca
+Contact info:
+青海、西藏風情遊 含聖母峰11天10夜 CHN26510D1 (R9/3, G5/0)
+Tour starts/ends: 05/10/2026 XNN - 05/20/2026 LXA
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:52 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404876
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD10,840
+Total Paid:
+-CAD0
+Balance  CAD10,840
+ 
+ 
+ 
+ 
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (5)
+PDF Doc. (2)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+02/02/2026 10:18AM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+02/02/2026 10:18AM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+02/02/2026 10:18AM
+Cust. Profile
+Update: Na, Sha
+Kai.Hu
+02/02/2026 10:18AM
+Cust. Profile
+Update: Neng, Qiang
+Kai.Hu
+01/31/2026 1:57PM
+New Booking
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 4:52 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404876
+2/2
+

@@ -1,0 +1,296 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+SIG_CAN  405052
+02/04/2026
+Group No.
+ Update: (02/04/2026)
+6
+New Booking
+2
+Deposited (Due by 02/09/2026)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD348 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #11
+Mr
+(M)
+Jan 13 1948 (78)
+CAN P**09FF
+Jan 05 2036
+A CAD8,700
+Mrs
+(M)
+Aug 11 1951 (74)
+CAN P**91FF
+Jan 06 2036
+A CAD8,700
+Twin
+Wu, March
+Mau Chee
+N/A
+N/A
+Wu, Annie Suk
+Kay
+N/A
+N/A
+Total: CAD17,400
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre:
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Hilton Imperial Dubrovnik - Guest Room
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (3) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Discount
+CAD348
+1
+$17,400 x 2% = $348
+System
+CFM
+CAD348
+CXL
+-
+New OBS
+ Contact
+Mr. Wu, March Mau Chee
++1 (905) 477-2258
+Marchwu0@gmail.com
+Contact info:
+Agency: N/A
+Mandarin Holidays
+905-754-8008
+lucy@mandarinholidays.com
+Lucy Sun / lucy@mandarinholidays.com
+7755 Warden Avenue
+Markham, ON L3R 0N3
+克羅埃西亞、斯洛維尼亞風情遊11天10夜 HRS26608W1 (R12/11, G23/0)
+Tour starts/ends: 06/08/2026 DBV - 06/18/2026 ZAG
+Tour Language: M
+Signet Rep.: joann.liu
+
+
+
+
+
+2/7/26, 5:08 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405052
+1/2
+
+=== Page 2 ===
+Total:
+-CAD848
+Grand Total
+CAD16,552
+Total Paid:
+-CAD10,000
+Balance  CAD6,552
+Agency commission: CAD150 x 2 ADT = CAD300 
+ 
+ 
+ 
+ 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Membershi…
+19830
+CAD250
+1
+Membership Coupon
+Joann
+CFM
+CAD250
+Membershi…
+19829
+CAD250
+1
+Membership Coupon
+Joann
+CFM
+CAD250
+CXL
+-
+CXL
+-
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CK
+CAD10,000
+2
+received cad10,000 by …
+Joann
+Esther
+CFM
+CAD10,000
+CXL
+-
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (14)
+PDF Doc. (1)
+Check List. (0)
+1
+2
+Date/Time
+Type
+Description
+By
+02/06/2026 4:17PM
+Cust. Profile
+Update: Annie Suk Kay, Wu
+Joann.Liu
+02/06/2026 4:16PM
+Cust. Profile
+Update: March Mau Chee, Wu
+Joann.Liu
+02/06/2026 2:20PM
+Cust. Profile
+Update: March Mau Chee, Wu
+Esther.Lin
+02/06/2026 2:09PM
+Concession
+add 2% discount
+Esther.Lin
+02/06/2026 2:09PM
+Payment Approved
+Deposit：received cad10,000 by emt has been Approved. Remark: Deposit & partial payment received.
+Esther.Lin
+02/06/2026 2:09PM
+Status
+Status Changed: from New Booking to Deposited
+System
+02/06/2026 2:02PM
+Payment
+Deposit：received cad10,000 by emt has been submit
+Joann.Liu
+02/06/2026 1:53PM
+Concession
+This Membership Coupon has been submit
+Joann.Liu
+02/06/2026 1:53PM
+Concession
+This Membership Coupon has been submit
+Joann.Liu
+02/05/2026 2:09PM
+Update Agent
+Update Agent
+Joann.Liu
+
+
+
+
+
+2/7/26, 5:08 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405052
+2/2
+

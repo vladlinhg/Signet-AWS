@@ -58,7 +58,7 @@ class Invoice(models.Model):
         AUDIT_SUBMITTED = 'AUDIT_SUBMITTED', 'Audit Submitted'
         VERIFIED = 'VERIFIED', 'Verified'
         NEEDS_FIX = 'NEEDS_FIX', 'Needs Fix'
-        CLARIFY = 'CLARIFY', 'Clarify'
+        RECORD_ONLY = 'RECORD_ONLY', 'Record Only'
 
     booking_number = models.CharField(max_length=50, unique=True, help_text="Mandatory Booking Reference")
     invoice_number = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="Generated when status is INVOICED or PAID")

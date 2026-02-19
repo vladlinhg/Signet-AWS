@@ -1,0 +1,232 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+Total:
+-CAD0
+SIG_CAN  404747
+01/26/2026
+Group No.
+ Update: (01/26/2026)
+7
+New Booking
+2
+Deposited (Due by 01/28/2026)
+3
+Invoiced 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD129 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ 
+Mr
+(C)
+Jan 27 1979 (47)
+MYS H**5264
+Jul 15 2029
+A CAD6,450
+Rooming with Lo, Tshin Foh (#404748)
+Twin #6
+Lo, Chen Vui
+N/A
+N/A
+Total: CAD6,450
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Local Flight 
+Hotel Ext. (0) - Pre Post
+Pre:
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+The Ritz-Carlton Chengdu - Deluxe Room
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Mr. Lo, Chen Vui
++1 (416) 509-3269
+suling1986@yahoo.com
+Contact info:
+西藏林芝桃花季風情遊 (含聖母峰)15天14夜 CHN26330DC (R9/9, G18/0)
+Tour starts/ends: 03/30/2026 TFU - 04/13/2026 LXA
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:52 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404747
+1/2
+
+=== Page 2 ===
+Grand Total
+CAD6,450
+Total Paid:
+-CAD6,450
+Balance  CAD0
+ 
+ 
+ 
+ 
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Full Amount
+CR(CC)
+NOLCPE
+CAD6,450
+1
+credit transfer from BK…
+Kai
+Lisa
+CFM
+CAD6,450
+CXL
+-
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (8)
+PDF Doc. (1)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+01/29/2026 11:33AM
+Cust. Profile
+Update: Chen Vui, Lo
+Kai.Hu
+01/29/2026 11:33AM
+Cust. Profile
+Update: Chen Vui, Lo
+Kai.Hu
+01/26/2026 11:17AM
+Payment Approved
+Full Amount：credit transfer from BK400817 has been Approved. Remark: credit transfer from BK400817
+Lisa.Chen
+01/26/2026 11:17AM
+Status
+Status Changed: from New Booking to Deposited
+System
+01/26/2026 10:57AM
+Payment
+Full Amount：credit transfer from BK400817 has been submit
+Kai.Hu
+01/26/2026 10:55AM
+Group No
+Change Group No 14 to 7
+Kai.Hu
+01/26/2026 10:55AM
+Cust. Room
+Update Customer Lo Chen Vui,Twin Share #0 is changed to TW #6
+Kai.Hu
+01/26/2026 10:53AM
+Waiting List
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 4:52 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404747
+2/2
+

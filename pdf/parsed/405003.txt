@@ -1,0 +1,206 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+SIG_CAN  405003
+02/03/2026
+Group No.
+ Update: (02/03/2026)
+20
+1
+New Booking
+2
+Deposit (Due by 02/08/2026)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+Check payment only and 2% discount unavailable for this tour
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ 
+ 
+Ms
+Nov 04 1959 (68)
+A CAD6,300
+Rooming with Hung, Alice Shiu Ling (#404985)
+Yangzi Explorer 4F Deluxe Suite
+CAD1680.00
+Twin #34 UG
+Ng, Shera Yuk
+Ching
+N/A
+N/A
+Total: CAD7,980
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre:
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+InterContinental Chongqing Raffles City - Classic City View Room
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (0) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+New OBS
+ Contact
+Ms. Ng, Shera Yuk Ching
++1 (604) 779-9776
+sherahome6@gmail.com
+Contact info:
+Agency: N/A
+Stareast Travel Depot Ltd.
+6042140154
+Dick Chan / ming@stareast.ca
+#110 - 4940 No. 3 Road
+Richmond, BC V6X 3A5
+《超值盛會》長江三峽風情遊下行12天11夜 CHN27C01R1 (R60/54, G102/0)
+Tour starts/ends: 12/01/2027 CKG - 12/12/2027 NKG
+Tour Language: 
+Signet Rep.: 
+C
+joann.liu
+
+
+
+
+
+2/7/26, 5:10 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405003
+1/2
+
+=== Page 2 ===
+Total:
+-CAD0
+Grand Total
+CAD7,980
+Total Paid:
+-CAD0
+Balance  CAD7,980
+Agency commission: CAD150 x 1 ADT = CAD150 
+ 
+ 
+ 
+ 
+Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (2)
+PDF Doc. (2)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+02/03/2026 4:03PM
+Group No
+Change Group No 30 to 20
+Joann.Liu
+02/03/2026 2:11PM
+Move Booking
+Move from CHN27223R11(405002)
+Joann.Liu
+
+
+
+
+
+2/7/26, 5:10 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=405003
+2/2
+

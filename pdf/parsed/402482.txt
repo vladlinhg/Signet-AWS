@@ -1,0 +1,275 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+SIG_CAN  402482
+10/22/2025
+Group No.
+ Update: (10/22/2025)
+9
+New Booking
+2
+Deposited (Due by 10/27/2025)
+3
+Invoice 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD222 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #8
+Mr
+(M)
+Jun 09 1958 (68)
+CAN P**46DP
+Jul 22 2035
+A CAD5,550
+Ms
+(M)
+Oct 29 1958 (67)
+身份證 023
+Dec 31 2050
+No Lamb, …
+A CAD5,550
+Twin
+Cai, Xiao Hua
+N/A
+N/A
+Chen, Hong
+N/A
+N/A
+Total: CAD11,100
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (2) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Discount
+CAD222
+1
+$11,100 x 2% = $222
+System
+CFM
+CAD222
+Coupon
+SY-ES-CH…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+CXL
+-
+CXL
+-
+New OBS
+ Contact
+Mr. Cai, Xiao Hua
++1 (416) 291-6556
+jenny@qzkingstar.com
+Contact info:
+Agency: N/A
+Hello Pacific Travel
+4169375112(Allan)
+Allan Siu / allanwcsiu@hotmail.com
+3390 Midland Ave
+Scarborough, ON M1V 5K3
+青海、西藏風情遊 含聖母峰11天10夜 CHN26A09D1 (R10/10, G18/0)
+Tour starts/ends: 10/09/2026 XNN - 10/19/2026 LXA
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+2/7/26, 4:48 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=402482
+1/2
+
+=== Page 2 ===
+Total:
+-CAD352
+Grand Total
+CAD10,748
+Total Paid:
+-CAD2,400
+Balance  CAD8,348
+Agency commission: CAD150 x 2 ADT = CAD300 
+ 
+ 
+ 
+ 
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Deposit
+CK
+CAD2,400
+2
+Endorse for Mrs. Cai C…
+Kai
+Lisa
+CFM
+CAD2,400
+CXL
+-
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+From: kai.hu
+Received CAD 2400 on 10/31/2025
+11/03/2025 10:19AM
+Logs
+History (10)
+PDF Doc. (5)
+Check List. (0)
+1
+Date/Time
+Type
+Description
+By
+12/02/2025 9:16AM
+Guarantee email
+Guarantee departure email sent to guests
+Stacy.Yeh
+10/29/2025 10:59AM
+Concession
+add 2% discount
+Lisa.Chen
+10/29/2025 10:59AM
+Payment Approved
+Deposit：Endorse for Mrs. Cai CAD1200X2 has been Approved. Remark: undefined
+Lisa.Chen
+10/29/2025 10:59AM
+Status
+Status Changed: from New Booking to Deposited
+System
+10/29/2025 10:26AM
+Payment
+Deposit：Endorse for Mrs. Cai CAD1200X2 has been submit
+Kai.Hu
+10/23/2025 9:48AM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+10/23/2025 9:47AM
+Cust. Profile
+Update: Hong, Chen
+Kai.Hu
+10/23/2025 9:47AM
+Cust. Profile
+Update: Hong, Chen
+Kai.Hu
+10/23/2025 9:47AM
+Cust. Profile
+Update: Xiao Hua, Cai
+Kai.Hu
+10/22/2025 9:39AM
+New Booking
+From Online Submission
+System
+
+
+
+
+
+2/7/26, 4:48 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=402482
+2/2
+

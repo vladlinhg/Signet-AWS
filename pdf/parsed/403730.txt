@@ -1,0 +1,334 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD420
+Total:
+CAD0
+SIG_CAN  403730
+12/15/2025
+Group No.
+ Update: (12/12/2025)
+Debit credit memo (06/10/2021)
+9
+New Booking
+Deposit (Due by 12/20/2025)
+3
+Invoiced (26CA00009)
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD473 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+Single 
+ 
+Ms
+(M)
+Jan 28 1975 (51)
+CHN E**0076
+Aug 20 2035
+Car sickn…
+…
+A CAD23,650
+Gran Melia Iguazu Deluxe Room Falls View
+CAD0
+#12 UG
+Zhang, Yichi
+N/A
+N/A SGL roo
+N/A
+Total: CAD23,650
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Local Flight 
+Pick Up
+CM0141
+05/12/2026
+PTY/MAO
+9:35PM - 2:30AM+1
+Send Off
+CM0872
+05/29/2026
+GIG/PTY
+1:30AM - 6:43AM
+Self-arranged (Meet in hotel)
+Signet arranged (Go with group)
+Hotel Ext. (1) - Pre Post
+Pre:
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Hotel V…
+1
+SG
+Zhang Yichi
+2
+CAD210
+05/12/2026
+05/14/2026
+Kai
+Liz
+CFM
+CAD420
+Hotel Villa Amazonia - Superior Room
+CXL
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+New OBS
+ Contact
+Ms. Zhang, Yichi
++86 0778 990 6489
+1083739908@qq.com
+Contact info:
+亞馬遜、巴西風情遊 4晚亞馬遜15天14夜 BRA26514A2 (R12/12, G23/0)
+Tour starts/ends: 05/14/2026 MAO - 05/28/2026 GIG
+Tour Language: M
+Signet Rep.: kai.hu
+PNR 1: SGEAFQ (PAX: 1) 
+1.ZHANG/YI CHI 
+
+
+
+
+
+2/7/26, 4:49 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403730
+1/3
+
+=== Page 2 ===
+Total:
+CAD0
+Total:
+-CAD130
+Grand Total
+CAD23,940
+Total Paid:
+-CAD23,940
+Balance  CAD0
+Total:
+ CAD0
+Total Paid:  CAD0
+Balance  CAD0
+ 
+ 
+ 
+ 
+ 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (1) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Coupon
+SY-ES-JPN…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+CXL
+-
+Payment (2) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Balance
+CC
+DZXXGW
+CAD20,440
+1
+Credit Card
+System
+Esther
+CFM
+CAD20,440
+Deposit
+CC
+DZXXGW
+CAD3,500
+1
+Credit Card
+System
+Lisa
+CFM
+CAD3,500
+-
+-
+Debit/Credit (0)
+Items
+D/C
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Debit Payment (0) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Revise booking
+Revise booking
+Preview
+Preview
+Final checklist
+Final checklist
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+
+
+
+
+
+2/7/26, 4:49 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403730
+2/3
+
+=== Page 3 ===
+Logs
+History (16)
+PDF Doc. (6)
+Check List. (0)
+1
+2
+Date/Time
+Type
+Description
+By
+01/26/2026 10:34AM
+PU&SO
+Change sendoff(SGEAFQ) Not in send-off timeframe to Go with group
+Kai.Hu
+01/15/2026 10:04AM
+Status
+Status Changed: from Deposited to Invoiced
+System
+01/15/2026 10:04AM
+PU&SO
+Change pickup(SGEAFQ) Not in pick-up timeframe to Self-arranged airport transfer
+Kai.Hu
+01/14/2026 12:17PM
+Online Payment
+Balance has been Approved.
+Esther.Lin
+01/13/2026 2:54PM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+01/13/2026 10:39AM
+Add Pnr
+add pnr SGEAFQ
+Kai.Hu
+01/07/2026 8:58PM
+Hotel Ext.
+Hotel Villa Amazonia Hotel's request for extension has been Confirmed
+Liz.Diaz
+12/24/2025 2:23PM
+Hotel Ext.
+Hotel Villa Amazonia - Superior Room Hotel's extension request has been sent
+Kai.Hu
+12/16/2025 4:10PM
+Delete Pnr
+delete pnr SGEAFQ
+Kai.Hu
+12/16/2025 4:10PM
+Add Pnr
+add pnr SGEAFQ
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:49 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=403730
+3/3
+

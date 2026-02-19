@@ -1,0 +1,330 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+Total:
+CAD0
+SIG_CAN  401639
+09/19/2025
+Group No.
+ Update: (09/19/2025)
+4
+New Booking
+2
+Deposited (Due by 09/24/2025)
+3
+Invoiced 
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD278 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+ #5  
+Dr
+(C)
+Sep 12 1956 (69)
+CAN P**64BI
+Jan 07 2035
+A CAD6,950
+Mrs
+(C)
+Nov 27 1958 (67)
+CAN P**87ED
+May 15 2035
+…
+A CAD6,950
+Iwamuro Onsen Fujiya Standard Japanese rooms in Western Tower
+CAD0
+Tsukioka Onsen Shiratama no Yu Kaho Standard Japanese Room
+CAD0
+Twin
+UG
+Chan, Gerald
+Chee Bunn
+N/A
+N/A
+Chan, Monice
+Ngan Ling
+N/A
+N/A If the tou
+N/A
+Total: CAD13,900
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (4) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Coupon
+SY-ES-JPN…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+CXL
+-
+New OBS
+ Contact
+Mr. Chan, Gerald
++1 (416) 898-6302
+monicelau199@gmail.com
+Contact info:
+日本北關東＋新潟風情遊 花季10天9夜 JPN26419N2 (R13/13, G23/0)
+Tour starts/ends: 04/19/2026 NRT - 04/28/2026 NRT
+Tour Language: M
+Signet Rep.: kai.hu
+
+
+
+
+
+12:30 pm-06:00 pm
+2/7/26, 4:47 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=401639
+1/3
+
+=== Page 2 ===
+Total:
+-CAD520
+Grand Total
+CAD13,380
+Total Paid:
+-CAD13,380
+Balance  CAD0
+ 
+ 
+ 
+ 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Coupon
+SY-ES-ITA…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+Coupon
+SY-ES-JPN…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+Coupon
+SY-ES-ITA…
+CAD130
+1
+E-Survey
+Kai
+CFM
+CAD130
+CXL
+-
+CXL
+-
+CXL
+-
+Payment (2) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Balance
+CC
+QLWFJG
+CAD10,580
+2
+Credit Card
+System
+Lisa
+CFM
+CAD10,580
+Deposit
+CC
+QLWFJG
+CAD2,800
+2
+Credit Card
+System
+Lisa
+CFM
+CAD2,800
+CXL
+-
+CXL
+-
+Revise booking
+Revise booking
+Preview
+Preview
+PreTour Remind/Itin
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+Logs
+History (12)
+PDF Doc. (5)
+Check List. (0)
+1
+2
+Date/Time
+Type
+Description
+By
+01/22/2026 10:11AM
+Cust. Profile
+Update: Monice Ngan Ling, Chan
+Kai.Hu
+01/19/2026 11:47AM
+Online Payment
+Balance has been Approved. Remark: charge $10580 Auth04291I/08102I in Jan 19 2026
+Lisa.Chen
+09/26/2025 11:33AM
+Guarantee email
+Guarantee departure email sent to guests
+Stacy.Yeh
+09/25/2025 10:43AM
+Online Payment
+Deposit has been Approved. Remark: Charge $`2800 in September 25 2025
+Lisa.Chen
+09/25/2025 10:43AM
+Status
+Status Changed: from New Booking to Deposited
+System
+09/19/2025 3:08PM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+09/19/2025 3:08PM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+09/19/2025 3:08PM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+09/19/2025 3:08PM
+Concession
+This Customer Coupon(E-Survey) has been submit
+Kai.Hu
+09/19/2025 3:08PM
+Cust. Profile
+Update: Monice Ngan Ling, Chan
+Kai.Hu
+
+
+
+
+
+2/7/26, 4:47 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=401639
+2/3
+
+=== Page 3 ===
+
+
+
+
+
+2/7/26, 4:47 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=401639
+3/3
+

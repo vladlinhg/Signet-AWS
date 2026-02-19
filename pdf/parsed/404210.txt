@@ -1,0 +1,352 @@
+=== Page 1 ===
+NET
+Submissions
+OBS
+Settings
+esther.lin
+Logoff
+Total:
+CAD0
+Total:
+CAD0
+SIG_CAN  404210
+01/06/2026
+Group No.
+ Update: (01/06/2026)
+Debit credit memo (06/10/2021)
+18
+New Booking
+Deposit (Due by 01/08/2026)
+3
+Invoiced (26CA00003)
+4
+Travel Doc
+5
+Guide's greeting
+6
+Completed
+CAD153 (2%) off land total paid by check
+ 
+Request
+Title
+Last, First/Middle
+DOB
+Passport/ID
+Exp.Date
+Meals Res
+Motion Sickness
+Insurance
+Remark
+Prices
+Single 
+ 
+Ms
+(C)
+Oct 13 1959 (66)
+CAN P**60PC
+Sep 05 2034
+A CAD7,650
+Inatori Ginsuiso Upgraded Japanese-style Room
+CAD0
+SORA Togetsusou Kinryu Garden View Japanese Room
+CAD0
+Tokiichiyu Japanese Room with Balcony
+--
+#9 UG
+Lai, Wendy
+Yee Har
+N/A
+N/A
+Total: CAD7,650
+Pick-up / Send-off 
+ 
+/ 
+ / 
+P/U List S/O List
+Flight info
+*Record changed. Please refresh.  
+ 
+Pick Up
+CX0548
+02/25/2026
+HKG/HND
+8:55AM - 1:45PM
+Send Off
+CX0549
+03/03/2026
+HND/HKG
+4:00PM - 8:15PM
+Signet arranged
+Signet arranged
+Hotel Ext. (0) - Pre Post
+Pre: No Hotel
+Items
+# RM
+RM type
+Guests
+# Nt
+Rate/R/N
+Ch-in
+Ch-out
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Optional (0) 
+Items
+$ / Adt
+# of Adt
+$ / Chd
+# of Chd
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Others (0) 
+New OBS
+ Contact
+Ms. Lai, Wendy Yee Har
++1 (416) 602-3452
+mypiggy@rogers.com
+Contact info:
+日本伊豆半島河津櫻風情遊7天6夜 JPN26225I2 (R12/10, G21/0)
+Tour starts/ends: 02/25/2026 NRT - 03/03/2026 NRT
+Tour Language: M
+Signet Rep.: kai.hu
+PNR 1: GDIAJH (PAX: 1) 
+1.LAI/WENDY YEE HAR  
+*Seat assign not allow
+
+
+
+
+
+2/7/26, 4:51 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404210
+1/3
+
+=== Page 2 ===
+Total:
+CAD0
+Total:
+-CAD153
+Grand Total
+CAD7,497
+Total Paid:
+-CAD7,650
+Balance  -CAD153
+Total:
+ CAD0
+Total Paid:  CAD0
+Balance  CAD0
+ 
+ 
+ 
+ 
+ 
+Items
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Concession (2) 
+Items
+Ref #
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Discount
+CAD153
+1
+$7,650 x 2% = $153
+System
+CFM
+CAD153
+Coupon
+SY-ES-JPN…
+CAD130
+1
+E-Survey
+Kai
+CXD
+CAD130
+CXL
+-
+-
+Payment (1) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Full Amount
+CK
+CAD7,650
+1
+Received CAD7650 on…
+Kai
+Lisa
+CFM
+CAD7,650
+-
+Debit/Credit (1)
+Items
+D/C
+Amount
+Count
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Upgrade
+Debit
+CAD0
+1
+New upgrade
+Mason
+Mason
+CFM
+CAD0
+Debit Payment (2) 
+Items
+FOP
+# / sabre
+Amount
+Counts
+Remark
+Submit
+Handler
+Action
+Status
+Subtotal
+Debit
+CK
+CAD153
+1
+eTransfer CAD153 to pax on 1/8/2026
+Kai
+Lisa
+CXD
+CAD153
+Credit
+CK
+CAD153
+1
+eTransfer CAD153 to pax on 1/8/2026
+Kai
+Lisa
+CXD
+CAD153
+-
+Revise booking
+Revise booking
+Preview
+Preview
+Final checklist
+Final checklist
+PreTour Remind/Itin
+PreTour Remind/Itin
+Group Invitation
+Group Invitation
+After tour greeting
+After tour greeting
+Note
+External Note
+Add Note
+Internal Note
+Add Note
+
+
+
+
+
+2/7/26, 4:51 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404210
+2/3
+
+=== Page 3 ===
+From: kai.hu
+eTransfer CAD153 to pax on 1/8/2026
+01/08/2026 10:14AM
+Logs
+History (23)
+PDF Doc. (3)
+Check List. (0)
+1
+2
+3
+Date/Time
+Type
+Description
+By
+01/28/2026 5:36PM
+Room Upgrades
+Changed from N/A to Japanese Room with Balcony
+Mason.Ng
+01/08/2026 10:14AM
+Payment
+Lisa.Chen
+01/08/2026 10:13AM
+Payment
+Debit: eTransfer CAD153 to pax on 1/8/2026 has been cancel
+Kai.Hu
+01/08/2026 10:13AM
+Payment Approved
+Debit eTransfer CAD153 to pax on 1/8/2026 has been Approved.
+Lisa.Chen
+01/08/2026 10:11AM
+Payment
+Debit: eTransfer CAD153 to pax on 1/8/2026 has been cancel
+Kai.Hu
+01/08/2026 10:10AM
+Payment Approved
+Debit eTransfer CAD153 to pax on 1/8/2026 has been Approved.
+Lisa.Chen
+01/08/2026 10:09AM
+Debit Payment
+Debit： eTransfer CAD153 to pax on 1/8/2026 has been submit
+Kai.Hu
+01/08/2026 10:09AM
+Payment
+Lisa.Chen
+01/08/2026 10:09AM
+Payment
+Credit: eTransfer CAD153 to pax on 1/8/2026 has been cancel
+Kai.Hu
+01/08/2026 10:08AM
+Payment Approved
+DebiteTransfer CAD153 to pax on 1/8/2026 has been Approved.
+Lisa.Chen
+
+
+
+
+
+2/7/26, 4:51 PM
+超值旅游后台管理系统 - OBS
+https://new.supernettours.com/obs_queryBookingDetail.do?bkrId=404210
+3/3
+
