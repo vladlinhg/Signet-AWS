@@ -16,7 +16,7 @@ class PDFParserService:
         """
         :param file_stream: Binary IO stream of the PDF file.
         """
-        self.doc = fitz.open(stream=file_stream, filetype="pdf")
+        self.doc = fitz.open(stream=file_stream.read(), filetype="pdf")
         self.text = ""
         self.full_text_layers = [] # List of text per page
 

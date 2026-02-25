@@ -5,16 +5,16 @@ import argparse
 from pathlib import Path
 
 # Add project root to path so we can import Django/Services
-sys.path.append(str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 # Set up minimal django environment if needed in the future,
 # although our services should be pure Python right now.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 import django
 django.setup()
 
-from apps.core.services.import.pdf_parser import PDFParserService
-from apps.core.services.import.normalize import normalize_booking_text
+from apps.core.services.imports.pdf_parser import PDFParserService
+from apps.core.services.imports.normalize import normalize_booking_text
 
 def process_single_pdf(pdf_path: str):
     pdf_file = Path(pdf_path)
