@@ -1,30 +1,628 @@
-[
-  {
+{
+  "airports": [
+    {
+      "lookup_key": {
+        "iata_code": "YVR"
+      },
+      "fields": {
+        "iata_code": "YVR"
+      }
+    },
+    {
+      "lookup_key": {
+        "iata_code": "NRT"
+      },
+      "fields": {
+        "iata_code": "NRT"
+      }
+    },
+    {
+      "lookup_key": {
+        "iata_code": "KIX"
+      },
+      "fields": {
+        "iata_code": "KIX"
+      }
+    },
+    {
+      "lookup_key": {
+        "iata_code": "ICN"
+      },
+      "fields": {
+        "iata_code": "ICN"
+      }
+    }
+  ],
+  "airlines": [
+    {
+      "lookup_key": {
+        "code": "AC"
+      },
+      "fields": {
+        "code": "AC"
+      }
+    },
+    {
+      "lookup_key": {
+        "code": "OZ"
+      },
+      "fields": {
+        "code": "OZ"
+      }
+    }
+  ],
+  "flights": [
+    {
+      "lookup_key": {
+        "airline_code": "AC",
+        "flight_number": "0003",
+        "departure_airport_iata": "YVR",
+        "arrival_airport_iata": "NRT"
+      },
+      "fields": {
+        "flight_number": "0003"
+      }
+    },
+    {
+      "lookup_key": {
+        "airline_code": "OZ",
+        "flight_number": "0111",
+        "departure_airport_iata": "KIX",
+        "arrival_airport_iata": "ICN"
+      },
+      "fields": {
+        "flight_number": "0111"
+      }
+    }
+  ],
+  "flight_instances": [
+    {
+      "lookup_key": {
+        "flight_code": "AC0003-YVR-NRT",
+        "departure_date": "2022-09-14"
+      },
+      "fields": {
+        "flight_code": "AC0003-YVR-NRT",
+        "departure_date": "2022-09-14",
+        "flight_lookup": {
+          "airline_code": "AC",
+          "flight_number": "0003",
+          "departure_airport_iata": "YVR",
+          "arrival_airport_iata": "NRT"
+        }
+      }
+    },
+    {
+      "lookup_key": {
+        "flight_code": "OZ0111-KIX-ICN",
+        "departure_date": "2022-09-25"
+      },
+      "fields": {
+        "flight_code": "OZ0111-KIX-ICN",
+        "departure_date": "2022-09-25",
+        "flight_lookup": {
+          "airline_code": "OZ",
+          "flight_number": "0111",
+          "departure_airport_iata": "KIX",
+          "arrival_airport_iata": "ICN"
+        }
+      }
+    }
+  ],
+  "invoice": {
     "lookup_key": {
-      "booking_id": "344565-TB-1"
+      "booking_number": "344565"
     },
     "fields": {
-      "booking_id": "344565-TB-1",
-      "booking_type": "",
-      "room_type": "Twin",
-      "tour_instance_lookup": {
-        "tour_code": "JPN22917CE",
-        "tour_language": "E"
+      "status": "CANCELLED",
+      "tag": "RECORD_ONLY",
+      "currency": "CAD",
+      "group_no": 3,
+      "created_at": "2021-09-24",
+      "sales_user_username": "louis.wu"
+    }
+  },
+  "clients": [
+    {
+      "lookup_key": {
+        "first_name": "Bryan",
+        "last_name": "Parker",
+        "dob": "1953-04-07",
+        "gender": "M"
+      },
+      "fields": {
+        "first_name": "Bryan",
+        "last_name": "Parker",
+        "dob": "1953-04-07",
+        "gender": "M",
+        "preferred_language": "E",
+        "phone": "+1 (778) 329-3669",
+        "email": "louis_wu@signettours.ca"
+      },
+      "health_plan": {
+        "dietary_restrictions": {
+          "incoming": null,
+          "action": "SKIP_EMPTY"
+        },
+        "allergies": {
+          "incoming": null,
+          "action": "SKIP_EMPTY"
+        }
+      },
+      "travel_documents": [
+        {
+          "doc_type": "PASSPORT",
+          "doc_number": "G**0444",
+          "issuing_country": "CAN",
+          "expiry_date": "2024-01-24"
+        }
+      ],
+      "flight_tickets": [
+        {
+          "ticket_code": "AC0003-YVR-NRT-ANY-59cca9",
+          "pnr": "LVUXOT",
+          "meal_plan": "Self-arranged (Meet in hotel)",
+          "flight_instance_lookup": {
+            "flight_code": "AC0003-YVR-NRT",
+            "departure_date": "2022-09-14"
+          }
+        },
+        {
+          "ticket_code": "OZ0111-KIX-ICN-ANY-8023fd",
+          "pnr": "LVUXOT",
+          "meal_plan": "Supera arranged",
+          "flight_instance_lookup": {
+            "flight_code": "OZ0111-KIX-ICN",
+            "departure_date": "2022-09-25"
+          }
+        }
+      ],
+      "tour_booking_lookup": {
+        "booking_id": "344565-TB-1"
+      }
+    },
+    {
+      "lookup_key": {
+        "first_name": "Edgar",
+        "last_name": "Ortiz Pedraza",
+        "dob": "1981-01-31",
+        "gender": "M"
+      },
+      "fields": {
+        "first_name": "Edgar",
+        "last_name": "Ortiz Pedraza",
+        "dob": "1981-01-31",
+        "gender": "M",
+        "preferred_language": "E"
+      },
+      "health_plan": {
+        "dietary_restrictions": {
+          "incoming": null,
+          "action": "SKIP_EMPTY"
+        },
+        "allergies": {
+          "incoming": null,
+          "action": "SKIP_EMPTY"
+        }
+      },
+      "travel_documents": [
+        {
+          "doc_type": "PASSPORT",
+          "doc_number": "G**4663",
+          "issuing_country": "CAN",
+          "expiry_date": "2024-08-27"
+        }
+      ],
+      "flight_tickets": [
+        {
+          "ticket_code": "AC0003-YVR-NRT-ANY-5ed344",
+          "pnr": "LVUXOT",
+          "meal_plan": "Self-arranged (Meet in hotel)",
+          "flight_instance_lookup": {
+            "flight_code": "AC0003-YVR-NRT",
+            "departure_date": "2022-09-14"
+          }
+        },
+        {
+          "ticket_code": "OZ0111-KIX-ICN-ANY-82d8dc",
+          "pnr": "LVUXOT",
+          "meal_plan": "Supera arranged",
+          "flight_instance_lookup": {
+            "flight_code": "OZ0111-KIX-ICN",
+            "departure_date": "2022-09-25"
+          }
+        }
+      ],
+      "tour_booking_lookup": {
+        "booking_id": "344565-TB-2"
+      }
+    }
+  ],
+  "product": {
+    "lookup_key": {
+      "country_code": "JPN",
+      "unique_seq": "C"
+    },
+    "fields": {
+      "country_code": "JPN",
+      "unique_seq": "C",
+      "name": "Kanto + Kansai: Classics 10 days 8 nights"
+    }
+  },
+  "tour_instance": {
+    "lookup_key": {
+      "tour_code": "JPN22917CE",
+      "tour_language": "E"
+    },
+    "fields": {
+      "tour_code": "JPN22917CE",
+      "tour_language": "E",
+      "start_date": "2021-09-24",
+      "end_date": "2022-07-07",
+      "product_lookup_key": {
+        "country_code": "JPN",
+        "unique_seq": "C"
       }
     }
   },
-  {
-    "lookup_key": {
-      "booking_id": "344565-TB-2"
+  "tour_bookings": [
+    {
+      "lookup_key": {
+        "booking_id": "344565-TB-1"
+      },
+      "fields": {
+        "booking_id": "344565-TB-1",
+        "booking_type": "",
+        "room_type": "Twin",
+        "tour_instance_lookup": {
+          "tour_code": "JPN22917CE",
+          "tour_language": "E"
+        }
+      }
     },
-    "fields": {
-      "booking_id": "344565-TB-2",
-      "booking_type": "",
-      "room_type": "Twin",
-      "tour_instance_lookup": {
-        "tour_code": "JPN22917CE",
-        "tour_language": "E"
+    {
+      "lookup_key": {
+        "booking_id": "344565-TB-2"
+      },
+      "fields": {
+        "booking_id": "344565-TB-2",
+        "booking_type": "",
+        "room_type": "Twin",
+        "tour_instance_lookup": {
+          "tour_code": "JPN22917CE",
+          "tour_language": "E"
+        }
       }
     }
-  }
-]
+  ],
+  "agency": null,
+  "agent_plan": null,
+  "address": null,
+  "invoice_items": [
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": 5150,
+        "currency": "CAD"
+      },
+      "tour_booking_lookup": {
+        "booking_id": "344565-TB-1"
+      },
+      "meta": {
+        "category": "tour_booking",
+        "client_lookup": {
+          "first_name": "Bryan",
+          "last_name": "Parker",
+          "dob": "1953-04-07",
+          "gender": "M"
+        }
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": 5150,
+        "currency": "CAD"
+      },
+      "tour_booking_lookup": {
+        "booking_id": "344565-TB-2"
+      },
+      "meta": {
+        "category": "tour_booking",
+        "client_lookup": {
+          "first_name": "Edgar",
+          "last_name": "Ortiz Pedraza",
+          "dob": "1981-01-31",
+          "gender": "M"
+        }
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": 0,
+        "currency": "CAD"
+      },
+      "flight_ticket_lookup": {
+        "ticket_code": "AC0003-YVR-NRT-ANY-59cca9"
+      },
+      "meta": {
+        "category": "flight_ticket"
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": 0,
+        "currency": "CAD"
+      },
+      "flight_ticket_lookup": {
+        "ticket_code": "OZ0111-KIX-ICN-ANY-8023fd"
+      },
+      "meta": {
+        "category": "flight_ticket"
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": 0,
+        "currency": "CAD"
+      },
+      "flight_ticket_lookup": {
+        "ticket_code": "AC0003-YVR-NRT-ANY-5ed344"
+      },
+      "meta": {
+        "category": "flight_ticket"
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": 0,
+        "currency": "CAD"
+      },
+      "flight_ticket_lookup": {
+        "ticket_code": "OZ0111-KIX-ICN-ANY-82d8dc"
+      },
+      "meta": {
+        "category": "flight_ticket"
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": -65,
+        "currency": "CAD"
+      },
+      "meta": {
+        "category": "discount",
+        "remark": "Travel Insurance"
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": -65,
+        "currency": "CAD"
+      },
+      "meta": {
+        "category": "discount",
+        "remark": "Travel Insurance"
+      }
+    },
+    {
+      "fields": {
+        "quantity": 1,
+        "unit_price": -204,
+        "currency": "CAD"
+      },
+      "meta": {
+        "category": "discount",
+        "remark": "$10,200 x 2% = $204.00"
+      }
+    }
+  ],
+  "payments": [
+    {
+      "fields": {
+        "amount": 1200,
+        "type": "deposit",
+        "currency": "CAD"
+      },
+      "meta": {
+        "remark": "Rebook with new OBS"
+      }
+    }
+  ],
+  "invoice_notes": [
+    {
+      "fields": {
+        "content": "[Payment] Remark: undefined",
+        "created_at": "2024-09-25"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "esther.lin"
+        },
+        "fields": {
+          "username": "esther.lin",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Penalty] Cancellation Penalty has been Approved Remark: Tour cancelled by Supera Tours, no penalty apply",
+        "created_at": "2022-07-09"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "kara.yu"
+        },
+        "fields": {
+          "username": "kara.yu",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Penalty] Cancellation Penalty has been Confirm Remark: Tour cancelled by Supera Tours, no penalty apply",
+        "created_at": "2022-07-07"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "mason.ng"
+        },
+        "fields": {
+          "username": "mason.ng",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Payment] Deposit\uff1aRebook with new OBS has been cancel",
+        "created_at": "2022-07-07"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "mason.ng"
+        },
+        "fields": {
+          "username": "mason.ng",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Concession] This discount($10,200 x 2% = $204.00) has been cancel",
+        "created_at": "2022-07-07"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "mason.ng"
+        },
+        "fields": {
+          "username": "mason.ng",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Cancel Booking] tour cancelled by Supera tours",
+        "created_at": "2022-07-07"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "mason.ng"
+        },
+        "fields": {
+          "username": "mason.ng",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Cust. Room] Update: Room #2,room type Twin/Double is changed to TWN",
+        "created_at": "2022-06-02"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "louis.wu"
+        },
+        "fields": {
+          "username": "louis.wu",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Cust. Room] Update: Room #2,room type Twin/Double is changed to TWN",
+        "created_at": "2022-06-02"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "louis.wu"
+        },
+        "fields": {
+          "username": "louis.wu",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Cust. Profile] Update: Bryan Kenneth, Parker",
+        "created_at": "2022-03-09"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "louis.wu"
+        },
+        "fields": {
+          "username": "louis.wu",
+          "is_active": false
+        }
+      }
+    },
+    {
+      "fields": {
+        "content": "[Cust. Profile] Update: Edgar , Ortiz Pedraza",
+        "created_at": "2022-03-09"
+      },
+      "author": {
+        "lookup_key": {
+          "username": "louis.wu"
+        },
+        "fields": {
+          "username": "louis.wu",
+          "is_active": false
+        }
+      }
+    }
+  ],
+  "integrity": {
+    "pdf_totals": {
+      "grand_total": 10300,
+      "total_paid": 1200,
+      "balance": 8896
+    },
+    "computed": {
+      "items_sum": 9966,
+      "payments_sum": 1200,
+      "computed_balance": 8766
+    },
+    "checks": [
+      {
+        "name": "items_sum_equals_pdf_grand_total",
+        "ok": false
+      },
+      {
+        "name": "payments_sum_equals_pdf_total_paid",
+        "ok": true
+      },
+      {
+        "name": "computed_balance_equals_pdf_balance",
+        "ok": false
+      }
+    ]
+  },
+  "notifications": [
+    {
+      "severity": "WARN",
+      "booking_number": "344565",
+      "message": "Integrity failed: items_sum_equals_pdf_grand_total"
+    },
+    {
+      "severity": "WARN",
+      "booking_number": "344565",
+      "message": "Integrity failed: computed_balance_equals_pdf_balance"
+    }
+  ]
+}

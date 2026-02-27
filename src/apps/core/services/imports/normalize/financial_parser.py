@@ -115,3 +115,62 @@ def parse_payments(text: str, currency: str) -> List[Dict[str, Any]]:
                     "meta": {"remark": remark.strip() or "Deposit"}
                 })
     return payments
+
+def parse_logs(text: str) -> List[Dict[str, Any]]:
+    notes = []
+    lines = [L.strip() for L in text.splitlines() if L.strip()]
+    
+    # Isolate just the Logs portion, often appearing near the end of the PDF
+    try:
+        start_idx = lines.index("Logs")
+    except ValueError:
+        return notes
+        
+    log_lines = lines[start_idx:]
+    
+    for i in range(len(log_lines)):
+        # We look for the standard Timestamp printed sequentially in the history block
+        # Format: MM/DD/YYYY H:MM(AM/PM)
+        m_date = re.search(r"^(\d{2}/\d{2}/\d{4})\s+(\d{1,2}:\d{2}[AP]M)$", log_lines[i], re.IGNORECASE)
+        if m_date:
+            date_str = m_date.group(1)
+            time_str = m_date.group(2)
+            # Reformat to ISO for DB (just MM/DD/YYYY is enough for basic ISO creation, or we can use utils)
+            from .utils import iso_from_mmddyyyy
+            mm, dd, yyyy = date_str.split("/")
+            iso_date = iso_from_mmddyyyy(mm, dd, yyyy)
+            
+            # The Type is almost always the line AFTER the Date
+            log_type = "Note"
+            if i + 1 < len(log_lines):
+                log_type = log_lines[i+1]
+                
+            # The Description is almost always the line AFTER the Type
+            description = ""
+            if i + 2 < len(log_lines):
+                description = log_lines[i+2]
+                
+            # The Author is the line AFTER the Description
+            author = "system"
+            if i + 3 < len(log_lines):
+                author = log_lines[i+3]
+                
+            # Construct standard InvoiceNote shape
+            # Provide full 'fields' for the author so update_or_create can safely make empty users
+            notes.append({
+                "fields": {
+                    "content": f"[{log_type}] {description}",
+                    "created_at": iso_date
+                },
+                "author": {
+                    "lookup_key": {
+                        "username": author.lower()
+                    },
+                    "fields": {
+                        "username": author.lower(),
+                        "is_active": False  # safely default generated historical agents
+                    }
+                }
+            })
+            
+    return notes

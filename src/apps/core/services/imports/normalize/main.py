@@ -8,7 +8,7 @@ from .header_parser import (
 from .client_parser import parse_clients, parse_health_notes
 from .agency_parser import parse_agency_and_agent
 from .flight_parser import parse_flights
-from .financial_parser import parse_invoice_items, handle_concessions, parse_pdf_totals, parse_payments
+from .financial_parser import parse_invoice_items, handle_concessions, parse_pdf_totals, parse_payments, parse_logs
 from .integrity import compute_integrity
 
 def normalize_booking_text(bk: str, text: str) -> Dict[str, Any]:
@@ -117,6 +117,9 @@ def normalize_booking_text(bk: str, text: str) -> Dict[str, Any]:
 
 
     pdf_totals = parse_pdf_totals(text)
+    
+    invoice_notes = parse_logs(text)
+    
     integrity = compute_integrity(items, payments, pdf_totals)
 
     for chk in integrity.get("checks", []):
@@ -145,6 +148,7 @@ def normalize_booking_text(bk: str, text: str) -> Dict[str, Any]:
         "address": address_block,
         "invoice_items": items,
         "payments": payments,
+        "invoice_notes": invoice_notes,
         "integrity": integrity,
         "notifications": notifications
     }

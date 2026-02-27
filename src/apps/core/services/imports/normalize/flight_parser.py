@@ -43,7 +43,7 @@ def parse_flights(text: str) -> Tuple[List[Dict], List[Dict], List[Dict], List[D
     flight_segments = []
     for i in range(len(lines) - 2):
         # Look for the Airline+Flight Number (e.g. AC0003 or OZ0111)
-        m_flight = re.search(r"^([A-Z0-9]{2,3})(\d{3,4})$", lines[i])
+        m_flight = re.search(r"^([A-Z]+)(\d+)$", lines[i])
         if m_flight:
             # Check if next line is a Date
             m_date = re.search(r"^(\d{2})/(\d{2})/(\d{4})$", lines[i+1])
