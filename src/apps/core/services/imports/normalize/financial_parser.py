@@ -2,35 +2,31 @@ import re
 from typing import Dict, Any, List, Optional
 from .utils import norm_space
 
-def parse_invoice_items(text: str, currency: str) -> List[Dict[str, Any]]:
-    items: List[Dict[str, Any]] = []
-    passenger_lines = []
-
+def parse_invoice_items(text: str, currency: str, clients: list, flight_tickets: list) -> List[Dict[str, Any]]:
+    base_price = 5150
     for line in text.splitlines():
-        if re.search(r"\bCAD\s*[0-9]", line, re.IGNORECASE) and ("Total" not in line) and ("Balance" not in line):
-            passenger_lines.append(line)
+        # Specifically target the Adult Fare line (e.g. "A CAD5,150")
+        m = re.search(r"\bA\s+CAD\s*([0-9]{1,3}(?:,[0-9]{3})*|[0-9]+)\b", line, re.IGNORECASE)
+        if m:
+            base_price = int(m.group(1).replace(",", ""))
+            break
 
-    for line in passenger_lines:
-        m = re.search(r"\bCAD\s*([0-9]{1,3}(?:,[0-9]{3})*|[0-9]+)\b", line, re.IGNORECASE)
-        if not m:
-            continue
-        unit = int(m.group(1).replace(",", ""))
-        qty = 1
-        mq = re.search(r"(?:x|×)\s*(\d+)\b", line, re.IGNORECASE)
-        if mq:
-            qty = int(mq.group(1))
+    items: List[Dict[str, Any]] = []
+    
+    for c in clients:
+        items.append({
+            "fields": {"quantity": 1, "unit_price": base_price, "currency": currency},
+            "tour_booking_lookup": c.get("tour_booking_lookup"),
+            "meta": {"category": "tour_booking", "client_lookup": c["lookup_key"]}
+        })
 
-        if qty <= 1:
-            items.append({
-                "fields": {"quantity": 1, "unit_price": unit, "currency": currency},
-                "meta": {"source_line": norm_space(line), "category": "package"}
-            })
-        else:
-            for _ in range(qty):
-                items.append({
-                    "fields": {"quantity": 1, "unit_price": unit, "currency": currency},
-                    "meta": {"source_line": norm_space(line), "category": "package", "expanded_from_qty": qty}
-                })
+    for ft in flight_tickets:
+        items.append({
+            "fields": {"quantity": 1, "unit_price": 0, "currency": currency},
+            "flight_ticket_lookup": {"ticket_code": ft["ticket_code"]},
+            "meta": {"category": "flight_ticket"}
+        })
+        
     return items
 
 def parse_concession_total(text: str) -> int:
@@ -56,20 +52,66 @@ def parse_pdf_totals(text: str) -> Dict[str, Optional[int]]:
     }
 
 def handle_concessions(text: str, items: List[Dict[str, Any]], currency: str):
-    concession_total = parse_concession_total(text)
-    if concession_total > 0:
-        row_amts = []
-        for m in re.finditer(r"\bCoupon\b.*?\bCAD\s*([0-9,]+)\b", text, re.IGNORECASE):
-            row_amts.append(int(m.group(1).replace(",", "")))
-        if not row_amts:
-            row_amts = [concession_total]
-        for idx, amt in enumerate(row_amts, start=1):
-            items.append({
-                "fields": {
-                    "quantity": 1,
-                    "unit_price": -amt,
-                    "currency": currency
-                },
-                "meta": {"category": "coupon", "source_ref": f"ConcessionRow#{idx}"}
-            })
+    lines = [L.strip() for L in text.splitlines() if L.strip()]
+    
+    for i in range(len(lines)):
+        if lines[i] == "Discount":
+            amt = None
+            remark = ""
+            for j in range(1, 15):
+                if i + j >= len(lines): break
+                nxt = lines[i+j]
+                if (nxt.startswith("CAD") or nxt.startswith(currency)) and amt is None:
+                    m = re.search(r"([0-9,]+)", nxt)
+                    if m: amt = int(m.group(1).replace(",", ""))
+                elif nxt.isdigit() and amt is not None and not remark:
+                    pass # skip quantity line
+                elif nxt in ["System", "CXD", "Discount", "Total:", "Total"]:
+                    break
+                elif amt is not None:
+                    remark += nxt + " "
+
+            if amt is not None:
+                items.append({
+                    "fields": {
+                        "quantity": 1,
+                        "unit_price": -amt,
+                        "currency": currency
+                    },
+                    "meta": {"category": "discount", "remark": remark.strip() or "Discount"}
+                })
     return items
+
+def parse_payments(text: str, currency: str) -> List[Dict[str, Any]]:
+    payments = []
+    lines = [L.strip() for L in text.splitlines() if L.strip()]
+
+    for i in range(len(lines)):
+        if lines[i] == "Deposit":
+            amt = None
+            remark = ""
+            for j in range(1, 15):
+                if i + j >= len(lines): break
+                nxt = lines[i+j]
+                if (nxt.startswith("CAD") or nxt.startswith(currency)) and amt is None:
+                    m = re.search(r"([0-9,]+)", nxt)
+                    if m: amt = int(m.group(1).replace(",", ""))
+                elif nxt in ["CK", "CC", "CASH"]:
+                    pass # skip FOP
+                elif nxt.isdigit() and amt is not None and not remark:
+                    pass # skip count
+                elif nxt in ["Louis", "Esther", "System", "CXD", "Payment", "Balance"]:
+                    break
+                elif amt is not None:
+                    remark += nxt + " "
+
+            if amt is not None:
+                payments.append({
+                    "fields": {
+                        "amount": amt,
+                        "type": "deposit",
+                        "currency": currency
+                    },
+                    "meta": {"remark": remark.strip() or "Deposit"}
+                })
+    return payments

@@ -42,6 +42,10 @@ def process_single_pdf(pdf_path: str):
 
     # 2. Run Normalizer
     print("2. Running NormalizationService...")
+    print("--- RAW TEXT HEAD ---")
+    print(raw_text[:1000]) # Look at the top of the file where clients usually are
+    print("---------------------")
+
     normalized_plan = normalize_booking_text(bk, raw_text)
 
     # 3. Save Output

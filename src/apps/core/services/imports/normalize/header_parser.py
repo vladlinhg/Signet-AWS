@@ -6,7 +6,7 @@ from .utils import (
 )
 
 def parse_sales_user(text: str) -> Optional[str]:
-    m = re.search(r"\b(?:Sales|Supera\s+Rep)\s*[:：]\s*([a-zA-Z0-9_.-]+)\b", text)
+    m = re.search(r"\b(?:Sales|Supera\s+Rep)\.?\s*[:：]\s*([a-zA-Z0-9_.-]+)\b", text, re.IGNORECASE)
     return m.group(1) if m else None
 
 def parse_created_at(text: str) -> Optional[str]:
@@ -20,7 +20,8 @@ def parse_created_at(text: str) -> Optional[str]:
     return None
 
 def parse_group_no(text: str) -> Optional[int]:
-    m = re.search(r"\bGroup\s*No\.?\s*[:：]?\s*(\d+)\b", text, re.IGNORECASE)
+    cleaned = re.sub(r"Update:\s*\([^)]+\)", "", text, flags=re.IGNORECASE)
+    m = re.search(r"\bGroup\s*No\.?\s*[:：]?\s*(\d+)\b", cleaned, re.IGNORECASE | re.DOTALL)
     return int(m.group(1)) if m else None
 
 def parse_currency(text: str) -> Optional[str]:
@@ -48,6 +49,16 @@ def parse_tour_code(text: str) -> Optional[str]:
     if m: return m.group(1).upper()
     m2 = re.search(r"\b([A-Z]{3}\d{5}[A-Z0-9]{1,3})\b", text)
     return m2.group(1).upper() if m2 else None
+
+def parse_product_name(text: str, tour_code: Optional[str]) -> Optional[str]:
+    if not tour_code:
+        return None
+    # Product name sits just before the tour code in the raw text stream usually
+    # E.g. "Kanto + Kansai: Classics 10 days 8 nights JPN22917CE (R9/0, G0/0)"
+    m = re.search(rf"([^\n\r]+?)\s+{re.escape(tour_code)}", text)
+    if m:
+        return m.group(1).strip()
+    return None
 
 def parse_product_from_tour_code(tour_code: str, tour_language: Optional[str]) -> Dict[str, str]:
     country = tour_code[:3]
