@@ -67,7 +67,7 @@ def manager_dashboard(request):
             'items__client',
             'payments',
             'items__tour_booking__tour_instance__product',
-            'items__flight_ticket__flight_instance',
+            'items__flight_ticket__flight',
             'items__addon_service',
             'items__coupon'
         )\
@@ -102,7 +102,7 @@ def manager_dashboard(request):
                 label = f"Tour: {p_name} ({tour.tour_code})"
                 badge_class = "bg-indigo-100 text-indigo-800"
             elif item.flight_ticket:
-                flight = item.flight_ticket.flight_instance
+                flight = item.flight_ticket.flight
                 label = f"Flight: {flight.flight_code}"
                 badge_class = "bg-green-100 text-green-800"
             elif item.addon_service:

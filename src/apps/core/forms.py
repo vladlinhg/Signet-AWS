@@ -8,14 +8,23 @@ class ImportDataForm(forms.Form):
         ('users', 'Users CSV'),
         ('currencies', 'Currencies CSV'),
         ('legacy', 'Legacy Data Import (Enhanced)'),
+        ('pdf', 'Booking Confirmation PDF'),
     ]
     import_type = forms.ChoiceField(choices=TYPE_CHOICES, label="Data Type")
     file = forms.FileField(label="Select CSV File", help_text="Upload a .csv file")
 
     def clean_file(self):
-        file = self.cleaned_data['file']
-        if not file.name.endswith('.csv'):
-            raise forms.ValidationError("Only .csv files are allowed.")
+        file = self.cleaned_data.get('file')
+        import_type = self.cleaned_data.get('import_type')
+        if not file:
+            return file
+            
+        if import_type == 'pdf':
+            if not file.name.lower().endswith('.pdf'):
+                raise forms.ValidationError("Only .pdf files are allowed for Booking Confirmations.")
+        else:
+            if not file.name.lower().endswith('.csv'):
+                raise forms.ValidationError("Only .csv files are allowed for bulk imports.")
         return file
 
 class WipeDataForm(forms.Form):

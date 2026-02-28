@@ -38,39 +38,48 @@
                                 class="item-checkbox" checked>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                            <span
+                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                 {% if item.status == 'NEW' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
                                 {{ item.status }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                             <select name="action_{{ forloop.counter0 }}" class="border border-gray-300 rounded px-2 py-1 text-sm bg-white">
+                            <select name="action_{{ forloop.counter0 }}"
+                                class="border border-gray-300 rounded px-2 py-1 text-sm bg-white">
                                 {% if item.status == 'MATCH_FOUND' %}
-                                    <option value="MERGE" selected>Merge (Enrich)</option>
-                                    <option value="OVERWRITE">Overwrite (Update)</option>
-                                    <option value="NEW">Create New (Duplicate)</option>
-                                    <option value="SKIP">Skip</option>
+                                <option value="MERGE" selected>Merge (Enrich)</option>
+                                <option value="OVERWRITE">Overwrite (Update)</option>
+                                <option value="SKIP">Skip New Changes</option>
                                 {% else %}
-                                    <option value="NEW" selected>Create New</option>
-                                    <option value="SKIP">Skip</option>
+                                <option value="NEW" selected>Create New</option>
+                                <option value="SKIP">Skip</option>
                                 {% endif %}
-                             </select>
+                            </select>
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">
+                            {% if item.entity_type %}
+                            <div class="mb-2 border-b pb-1">
+                                <strong class="text-indigo-700 bg-indigo-50 px-2 rounded">{{ item.entity_type
+                                    }}</strong>
+                                <span class="font-semibold text-gray-800 ml-2">{{ item.identifier }}</span>
+                            </div>
+                            {% endif %}
+
                             {% for k, v in item.data.items %}
-                                <div><strong>{{ k }}:</strong> {{ v }}</div>
+                            <div><strong>{{ k }}:</strong> {{ v }}</div>
                             {% endfor %}
 
                             {% if item.conflicts %}
                             <div class="mt-2 pt-2 border-t border-red-200 bg-red-50 p-2 rounded">
-                                <strong class="text-red-700 block mb-1">Conflicts Detected:</strong>
+                                <strong class="text-red-700 block mb-1">Discrepancy Detected (Git Diff):</strong>
                                 {% for field, diff in item.conflicts.items %}
-                                    <div class="text-xs mt-1">
-                                        <span class="font-bold text-gray-700">{{ field|title }}:</span>
-                                        <span class="text-red-500 line-through mr-1">{{ diff.old }}</span>
-                                        &rarr;
-                                        <span class="text-green-600 font-bold ml-1">{{ diff.new }}</span>
-                                    </div>
+                                <div class="text-xs mt-1">
+                                    <span class="font-bold text-gray-700">{{ field|title }}:</span>
+                                    <span class="text-red-500 line-through mr-1">{{ diff.old }}</span>
+                                    &rarr;
+                                    <span class="text-green-600 font-bold ml-1">{{ diff.new }}</span>
+                                </div>
                                 {% endfor %}
                             </div>
                             {% endif %}

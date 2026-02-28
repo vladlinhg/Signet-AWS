@@ -24,7 +24,7 @@ def parse_invoice_items(text: str, currency: str, clients: list, flight_tickets:
         items.append({
             "fields": {"quantity": 1, "unit_price": 0, "currency": currency},
             "flight_ticket_lookup": {"ticket_code": ft["ticket_code"]},
-            "meta": {"category": "flight_ticket"}
+            "meta": {"category": "flight_ticket", "client_lookup": ft.get("client_lookup")}
         })
         
     return items
@@ -58,6 +58,9 @@ def handle_concessions(text: str, items: List[Dict[str, Any]], currency: str):
         if lines[i] == "Discount":
             amt = None
             remark = ""
+            # User Feedback: Retain all cancelled entries with full amounts intact
+            # Removed the CXD/CXL lookahead abortion flag logic.
+            
             for j in range(1, 15):
                 if i + j >= len(lines): break
                 nxt = lines[i+j]
@@ -66,7 +69,7 @@ def handle_concessions(text: str, items: List[Dict[str, Any]], currency: str):
                     if m: amt = int(m.group(1).replace(",", ""))
                 elif nxt.isdigit() and amt is not None and not remark:
                     pass # skip quantity line
-                elif nxt in ["System", "CXD", "Discount", "Total:", "Total"]:
+                elif nxt in ["System", "Discount", "Total:", "Total"] and amt is not None:
                     break
                 elif amt is not None:
                     remark += nxt + " "
@@ -87,9 +90,12 @@ def parse_payments(text: str, currency: str) -> List[Dict[str, Any]]:
     lines = [L.strip() for L in text.splitlines() if L.strip()]
 
     for i in range(len(lines)):
-        if lines[i] == "Deposit":
+        if lines[i] == "Deposit" or lines[i] == "Payment":
             amt = None
             remark = ""
+            # User Feedback: Retain all cancelled payment entries
+            # Removed the CXD/CXL lookahead abortion flag logic.
+            
             for j in range(1, 15):
                 if i + j >= len(lines): break
                 nxt = lines[i+j]
@@ -100,7 +106,7 @@ def parse_payments(text: str, currency: str) -> List[Dict[str, Any]]:
                     pass # skip FOP
                 elif nxt.isdigit() and amt is not None and not remark:
                     pass # skip count
-                elif nxt in ["Louis", "Esther", "System", "CXD", "Payment", "Balance"]:
+                elif nxt in ["Louis", "Esther", "System", "Payment", "Balance", "Deposit"] and amt is not None:
                     break
                 elif amt is not None:
                     remark += nxt + " "

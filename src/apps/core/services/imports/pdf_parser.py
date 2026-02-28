@@ -43,6 +43,17 @@ class PDFParserService:
             logger.error(f"PDF Parse Error: {e}")
             raise ValueError(f"Failed to parse PDF: {str(e)}")
 
+    def extract_booking_number_only(self):
+        """
+        Fast extraction specifically for early-exit duplicate checking.
+        Only searches the first page text for performance.
+        """
+        search_text = self.full_text_layers[0] if self.full_text_layers else self.text
+        booking_match = re.search(r'(\d{6})', search_text)
+        if booking_match:
+            return booking_match.group(1)
+        return None
+
     def _extract_header(self):
         """
         Extracts Booking Number, Tour Code, Dates, Agent.

@@ -14,7 +14,7 @@ from .integrity import compute_integrity
 def normalize_booking_text(bk: str, text: str) -> Dict[str, Any]:
     notifications = []
     created_at = parse_created_at(text)
-    group_no = parse_group_no(text)
+    group_no = parse_group_no(text) or ""
     currency = parse_currency(text) or "CAD"
     sales_user = parse_sales_user(text) or "__UNKNOWN__"
     status = parse_status(text) or "UNKNOWN"
@@ -41,23 +41,24 @@ def normalize_booking_text(bk: str, text: str) -> Dict[str, Any]:
     ticket_templates = tickets_by_pnr[pnr_keys[0]] if pnr_keys else []
     
     for i, c in enumerate(clients):
-        tb_lookup = {"booking_id": f"{bk}-TB-{i+1}"}
+        booking_id = f"{tour_code}-{bk}-TB-{i+1}" if tour_code else f"{bk}-TB-{i+1}"
+        tb_lookup = {"booking_id": booking_id}
         tour_bookings.append({
             "lookup_key": tb_lookup,
             "fields": {
-                "booking_id": f"{bk}-TB-{i+1}",
+                "booking_id": booking_id,
                 "booking_type": "",
                 "room_type": getattr(c, 'room_type', ''),
                 "tour_instance_lookup": {
                     "tour_code": tour_code,
-                    "tour_language": tour_language
+                    "language": tour_language
                 }
             }
         })
         
         c_fields = {
             "first_name": c.first_name, "last_name": c.last_name,
-            "dob": c.dob, "gender": c.gender,
+            "birth_date": c.dob, "gender": c.gender,
             "preferred_language": tour_language
         }
         if getattr(c, 'phone', None): c_fields["phone"] = c.phone
@@ -69,13 +70,13 @@ def normalize_booking_text(bk: str, text: str) -> Dict[str, Any]:
 
         client_tickets = []
         for t in ticket_templates:
-            hexcode = uuid.uuid4().hex[:6]
             fcode = t["flight_instance_lookup"]["flight_code"]
             t_obj = {
-                "ticket_code": f"{fcode}-ANY-{hexcode}",
+                "ticket_code": f"{fcode}-{t['pnr']}-PAX{i+1}",
                 "pnr": t["pnr"],
                 "meal_plan": t["meal_plan"],
-                "flight_instance_lookup": t["flight_instance_lookup"]
+                "flight_instance_lookup": t["flight_instance_lookup"],
+                "client_lookup": c.lookup_key()
             }
             client_tickets.append(t_obj)
             all_client_tickets.append(t_obj)
@@ -106,14 +107,16 @@ def normalize_booking_text(bk: str, text: str) -> Dict[str, Any]:
                 "name": product_name
             }
         }
-        tour_instance_block = {
-            "lookup_key": {"tour_code": tour_code, "tour_language": tour_language},
-            "fields": {
-                "tour_code": tour_code, "tour_language": tour_language,
-                "start_date": dates.get("start_date"), "end_date": dates.get("end_date"),
-                "product_lookup_key": product_block["lookup_key"]
+        # 2. Tour Instance structure
+        if tour_code:
+            tour_instance_block = {
+                "lookup_key": {"tour_code": tour_code, "language": tour_language},
+                "fields": {
+                    "tour_code": tour_code, "language": tour_language,
+                    "status": "Quote", # Defaulting to Quote
+                    "product_lookup_key": product_bits
+                }
             }
-        }
 
 
     pdf_totals = parse_pdf_totals(text)

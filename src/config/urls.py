@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from django.contrib.auth import views as auth_views
 
-from apps.core.views import import_data_view, wipe_data_confirm, generate_data_view
+from apps.core.views import import_data_view, wipe_data_confirm, generate_data_view, pdf_booking_import_view
 from engine.pages.sales.views import sales_dashboard
 from engine.pages.marketing.views import marketing_dashboard, marketing_client_history
 from engine.pages.accountant.views import accountant_dashboard
@@ -12,6 +12,7 @@ from engine.pages.router import dashboard_router
 
 urlpatterns = [
     path('import/', import_data_view, name='import_data'),
+    path('import/pdf/', pdf_booking_import_view, name='pdf_booking_import'),
     path('admin/wipe-data/', wipe_data_confirm, name='wipe_data'),
     path('admin/generate-data/', generate_data_view, name='generate_data'),
 

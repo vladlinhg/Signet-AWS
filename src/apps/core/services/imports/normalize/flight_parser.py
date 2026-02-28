@@ -76,8 +76,8 @@ def parse_flights(text: str) -> Tuple[List[Dict], List[Dict], List[Dict], List[D
         airlines.append({"lookup_key": {"code": airline_code}, "fields": {"code": airline_code}})
 
         # Build Airports
-        airports.append({"lookup_key": {"iata_code": dep_apt}, "fields": {"iata_code": dep_apt}})
-        airports.append({"lookup_key": {"iata_code": arr_apt}, "fields": {"iata_code": arr_apt}})
+        airports.append({"lookup_key": {"code": dep_apt}, "fields": {"code": dep_apt}})
+        airports.append({"lookup_key": {"code": arr_apt}, "fields": {"code": arr_apt}})
 
         # Build Flight Base
         flights.append({
@@ -93,7 +93,7 @@ def parse_flights(text: str) -> Tuple[List[Dict], List[Dict], List[Dict], List[D
         })
 
         # Build Flight Instance
-        flight_code = f"{airline_code}{flight_num}-{dep_apt}-{arr_apt}"
+        flight_code = f"{airline_code}{flight_num}-{dep_date}"
         flight_instances.append({
             "lookup_key": {
                 "flight_code": flight_code,
@@ -112,8 +112,9 @@ def parse_flights(text: str) -> Tuple[List[Dict], List[Dict], List[Dict], List[D
         })
 
         # Build Ticket Stub
-        hexcode = generate_hex()
-        ticket_code = f"{flight_code}-ANY-{hexcode}"
+        # Using a deterministic flight_code + PNR instead of a random Hex
+        # This solves the UI Feedback bug 4 (duplication)
+        ticket_code = f"{flight_code}-{global_pnr}"
 
         tickets_by_pnr[global_pnr].append({
             "pnr": global_pnr,
